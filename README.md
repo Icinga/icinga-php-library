@@ -1,50 +1,33 @@
-Icinga Web 2 - IPL
-==================
+# Icinga PHP Library - IPL
 
-This module ships the new Icinga PHP library. Please download the latest
-release and install it like any other module.
+This project bundles all Icinga PHP libraries into one piece and can be integrated as library into Icinga Web 2.
 
-> **HINT**: Do NOT install the GIT master, it will not work! Checking out a
-> branch like `stable/0.5.0` or a tag like `v0.5.0` is fine.
+## Installation
 
-Sample Tarball installation
----------------------------
+Please download the latest release and install it in one of your configured library paths. The default library
+path for Icinga Web 2 installations is: `/usr/share/php-Icinga`
 
-```sh
-MODULE_NAME=ipl
-MODULE_VERSION=v0.5.0
-MODULES_PATH="/usr/share/icingaweb2/modules"
-MODULE_PATH="${MODULES_PATH}/${MODULE_NAME}"
-RELEASES="https://github.com/Icinga/icingaweb2-module-${MODULE_NAME}/archive"
-mkdir "$MODULE_PATH" \
-&& wget -q $RELEASES/${MODULE_VERSION}.tar.gz -O - \
-   | tar xfz - -C "$MODULE_PATH" --strip-components 1
-icingacli module enable "${MODULE_NAME}"
-```
+Download or clone this repository there (e.g. `/usr/share/php-Icinga/ipl`) and you're done.
 
-Sample GIT installation
------------------------
+> **Note**: Do NOT install the GIT master, it will not work! Checking out a
+> branch like `stable/1.0.0` or a tag like `v1.0.0` is fine.
+
+### Examples
+
+**Sample Tarball installation**
 
 ```sh
-MODULE_NAME=ipl
-MODULE_VERSION=v0.5.0
-REPO="https://github.com/Icinga/icingaweb2-module-${MODULE_NAME}"
-MODULES_PATH="/usr/share/icingaweb2/modules"
-git clone ${REPO} "${MODULES_PATH}/${MODULE_NAME}" --branch "${MODULE_VERSION}"
-icingacli module enable "${MODULE_NAME}"
+INSTALL_PATH="/usr/share/php-Icinga/ipl"
+INSTALL_VERSION="v1.0.0"
+mkdir "$INSTALL_PATH"
+&& wget -q "https://github.com/Icinga/ipl/archive/$INSTALL_VERSION.tar.gz" -O - \
+   | tar xfz - -C "$INSTALL_PATH" --strip-components 1
 ```
 
-Developer Documentation
------------------------
+**Sample GIT installation**
 
-### Add a new dependency
-
-    composer require author/library:version
-
-### Create a new release
-
-    ./bin/make-release.sh <version>
-
-e.g.
-
-    ./bin/make-release.sh 0.6.0
+```
+INSTALL_PATH="/usr/share/php-Icinga/ipl"
+INSTALL_VERSION="stable/1.0.0"
+git clone https://github.com/Icinga/ipl.git "$INSTALL_PATH" --branch "$INSTALL_VERSION"
+```

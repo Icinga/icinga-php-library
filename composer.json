@@ -1,8 +1,8 @@
 {
-    "name": "icinga/icingaweb2-module-ipl",
+    "name": "icinga/ipl",
     "type": "project",
-    "description": "Icinga Web 2 - bundled ipl libraries",
-    "homepage": "https://github.com/Icinga/icingaweb2-module-ipl",
+    "description": "Icinga Web 2 - bundled Icinga PHP libraries",
+    "homepage": "https://github.com/Icinga/ipl",
     "license": "MIT",
     "config": {
         "sort-packages": true,
@@ -12,7 +12,6 @@
     },
     "require": {
         "php": ">=5.6.0",
-        "guzzlehttp/psr7": "^1.5",
         "ipl/html": ">=0.3.0",
         "ipl/orm": ">=0.1.0",
         "ipl/sql": ">=0.1.0",

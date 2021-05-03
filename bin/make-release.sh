@@ -37,8 +37,8 @@ find vendor/ -type f -name "*.php" \
 find vendor/ -type f -name LICENSE | xargs -L1 git add -f
 find vendor/ -type f -name '*.json' | xargs -L1 git add -f
 find vendor -type f -path 'vendor/*/asset/*' | xargs -L1 git add -f
-sed -i.bak "s/^Version:.*/Version: v$VERSION/" module.info && rm -f module.info.bak
-git add module.info
+echo "v$VERSION" > VERSION
+git add VERSION
 git add composer.lock -f
 git commit -m "Version v$VERSION"
 
