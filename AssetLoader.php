@@ -7,8 +7,10 @@ class AssetLoader
         'asset/css'                 => 'vendor/fortawesome/font-awesome/css/fontawesome.css'
     ];
 
-    public static function update()
+    public static function update(Composer\Script\Event $event)
     {
+        $copy = in_array('copy-assets', $event->getArguments(), true);
+
         if (is_dir('asset')) {
             // Check for removed files
             $fs = new Composer\Util\Filesystem();
@@ -48,7 +50,11 @@ class AssetLoader
                     if ($asset->isDir()) {
                         mkdir($relativePath, 0755, true);
                     } elseif ($asset->isFile()) {
-                        symlink($asset->getPathname(), $relativePath);
+                        if ($copy) {
+                            copy($asset->getPathname(), $relativePath);
+                        } else {
+                            symlink($asset->getPathname(), $relativePath);
+                        }
                     }
                 }
             }
@@ -79,7 +85,11 @@ class AssetLoader
                     '/\\'
                 )]);
                 if (! file_exists($relativePath) && $awesomeFile->isFile()) {
-                    symlink($awesomeFile->getPathname(), $relativePath);
+                    if ($copy) {
+                        copy($awesomeFile->getPathname(), $relativePath);
+                    } else {
+                        symlink($awesomeFile->getPathname(), $relativePath);
+                    }
                 }
             }
         }
