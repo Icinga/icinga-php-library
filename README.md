@@ -7,6 +7,15 @@ This project bundles all Icinga PHP libraries into one piece and can be integrat
 * [Icinga Web 2](https://github.com/Icinga/icingaweb2) (>= 2.9)
 * PHP (>= 5.6, 7+ recommended)
 
+## Bundled Parts
+
+* [ipl-html](https://github.com/Icinga/ipl-html)
+* [ipl-orm](https://github.com/Icinga/ipl-orm)
+* [ipl-sql](https://github.com/Icinga/ipl-sql)
+* [ipl-stdlib](https://github.com/Icinga/ipl-stdlib)
+* [ipl-validator](https://github.com/Icinga/ipl-validator)
+* [ipl-web](https://github.com/Icinga/ipl-web)
+
 ## Installation
 
 Please download the latest release and install it in one of your configured library paths. The default library
