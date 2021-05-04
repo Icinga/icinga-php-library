@@ -23,7 +23,7 @@ if [[ "$TAG" -ne "0" ]]; then
 fi
 
 BRANCH="stable/$VERSION"
-git checkout -b "$BRANCH"
+git checkout -b "$BRANCH" || fail "Version branch $BRANCH already exists"
 git rm -rf vendor
 rm -rf vendor
 rm -f composer.lock
