@@ -1,0 +1,112 @@
+@ball-pad: 1/6em;
+
+.ball {
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+.ball-size-xs {
+  height: 1/3em;
+  width: 1/3em;
+}
+
+.ball-size-s {
+  height: 0.5em;
+  width: 0.5em;
+}
+
+.ball-size-m {
+  height: 0.75em;
+  width: 0.75em;
+  line-height: 0;
+
+  i.icon:before {
+    font-size: .75 - @ball-pad * 2;
+    line-height: 1em;
+  }
+}
+
+.ball-size-l {
+  height: 1.5em;
+  width: 1.5em;
+  line-height: 1em;
+
+  i.icon:before {
+    font-size: 1 - @ball-pad * 2;
+    line-height: 1.5 - @ball-pad * 2;
+  }
+}
+
+.ball-size-xl {
+  width: 2em;
+  height: 2em;
+
+  i.icon:before {
+    line-height: 2 - @ball-pad * 2;
+  }
+}
+
+.ball-outline(@color) {
+  border: @ball-pad solid @color;
+  color: @color;
+}
+
+.ball-solid(@color) {
+  background-color: @color;
+  color: white;
+  padding: @ball-pad;
+}
+
+.state-ball {
+  .ball();
+
+  &.state-pending {
+    .ball-solid(@color-pending);
+  }
+
+  &.state-up:not(.ball-size-l):not(.ball-size-xl) {
+    .ball-solid(@color-up);
+  }
+
+  &.state-up.ball-size-l,
+  &.state-up.ball-size-xl {
+    .ball-outline(@color-up);
+  }
+
+  &.state-down {
+    .ball-solid(@color-down);
+  }
+
+  &.state-ok:not(.ball-size-l):not(.ball-size-xl) {
+    .ball-solid(@color-ok);
+  }
+
+  &.state-ok.ball-size-l,
+  &.state-ok.ball-size-xl {
+    .ball-outline(@color-ok);
+  }
+
+  &.state-warning {
+    .ball-solid(@color-warning);
+  }
+
+  &.state-critical {
+    .ball-solid(@color-critical);
+  }
+
+  &.state-unknown {
+    .ball-solid(@color-unknown);
+  }
+
+  &.handled {
+    opacity: 0.6;
+  }
+
+  i {
+    text-align: center;
+    &:before {
+      margin-right: 0;
+    }
+  }
+}

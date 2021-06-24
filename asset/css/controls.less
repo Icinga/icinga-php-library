@@ -1,0 +1,32 @@
+.pagination-control {
+  li > a {
+    color: @icinga-blue;
+    border-radius: .25em;
+  }
+
+  li > a:hover {
+    background: @gray-lighter;
+  }
+
+  .previous-page,
+  .next-page {
+    padding: .5em .25em;
+
+    i {
+      display: inline-block;
+    }
+
+    i:before {
+      margin: 0;
+    }
+  }
+
+  .previous-page > i {
+    margin-left: -.125em;
+  }
+
+  .next-page > i {
+    margin-right: -.125em;
+  }
+}
+
