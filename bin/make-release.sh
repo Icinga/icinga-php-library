@@ -1,10 +1,10 @@
 #!/bin/bash
 
 VERSION="$1"
-NO_TAG="$2"
+NO_OPT="$2"
 
 if [[ -z $VERSION ]]; then
-  echo "USAGE: $0 <version>"
+  echo "USAGE: $0 <version> [--no-tag|--no-checkout]"
   echo " e.g.: $0 0.1.0"
   exit 1
 fi
@@ -23,8 +23,13 @@ if [[ "$TAG" -ne "0" ]]; then
   exit 1
 fi
 
-BRANCH="stable/$VERSION"
-git checkout -b "$BRANCH" || fail "Version branch $BRANCH already exists"
+if [ "$NO_OPT" != "--no-checkout" ]; then
+  BRANCH="stable/$VERSION"
+  git checkout -b "$BRANCH" || fail "Version branch $BRANCH already exists"
+else
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+fi
+
 git rm -rf vendor
 rm -rf vendor
 rm -f composer.lock
@@ -48,7 +53,7 @@ rm -rf vendor
 git checkout vendor
 composer validate --no-check-all --strict || fail "Composer validate failed"
 
-if [ "$NO_TAG" != "--no-tag" ]; then
+if [ -z "$NO_OPT" ]; then
   git tag -a v$VERSION -m "Version v$VERSION"
   echo "Finished, tagged v$VERSION"
   echo "Now please run:"
