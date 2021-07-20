@@ -20,8 +20,8 @@ jobs:
 
       - name: Prepare Git environment
         run: |
-          git config user.name "icingabot"
-          git config user.email "65761963+icingabot@users.noreply.github.com"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           echo '{"github-oauth": {"github.com": "${{ secrets.ICINGABOT_TOKEN }}"}}' > auth.json
           echo 'auth.json' >> .gitignore
 
