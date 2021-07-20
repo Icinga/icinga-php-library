@@ -14,7 +14,10 @@ LATEST_TAG=$(git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)'
 TAGGED_BRANCH="stable/${LATEST_TAG:1}"
 NEXT_VERSION=$(echo "${LATEST_TAG:1}" | awk -F. -v OFS=. '{$3=0}; {++$2}; {print}')
 
-git branch -D $BRANCH
+if [[ -n $(git branch | grep $BRANCH) ]]; then
+  git branch -D $BRANCH
+fi
+
 git checkout -b $BRANCH
 git merge --no-ff -m "Merge latest stable, to make the latest tag reachable" $TAGGED_BRANCH
 
