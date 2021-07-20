@@ -19,6 +19,7 @@ if [[ -n $(git branch | grep $BRANCH) ]]; then
 fi
 
 git checkout -b $BRANCH
+git fetch origin $TAGGED_BRANCH
 git merge --no-ff -m "Merge latest stable, to make the latest tag reachable" $TAGGED_BRANCH
 
 composer require --no-update \
