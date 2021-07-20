@@ -1,0 +1,37 @@
+name: Create Snapshot
+
+on:
+  schedule:
+    # Every day at 4pm
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+
+jobs:
+  make-snapshot:
+    name: Make a nightly snapshot
+    runs-on: ubuntu-latest
+    if: github.repository == 'Icinga/icinga-php-library'
+
+    steps:
+      - name: Checkout code base
+        uses: actions/checkout@v2
+
+      - name: Prepare Git environment
+        run: |
+          git config user.name "icingabot"
+          git config user.email "65761963+icingabot@users.noreply.github.com"
+          echo '{"github-oauth": {"github.com": "${{ secrets.ICINGABOT_TOKEN }}"}}' > auth.json
+          echo 'auth.json' >> .gitignore
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '5.6'
+
+      - name: Create snapshot/nightly
+        if: success()
+        run: bin/make-snapshot.sh snapshot/nightly
+
+      - name: Push snapshot/nightly
+        if: success()
+        run: git push -f origin snapshot/nightly
