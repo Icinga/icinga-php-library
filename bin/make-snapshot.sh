@@ -11,7 +11,6 @@ if [ -z $BRANCH ]; then
 fi
 
 LATEST_TAG=$(git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1 | awk -F/ '{print $3}')
-TAGGED_BRANCH="stable/${LATEST_TAG:1}"
 NEXT_VERSION=$(echo "${LATEST_TAG:1}" | awk -F. -v OFS=. '{$3=0}; {++$2}; {print}')
 
 if [[ -n $(git branch | grep $BRANCH) ]]; then
@@ -19,8 +18,7 @@ if [[ -n $(git branch | grep $BRANCH) ]]; then
 fi
 
 git checkout -b $BRANCH
-git fetch origin $TAGGED_BRANCH
-git merge --no-ff -m "Merge latest stable, to make the latest tag reachable" $TAGGED_BRANCH
+git merge --no-ff -m "Merge latest tag, to make it reachable for git-describe" $LATEST_TAG
 
 composer require --no-update \
   ipl/html:@dev \
