@@ -1,4 +1,9 @@
-/asset/
-/vendor/
-/.idea/
-.*.sw[op]
+# Exclude all hidden files
+.*
+# Except those related to Git
+!.git*
+
+# Exclude assets and dependencies installed by composer
+composer.lock
+asset/
+vendor/
