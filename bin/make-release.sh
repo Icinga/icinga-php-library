@@ -30,7 +30,7 @@ else
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
 fi
 
-git rm -rf vendor
+git rm -rf --ignore-unmatch vendor
 rm -rf vendor
 rm -f composer.lock
 composer install --no-scripts || fail "composer install failed"
