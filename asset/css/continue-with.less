@@ -1,0 +1,33 @@
+// Style
+
+.continue-with {
+  > i.icon:before {
+    color: @disabled-gray;
+  }
+
+  a:hover, a:focus, a.active {
+    .rounded-corners();
+    background-color: @icinga-blue;
+
+    i.icon:before {
+      color: @text-color-on-icinga-blue;
+    }
+  }
+}
+
+// Layout
+
+.continue-with {
+  > i.icon,
+  a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 .5em;
+    height: 100%;
+  }
+
+  i.icon:before {
+    font-size: 1.2em;
+    margin-right: 0;
+  }
+}

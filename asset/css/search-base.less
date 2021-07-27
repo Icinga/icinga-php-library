@@ -1,0 +1,99 @@
+// Style
+.search-suggestions {
+  background: @text-color-inverted;
+  border: 1px solid @gray-light;
+  border-bottom-right-radius: .5em;
+  border-bottom-left-radius:  .5em;
+
+  > ul {
+    list-style-type: none;
+
+    > li {
+      border-top: 1px solid @gray-lighter;
+    }
+    > li.suggestion-title + li {
+      border: none;
+    }
+    > li:not(.default) + li.suggestion-title {
+      border: none;
+    }
+  }
+
+  .default {
+    color: @text-color-light;
+    font-style: italic;
+
+    [type="button"] {
+      background-color: fade(@icinga-blue, 10%);
+    }
+  }
+
+  .suggestion-title {
+    color: @text-color-light;
+    font-size: 80%;
+  }
+
+  .failure-message {
+    font-weight: bold;
+
+    em {
+      font-weight: normal;
+      color: @text-color-light;
+    }
+  }
+
+  [type="button"] {
+    .appearance(none);
+    border: none;
+    background: none;
+  }
+
+  [type="button"]:focus {
+    background: @icinga-blue;
+    color: @text-color-inverted;
+    outline: none;
+  }
+
+  [type="button"]:not(:focus):hover {
+    background: fade(@icinga-blue, 30%)
+  }
+}
+
+// Layout
+.search-suggestions {
+  z-index: 2; // Required so that nothing else can overlap it (such as opaque elements and the impact overlay)
+  position: absolute;
+  min-width: 5em;
+
+  &:empty {
+    display: none;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
+
+    li.suggestion-title {
+      padding: 1.25em .625em 0 .625em;
+    }
+
+    li.failure-message {
+      padding: .5em 1em;
+
+      em {
+        margin-right: .5em;
+      }
+    }
+  }
+
+  [type="button"] {
+    padding: .5em 1em;
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    &[data-class="operator"], &[data-class="logical_operator"] {
+      text-align: center;
+    }
+  }
+}

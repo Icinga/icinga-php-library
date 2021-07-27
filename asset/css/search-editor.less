@@ -1,0 +1,268 @@
+// Style
+
+.search-editor-opener {
+  background: none;
+  border: none;
+
+  i.icon:before {
+    font-size: 1.2em;
+    margin-right: 0;
+    color: @icinga-blue;
+  }
+
+  &:hover, &:focus, &.active {
+    .rounded-corners();
+    background-color: @icinga-blue;
+
+    i.icon:before {
+      color: @text-color-on-icinga-blue;
+    }
+  }
+}
+
+.search-editor {
+  ul, ol {
+    list-style-type: none;
+  }
+
+  fieldset {
+    border: none;
+  }
+
+  button, input[type="submit"] {
+    .appearance(none);
+    background: none;
+
+    &:not(.cancel-button) {
+      border: none;
+    }
+  }
+
+  i.icon:before {
+    color: @gray-light;
+  }
+
+  .drag-initiator {
+    cursor: grab;
+  }
+
+  input[type="text"], select {
+    .rounded-corners();
+    border: none;
+    background: @gray;
+    color: @text-color-inverted;
+    text-overflow: ellipsis;
+  }
+
+  .search-error {
+    input:invalid {
+      background: @color-critical;
+    }
+
+    .search-errors {
+      color: @color-critical;
+      font-weight: bold;
+    }
+  }
+
+  li > select {
+    background: @gray-light;
+  }
+
+  .sortable-ghost {
+    border: dashed .2em @gray;
+
+    fieldset {
+      opacity: .5;
+    }
+  }
+
+  .buttons {
+    ul {
+      .rounded-corners();
+      .box-shadow(0, 0, .5em);
+      border: 1px solid @gray-light;
+      background: @body-bg-color;
+
+      li:not(:first-child) {
+        border-top: 1px solid @gray-light;
+      }
+
+      button:hover {
+        background: @icinga-blue;
+        color: @text-color-on-icinga-blue;
+      }
+
+      // Add rounded corners to buttons as well, otherwise their
+      // background is not rounded and overlaps the list's corners
+      :first-child button {
+        .rounded-corners();
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      :last-child button {
+        .rounded-corners();
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      &:before {
+        // The left pointing arrow
+        border-bottom: 1px solid @gray-light;
+        border-left: 1px solid @gray-light;
+        background: @body-bg-color;
+      }
+    }
+
+    &:hover i.icon:before {
+      .rounded-corners(1em);
+      background: @icinga-blue;
+      color: @text-color-on-icinga-blue;
+    }
+  }
+
+  input[type="submit"] {
+    .rounded-corners();
+    background: @icinga-blue;
+    color: @text-color-on-icinga-blue;
+
+    &:hover {
+      background: darken(@icinga-blue, 10%);
+    }
+  }
+}
+
+// Layout
+
+.search-editor-opener {
+  padding: 0 .5em;
+
+  & + a.modal-opener {
+    display: none;
+  }
+}
+
+.search-editor {
+  padding: 1em;
+
+  @item-spacing: .5em;
+
+  ul, ol {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+
+    > :not(:first-child) {
+      margin-left: @item-spacing;
+    }
+  }
+
+  ol {
+    padding-left: 1em;
+    padding-bottom: @item-spacing;
+
+    > li:first-child,
+    > :not(.filter-chain) + li {
+      margin-top: @item-spacing;
+    }
+  }
+
+  input[type="text"], select {
+    padding: 0 .5em;
+  }
+
+  li > select {
+    margin-right: auto;
+  }
+
+  fieldset {
+    display: flex;
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0;
+
+    input[data-type="value"] {
+      flex: 1 1 auto;
+    }
+
+    > :not(:first-child) {
+      margin-left: @item-spacing;
+    }
+  }
+
+  input, button, select {
+    height: 28/12em; // Target Pixels @ default font size / default font size
+  }
+
+  .search-errors {
+    margin-left: .5em;
+  }
+
+  i.icon:before {
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 1.5;
+  }
+
+  .buttons {
+    position: relative;
+
+    ul {
+      position: absolute;
+      right: 32/12em; // Target distance @ default font size / default font size
+      z-index: 1;
+      width: auto;
+      padding: 0;
+
+      display: none;
+
+      button {
+        z-index: 1;
+        width: 100%;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      &:before {
+        // The left pointing arrow
+        content: "";
+        display: block;
+        height: 1em;
+        transform: rotate(-135deg);
+        width: 1em;
+        z-index: 1;
+
+        position: absolute;
+        top: ((28/12)/2)-.5em; // ((First row pixels @ default font size / default font size) / 2) - own half width
+        right: -.5em;
+      }
+    }
+
+    &:hover ul {
+      display: block;
+    }
+
+    i.icon:before {
+      padding: ((28/18)-1)/2em; // (Container pixels / default font size) - line height / (padding-top,padding-bottom)
+      line-height: 1;
+    }
+  }
+
+  .cancel-button {
+    margin-top: 2em - @item-spacing;
+  }
+
+  input[type="submit"] {
+    float: right;
+    width: 6em;
+    margin-top: 2em - @item-spacing;
+  }
+
+  input[type="submit"]:not(:last-of-type) {
+    display: none;
+  }
+}
