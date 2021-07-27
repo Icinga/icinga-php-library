@@ -25,7 +25,7 @@ path for Icinga Web 2 installations is: `/usr/share/icinga-php`
 Download or clone this repository there (e.g. `/usr/share/icinga-php/ipl`) and you're done.
 
 > **Note**: Do NOT install the GIT master, it will not work! Checking out a
-> branch like `stable/0.6.0` or a tag like `v0.6.0` is fine.
+> branch like `stable/0.6.1` or a tag like `v0.6.1` is fine.
 
 ### Examples
 
@@ -33,7 +33,7 @@ Download or clone this repository there (e.g. `/usr/share/icinga-php/ipl`) and y
 
 ```sh
 INSTALL_PATH="/usr/share/icinga-php/ipl"
-INSTALL_VERSION="v0.6.0"
+INSTALL_VERSION="v0.6.1"
 mkdir "$INSTALL_PATH"
 && wget -q "https://github.com/Icinga/icinga-php-library/archive/$INSTALL_VERSION.tar.gz" -O - \
    | tar xfz - -C "$INSTALL_PATH" --strip-components 1
@@ -43,6 +43,6 @@ mkdir "$INSTALL_PATH"
 
 ```
 INSTALL_PATH="/usr/share/icinga-php/ipl"
-INSTALL_VERSION="stable/0.6.0"
+INSTALL_VERSION="stable/0.6.1"
 git clone https://github.com/Icinga/icinga-php-library.git "$INSTALL_PATH" --branch "$INSTALL_VERSION"
 ```
