@@ -30,8 +30,8 @@ else
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
 fi
 
-git rm -rf --ignore-unmatch vendor
-rm -rf vendor
+git rm -rf --ignore-unmatch asset vendor
+rm -rf asset vendor
 rm -f composer.lock
 composer install --no-scripts || fail "composer install failed"
 composer run-script post-update-cmd -- copy-assets
