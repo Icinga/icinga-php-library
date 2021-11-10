@@ -1,0 +1,173 @@
+/*
+  RECOMMENDATION:
+      Please do not use the base color variables directly,
+      define a new variable instead that assigns the value of this base variable.
+        Examples:
+         - @base-color: red;
+         - @my-new-var: @base-color;
+         - @my-second-new-var: @base-color;
+
+     Do not use the same variable for different use cases, but define a new variable for each use case.
+
+  NOTICE::
+    Color vars identification:
+       - Vars with `-bg` suffix are background-color vars. Please use only for setting bg-color.
+       - Vars with `-color` suffix color vars. Please use only for setting color.
+
+    To use ipl-web widgets, the two theme mode variables @prefer-light-color-scheme and @enable-color-preference must be defined.
+    We have used a trick to have control over the system's preferred theme mode and our own.
+    The following describes how to initialise a variable to have your own theme mode:
+
+    - Default css is for dark mode.
+    - 0px = true (min-height: 0px), 999999px = false (min-height: 999999px, not reachable on the normal screen, so false)
+
+    System mode:
+        @enable-color-preference: 0px; // true
+        @prefer-light-color-scheme: 999999px; // false
+        If the system uses the light mode, the media query will be true
+
+    Light mode:
+        @prefer-light-color-scheme: 0px // true.
+        @enable-color-preference: 999999px; // false, so that we have control over the system's preferred theme mode.
+
+    Dark mode:
+        @prefer-light-color-scheme: 999999px // false,
+        @enable-color-preference: 999999px; // false, so that we have control over the system's preferred theme mode.
+        The media query code will be ignored.
+
+
+                                          true     OR                 true         and      true
+    @media (min-height: @prefer-light-color-scheme), (prefers-color-scheme: light) and (min-height: @enable-color-preference) {
+        // css here
+    }
+
+*/
+
+@default-bg: #282E39;
+
+@base-gray: #c4c4c4;
+@base-gray-light: #5c5c5c;
+@base-gray-lighter: #4b4b4b;
+@base-disabled: #9a9a9a;
+
+@base-primary-color: #00C3ED;
+@base-primary-bg: #00C3ED;
+
+@default-text-color: #fff;
+@default-text-color-light: fade(@default-text-color, 75%);
+@default-text-color-inverted: @default-bg;
+
+@state-ok: #44bb77;
+@state-up: @state-ok;
+@state-warning: #ffaa44;
+@state-critical: #ff5566;
+@state-down: @state-critical;
+@state-pending: #77aaff;
+@state-unknown: #aa44ff;
+
+@primary-button-color: @default-text-color-inverted;
+@primary-button-bg: @base-primary-bg;
+@primary-button-hover-bg: #0081a6;
+
+@search-term-bg: @base-gray;
+@search-term-color: @default-text-color-inverted;
+@search-term-selected-bg: @base-gray-light;
+@search-term-invalid-bg: @state-critical;
+@search-term-invalid-color: @default-text-color-inverted;
+@search-term-disabled-bg: @base-disabled;
+@search-term-selected-color: @base-gray-light;
+@search-term-highlighted-bg: @base-primary-bg;
+@search-term-highlighted-color: @default-text-color-inverted;
+
+@search-condition-remove-bg: @state-critical;
+@search-condition-remove-color: @default-text-color-inverted;
+
+@search-logical-operator-bg: @base-gray-light;
+@search-logical-operator-color: @default-text-color-light;
+
+@searchbar-bg: #404d72;
+@searchbar-scrollbar-bg: @base-gray-light;
+
+@search-editor-control-color: @base-gray-light;
+@search-editor-logical-op-bg: @base-gray-light;
+@search-editor-context-menu-border-color: @base-gray-light;
+@search-editor-context-menu-bg: @default-bg;
+@search-editor-drag-outline-color: @base-gray;
+
+@control-color: @base-primary-color;
+@control-hover-bg: @base-gray-lighter;
+@control-disabled-color: @base-gray-light;
+
+@suggestions-bg: @default-bg;
+@suggestions-color: @default-text-color-light;
+@suggestions-focus-bg: @base-primary-bg;
+@suggestions-focus-color: @default-text-color-inverted;
+@suggestions-default-opt-bg: fade(@base-primary-bg, 10%);
+@suggestions-default-opt-color: @default-text-color-light;
+@suggestions-hover-bg: fade(@base-primary-bg, 30%);
+@suggestions-border-color: @base-gray-light;
+@suggestions-separation-bg: @base-gray-lighter;
+@suggestions-failure-message-color: @default-text-color-light;
+
+@card-border-color: @base-gray-light;
+
+@media (min-height: @prefer-light-color-scheme), (prefers-color-scheme: light) and (min-height: @enable-color-preference) {
+  :root {
+    --base-gray: #819398;
+    --base-gray-semilight: #94a5a6;
+    --base-gray-light: #d0d3da;
+    --base-gray-lighter: #e8ecef;
+
+    --base-remove-bg: #ff5566;
+
+    --default-text-color: #535353;
+    --default-text-color-light: fade(#535353, 75%); // --default-text-color
+    --default-text-color-inverted: #F5F9FA;
+
+    --primary-button-color: var(--default-text-color-inverted);
+    --primary-button-bg: #00C3ED;
+    --primary-button-hover-bg: #0081a6;
+
+    --searchbar-bg: #DEECF1;
+    --searchbar-scrollbar-bg: var(--base-gray-light);
+
+    --search-term-bg: var(--base-gray-light);
+    --search-term-color: var(--default-text-color);
+    --search-term-selected-bg: var(--base-gray-light);
+    --search-term-invalid-bg: var(--base-remove-bg);
+    --search-term-invalid-color: var(--default-text-color-inverted);
+    --search-term-disabled-bg: var(--base-gray-light);
+    --search-term-selected-color: var(--base-gray-light);
+    --search-term-highlighted-bg: var(--primary-button-bg);
+    --search-term-highlighted-color: var(--default-text-color-inverted);
+
+    --search-condition-remove-bg: var(--base-remove-bg);
+    --search-condition-remove-color: var(--default-text-color-inverted);
+
+    --search-logical-operator-bg: fade(#819398, 50%); // --base-gray
+    --search-logical-operator-color: var(--default-text-color-light);
+
+    --search-editor-control-color: var(--base-gray-light);
+    --search-editor-logical-op-bg: var(--base-gray-light);
+    --search-editor-context-menu-border-color: var(--base-gray-light);
+    --search-editor-context-menu-bg: var(--default-text-color-inverted);
+    --search-editor-drag-outline-color: var(--base-gray);
+
+    --control-color: var(--primary-button-bg);
+    --control-hover-bg: var(--base-gray-lighter);
+    --control-disabled-color: var(--base-gray-light);
+
+    --suggestions-bg: var(--default-text-color-inverted);
+    --suggestions-color: var(--default-text-color-light);
+    --suggestions-focus-bg: var(--primary-button-bg);
+    --suggestions-focus-color: var(--default-text-color-inverted);
+    --suggestions-default-opt-bg: fade(#00C3ED, 10%); // --primary-button-bg
+    --suggestions-default-opt-color: var(--default-text-color-light);
+    --suggestions-hover-bg: fade(#00C3ED, 30%); // --primary-button-bg
+    --suggestions-border-color: var(--base-gray-light);
+    --suggestions-separation-bg: var(--base-gray-lighter);
+    --suggestions-failure-message-color: var(--default-text-color-light);
+
+    --card-border-color: var(--base-gray-light);
+  }
+}
