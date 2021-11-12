@@ -34,7 +34,7 @@ Download or clone this repository there (e.g. `/usr/share/icinga-php/ipl`) and y
 ```sh
 INSTALL_PATH="/usr/share/icinga-php/ipl"
 INSTALL_VERSION="v0.7.0"
-mkdir "$INSTALL_PATH"
+mkdir "$INSTALL_PATH" \
 && wget -q "https://github.com/Icinga/icinga-php-library/archive/$INSTALL_VERSION.tar.gz" -O - \
    | tar xfz - -C "$INSTALL_PATH" --strip-components 1
 ```
