@@ -5,10 +5,7 @@
     "homepage": "https://github.com/Icinga/icinga-php-library",
     "license": "MIT",
     "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "5.6.3"
-        }
+        "sort-packages": true
     },
     "require": {
         "php": ">=5.6.0",
