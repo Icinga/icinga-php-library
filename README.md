@@ -5,7 +5,7 @@ This project bundles all Icinga PHP libraries into one piece and can be integrat
 ## Requirements
 
 * [Icinga Web 2](https://github.com/Icinga/icingaweb2) (>= 2.9)
-* PHP (>= 5.6, 7+ recommended)
+* PHP (>= 7.0)
 
 ## Bundled Parts
 
