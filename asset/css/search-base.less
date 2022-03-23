@@ -1,0 +1,100 @@
+// Style
+.search-suggestions {
+  background: var(--suggestions-bg, @suggestions-bg);
+  border: 1px solid var(--suggestions-border-color, @suggestions-border-color);
+  border-bottom-right-radius: .5em;
+  border-bottom-left-radius:  .5em;
+
+  > ul {
+    list-style-type: none;
+
+    > li {
+      border-top: 1px solid var(--suggestions-separation-bg, @suggestions-separation-bg);
+    }
+    > li.suggestion-title + li {
+      border: none;
+    }
+    > li:not(.default) + li.suggestion-title {
+      border: none;
+    }
+  }
+
+  .default {
+    color: var(--suggestions-default-opt-color, @suggestions-default-opt-color);
+    font-style: italic;
+
+    [type="button"] {
+      background-color: var(--suggestions-default-opt-bg, @suggestions-default-opt-bg);
+    }
+  }
+
+  .suggestion-title {
+    color: var(--suggestions-color, @suggestions-color);
+    font-size: 80%;
+  }
+
+  .failure-message {
+    font-weight: bold;
+
+    em {
+      font-weight: normal;
+      color: var(--suggestions-failure-message-color, @suggestions-failure-message-color);
+    }
+  }
+
+  [type="button"] {
+    .appearance(none);
+    border: none;
+    background: none;
+  }
+
+  [type="button"]:focus {
+    background: var(--suggestions-focus-bg, @suggestions-focus-bg);
+    color: var(--suggestions-focus-color, @suggestions-focus-color);
+    outline: none;
+  }
+
+  [type="button"]:not(:focus):hover {
+    background: var(--suggestions-hover-bg, @suggestions-hover-bg);
+  }
+}
+
+// Layout
+.search-suggestions {
+  z-index: 2; // Required so that nothing else can overlap it (such as opaque elements and the impact overlay)
+  position: absolute;
+  overflow: auto;
+  min-width: 5em;
+
+  &:empty {
+    display: none;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
+
+    li.suggestion-title {
+      padding: 1.25em .625em 0 .625em;
+    }
+
+    li.failure-message {
+      padding: .5em 1em;
+
+      em {
+        margin-right: .5em;
+      }
+    }
+  }
+
+  [type="button"] {
+    padding: .5em 1em;
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    &[data-class="operator"], &[data-class="logical_operator"] {
+      text-align: center;
+    }
+  }
+}
