@@ -1,0 +1,143 @@
+@ball-pad: 1/6em;
+
+.ball {
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+.ball-size-xs {
+  height: 1/3em;
+  width: 1/3em;
+}
+
+.ball-size-s {
+  height: 0.5em;
+  width: 0.5em;
+}
+
+.ball-size-m {
+  height: 0.75em;
+  width: 0.75em;
+  line-height: 0;
+
+  i.icon:before {
+    font-size: .75 - @ball-pad * 2;
+    line-height: 1em;
+  }
+}
+
+.ball-size-ml {
+  height: 1em;
+  width: 1em;
+  line-height: 0;
+
+  i.icon {
+    line-height: 0.3;
+
+    &:before {
+      font-size: 0.8 - @ball-pad * 2;
+      line-height: 1 - @ball-pad * 2;
+    }
+  }
+}
+
+.ball-size-l {
+  height: 1.5em;
+  width: 1.5em;
+  line-height: 1em;
+
+  i.icon:before {
+    font-size: 1 - @ball-pad * 2;
+    line-height: 1.5 - @ball-pad * 2;
+  }
+}
+
+.ball-size-xl {
+  width: 2em;
+  height: 2em;
+
+  i.icon:before {
+    line-height: 2 - @ball-pad * 2;
+  }
+}
+
+.ball-outline(@color) {
+  border: @ball-pad solid @color;
+  color: @color;
+}
+
+.ball-solid(@color) {
+  background-color: @color;
+  color: var(--default-text-color-inverted, @default-text-color-inverted);
+  padding: @ball-pad;
+}
+
+.state-ball {
+  .ball();
+
+  &.state-pending {
+    .ball-solid(var(--state-pending, @state-pending));
+  }
+
+  &.state-up:not(.ball-size-l):not(.ball-size-xl) {
+    .ball-solid(var(--state-up, @state-up));
+  }
+
+  &.state-up.ball-size-l,
+  &.state-up.ball-size-xl {
+    .ball-outline(var(--state-up, @state-up));
+  }
+
+  &.state-down {
+    .ball-solid(var(--state-down, @state-down));
+  }
+
+  &.state-ok:not(.ball-size-l):not(.ball-size-xl) {
+    .ball-solid(var(--state-ok, @state-ok));
+  }
+
+  &.state-ok.ball-size-l,
+  &.state-ok.ball-size-xl {
+    .ball-outline(var(--state-ok, @state-ok));
+  }
+
+  &.state-warning {
+    .ball-solid(var(--state-warning, @state-warning));
+  }
+
+  &.state-critical {
+    .ball-solid(var(--state-critical, @state-critical));
+  }
+
+  &.state-unknown {
+    .ball-solid(var(--state-unknown, @state-unknown));
+  }
+
+  &.handled {
+    opacity: 0.6;
+  }
+
+  i {
+    text-align: center;
+    display: block;
+
+    &:before {
+      margin-right: 0;
+    }
+  }
+
+  // Specific icon styles
+  &.ball-size-l i {
+    &.fa-sitemap:before {
+      font-size: 8px; // px to ignore browser min font-size
+    }
+  }
+
+  &.ball-size-xl i {
+    &.fa-sitemap:before {
+      font-size: .857em;
+      line-height: (2 - @ball-pad * 2) / .857;
+    }
+  }
+}
