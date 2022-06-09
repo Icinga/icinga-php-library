@@ -12,7 +12,7 @@ fi
 
 LATEST_TAG=$(git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1 | awk -F/ '{print $3}')
 NEXT_VERSION=$(echo "${LATEST_TAG:1}" | awk -F. -v OFS=. '{$3=0}; {++$2}; {print}')
-PHP_VERSION=$(echo "<?= join('.', [PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION]); ?>" | php 2>/dev/null)
+PHP_VERSION=$(echo "<?= join('.', [PHP_MAJOR_VERSION, PHP_MINOR_VERSION]); ?>" | php 2>/dev/null)
 
 if [[ -n $(git branch | grep $BRANCH) ]]; then
   git branch -D $BRANCH
