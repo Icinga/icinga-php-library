@@ -7,11 +7,11 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "7.0.33"
+            "php": "7.2"
         }
     },
     "require": {
-        "php": ">=7.0.33",
+        "php": ">=7.2",
         "ipl/html": "^0.5.0",
         "ipl/i18n": "^0.1.0",
         "ipl/orm": "^0.3.0",
