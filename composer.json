@@ -11,16 +11,14 @@
         }
     },
     "require": {
-        "php": ">=7.2",
-        "ipl/html": "^0.6.0",
-        "ipl/i18n": "^0.2.0",
-        "ipl/orm": "^0.4.0",
-        "ipl/sql": "^0.5.0",
-        "ipl/stdlib": "^0.12.0",
-        "ipl/validator": "^0.4.0",
-        "ipl/web": "^0.5.0"
-    },
-    "require-dev": {
+        "php": "7.2",
+        "ipl/html": "dev-master as 99.x-dev",
+        "ipl/i18n": "dev-master as 99.x-dev",
+        "ipl/orm": "dev-master as 99.x-dev",
+        "ipl/sql": "dev-master as 99.x-dev",
+        "ipl/stdlib": "dev-master as 99.x-dev",
+        "ipl/validator": "dev-master as 99.x-dev",
+        "ipl/web": "dev-master as 99.x-dev"
     },
     "autoload": {
         "psr-0": { "AssetLoader": "" }
