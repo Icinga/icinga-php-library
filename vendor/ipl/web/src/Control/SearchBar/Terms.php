@@ -164,7 +164,8 @@ class Terms extends BaseHtmlElement
             'class'  => 'column',
             'type'   => 'column',
             'search' => rawurlencode($column),
-            'label'  => $columnLabel
+            'label'  => $columnLabel,
+            'title'  => $column
         ];
         if ($filter->metaData()->has('invalidColumnPattern')) {
             $columnData['pattern'] = $filter->metaData()->get('invalidColumnPattern');
@@ -234,6 +235,10 @@ class Terms extends BaseHtmlElement
             'type'  => 'text',
             'value' => $data['label']
         ])));
+
+        if (isset($data['title'])) {
+            $term->setAttribute('title', $data['title']);
+        }
 
         if (isset($data['pattern'])) {
             $term->getFirst('input')->setAttribute('pattern', $data['pattern']);

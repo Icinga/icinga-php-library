@@ -272,6 +272,8 @@ define(["../notjQuery"], function ($) {
                         }
 
                         dataElement.value = data[name];
+                    } else if (name === 'title') {
+                        input.title = data[name];
                     }
                 }
             }

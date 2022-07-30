@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9b4593d5384b4d54213d2614c1347711
+class ComposerStaticInit5b30a20fccfe8caf81024195ecbc3dde
 {
     public static $files = array (
         'a2c78434f64e5f5ed402f42eee19c025' => __DIR__ . '/..' . '/ipl/stdlib/src/functions_include.php',
@@ -87,10 +87,10 @@ class ComposerStaticInit9b4593d5384b4d54213d2614c1347711
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9b4593d5384b4d54213d2614c1347711::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9b4593d5384b4d54213d2614c1347711::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9b4593d5384b4d54213d2614c1347711::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9b4593d5384b4d54213d2614c1347711::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5b30a20fccfe8caf81024195ecbc3dde::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5b30a20fccfe8caf81024195ecbc3dde::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit5b30a20fccfe8caf81024195ecbc3dde::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit5b30a20fccfe8caf81024195ecbc3dde::$classMap;
 
         }, null, ClassLoader::class);
     }

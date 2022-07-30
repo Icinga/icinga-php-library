@@ -79,6 +79,18 @@ abstract class Suggestions extends BaseHtmlElement
     }
 
     /**
+     * Return whether the relation should be shown for the given column
+     *
+     * @param string $column
+     *
+     * @return bool
+     */
+    protected function shouldShowRelationFor(string $column): bool
+    {
+        return false;
+    }
+
+    /**
      * Create a filter to provide as default for column suggestions
      *
      * @param string $searchTerm
@@ -236,7 +248,8 @@ abstract class Suggestions extends BaseHtmlElement
             $attributes = [
                 'type'          => 'button',
                 'tabindex'      => -1,
-                'data-search'   => $term
+                'data-search'   => $term,
+                'data-title'    => $term
             ];
             if ($this->type !== null) {
                 $attributes['data-type'] = $this->type;
@@ -245,17 +258,30 @@ abstract class Suggestions extends BaseHtmlElement
             if (is_array($meta)) {
                 foreach ($meta as $key => $value) {
                     if ($key === 'label') {
-                        $attributes['value'] = $value;
+                        $label = $value;
                     }
 
                     $attributes['data-' . $key] = $value;
                 }
             } else {
-                $attributes['value'] = $meta;
+                $label = $meta;
                 $attributes['data-label'] = $meta;
             }
 
-            $this->addHtml(new HtmlElement('li', null, new InputElement(null, $attributes)));
+            $button = (new ButtonElement(null, $attributes))
+                ->setAttribute('value', $label)
+                ->addHtml(Text::create($label));
+            if ($this->type === 'column' && $this->shouldShowRelationFor($term)) {
+                $relationPath = substr($term, 0, strrpos($term, '.'));
+                $button->getAttributes()->add('class', 'has-details');
+                $button->addHtml(new HtmlElement(
+                    'span',
+                    Attributes::create(['class' => 'relation-path']),
+                    Text::create($relationPath)
+                ));
+            }
+
+            $this->addHtml(new HtmlElement('li', null, $button));
         }
 
         if ($this->hasMore($data, self::DEFAULT_LIMIT)) {
@@ -265,8 +291,8 @@ abstract class Suggestions extends BaseHtmlElement
         $showDefault = true;
         if ($this->searchTerm && $this->count() === 1) {
             // The default option is only shown if the user's input does not result in an exact match
-            $input = $this->getFirst('li')->getFirst('input');
-            $showDefault = $input->getValue() != $this->searchTerm
+            $input = $this->getFirst('li')->getFirst('button');
+            $showDefault = $input->getContent() != $this->searchTerm
                 && $input->getAttributes()->get('data-search')->getValue() != $this->searchTerm;
         }
 

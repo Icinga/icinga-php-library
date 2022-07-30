@@ -457,6 +457,9 @@ class SearchEditor extends Form
                     ? $condition->getColumn()
                     : null
             ),
+            'title' => $condition->getColumn() !== static::FAKE_COLUMN
+                ? $condition->getColumn()
+                : null,
             'required' => true,
             'autocomplete' => 'off',
             'data-type' => 'column',

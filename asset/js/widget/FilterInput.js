@@ -355,12 +355,12 @@ define(["../notjQuery", "BaseInput"], function ($, BaseInput) {
             lastTerm.classList.add('last-term');
         }
 
-        saveTerm(input, updateDOM = true) {
+        saveTerm(input, updateDOM = true, force = false) {
             if (! this.checkValidity(input)) {
                 return false;
             }
 
-            return super.saveTerm(input, updateDOM);
+            return super.saveTerm(input, updateDOM, force);
         }
 
         termsToQueryString(terms) {
@@ -1055,35 +1055,35 @@ define(["../notjQuery", "BaseInput"], function ($, BaseInput) {
                     return;
                 case 'save':
                     let updateAt = changedIndices[0];
-                    if (typeof this.usedTerms[updateAt] !== 'undefined'
-                        && this.usedTerms[updateAt] === changedTerms[updateAt]
-                    ) {
-                        let valueAt = updateAt;
-                        switch (changedTerms[updateAt].type) {
-                            case 'column':
+                    let valueAt = updateAt;
+                    switch (changedTerms[updateAt].type) {
+                        case 'column':
+                            if (changedTerms[updateAt].label !== this.usedTerms[updateAt].label) {
                                 return;
-                            case 'operator':
-                                valueAt++;
-                        }
-
-                        if (valueAt === updateAt) {
-                            if (changedIndices.length === 1) {
-                                changedTerms = {
-                                    ...{
-                                        [valueAt - 2]: this.usedTerms[valueAt - 2],
-                                        [valueAt - 1]: this.usedTerms[valueAt - 1]
-                                    },
-                                    ...changedTerms
-                                };
                             }
 
-                            break;
-                        } else if (this.usedTerms.length > valueAt && this.usedTerms[valueAt].type === 'value') {
-                            break;
+                            valueAt++;
+                        case 'operator':
+                            valueAt++;
+                    }
+
+                    if (valueAt === updateAt) {
+                        if (changedIndices.length === 1) {
+                            changedTerms = {
+                                ...{
+                                    [valueAt - 2]: this.usedTerms[valueAt - 2],
+                                    [valueAt - 1]: this.usedTerms[valueAt - 1]
+                                },
+                                ...changedTerms
+                            };
                         }
 
-                        return;
+                        break;
+                    } else if (this.usedTerms.length > valueAt && this.usedTerms[valueAt].type === 'value') {
+                        break;
                     }
+
+                    return;
                 case 'remove':
                     let firstTermAt = changedIndices.shift();
                     if (changedTerms[firstTermAt].type === 'column'

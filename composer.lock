@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cda0d9f19074ae89902f263bb6a3695",
+    "content-hash": "5cc52c085c79b9116723c7b7389de43e",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -55,16 +55,16 @@
         },
         {
             "name": "fortawesome/font-awesome",
-            "version": "6.1.1",
+            "version": "6.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "28e297f07af26f148c15e6cbbd12cea3027371d3"
+                "reference": "701d64a8943214b9767733e7ac0b201f1a08a8b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/28e297f07af26f148c15e6cbbd12cea3027371d3",
-                "reference": "28e297f07af26f148c15e6cbbd12cea3027371d3",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/701d64a8943214b9767733e7ac0b201f1a08a8b3",
+                "reference": "701d64a8943214b9767733e7ac0b201f1a08a8b3",
                 "shasum": ""
             },
             "type": "library",
@@ -96,11 +96,11 @@
                 "issues": "https://github.com/FortAwesome/Font-Awesome/issues",
                 "source": "https://github.com/FortAwesome/Font-Awesome"
             },
-            "time": "2022-03-22T15:24:29+00:00"
+            "time": "2022-07-25T17:48:16+00:00"
         },
         {
             "name": "ipl/html",
-            "version": "v0.6.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
@@ -118,6 +118,7 @@
                 "php": ">=7.2",
                 "psr/http-message": "~1.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -141,7 +142,7 @@
         },
         {
             "name": "ipl/i18n",
-            "version": "v0.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-i18n.git",
@@ -159,6 +160,7 @@
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -189,7 +191,7 @@
         },
         {
             "name": "ipl/orm",
-            "version": "v0.4.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-orm.git",
@@ -210,6 +212,7 @@
             "require-dev": {
                 "ext-pdo_sqlite": "*"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -235,7 +238,7 @@
         },
         {
             "name": "ipl/sql",
-            "version": "v0.5.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-sql.git",
@@ -252,6 +255,7 @@
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -276,7 +280,7 @@
         },
         {
             "name": "ipl/stdlib",
-            "version": "v0.12.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-stdlib.git",
@@ -293,6 +297,7 @@
                 "ext-openssl": "*",
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -315,7 +320,7 @@
         },
         {
             "name": "ipl/validator",
-            "version": "v0.4.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-validator.git",
@@ -333,6 +338,7 @@
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -353,16 +359,16 @@
         },
         {
             "name": "ipl/web",
-            "version": "v0.5.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
-                "reference": "9c3423a504ebea823309452e8414f5b0b1746bdd"
+                "reference": "4499dfdf793ca931bd02385a8372637013211880"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/9c3423a504ebea823309452e8414f5b0b1746bdd",
-                "reference": "9c3423a504ebea823309452e8414f5b0b1746bdd",
+                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/4499dfdf793ca931bd02385a8372637013211880",
+                "reference": "4499dfdf793ca931bd02385a8372637013211880",
                 "shasum": ""
             },
             "require": {
@@ -372,6 +378,7 @@
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -389,9 +396,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/v0.5.0"
+                "source": "https://github.com/Icinga/ipl-web/tree/master"
             },
-            "time": "2022-06-15T12:25:42+00:00"
+            "time": "2022-07-15T11:14:36+00:00"
         },
         {
             "name": "psr/http-message",
@@ -448,13 +455,64 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "ipl/html",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/i18n",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/orm",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/sql",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/stdlib",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/validator",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/web",
+            "version": "9999999-dev",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "ipl/html": 20,
+        "ipl/i18n": 20,
+        "ipl/orm": 20,
+        "ipl/sql": 20,
+        "ipl/stdlib": 20,
+        "ipl/validator": 20,
+        "ipl/web": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": "7.2"
     },
     "platform-dev": [],
     "platform-overrides": {

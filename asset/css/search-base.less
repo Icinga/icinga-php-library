@@ -42,6 +42,11 @@
     }
   }
 
+  .relation-path {
+    padding: 0 .2em;
+    background-color: var(--suggestions-relation-path-bg, @suggestions-relation-path-bg);
+  }
+
   [type="button"] {
     .appearance(none);
     border: none;
@@ -52,6 +57,10 @@
     background: var(--suggestions-focus-bg, @suggestions-focus-bg);
     color: var(--suggestions-focus-color, @suggestions-focus-color);
     outline: none;
+
+    .relation-path {
+      background-color: var(--suggestions-relation-path-focus-bg, @suggestions-relation-path-focus-bg);
+    }
   }
 
   [type="button"]:not(:focus):hover {
@@ -95,6 +104,20 @@
 
     &[data-class="operator"], &[data-class="logical_operator"] {
       text-align: center;
+    }
+
+    &.has-details {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .relation-path {
+      margin-left: .5em;
+
+      &::first-line {
+        font-size: .8em;
+      }
     }
   }
 }

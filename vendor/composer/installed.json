@@ -52,20 +52,20 @@
         },
         {
             "name": "fortawesome/font-awesome",
-            "version": "6.1.1",
-            "version_normalized": "6.1.1.0",
+            "version": "6.1.2",
+            "version_normalized": "6.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FortAwesome/Font-Awesome.git",
-                "reference": "28e297f07af26f148c15e6cbbd12cea3027371d3"
+                "reference": "701d64a8943214b9767733e7ac0b201f1a08a8b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/28e297f07af26f148c15e6cbbd12cea3027371d3",
-                "reference": "28e297f07af26f148c15e6cbbd12cea3027371d3",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/701d64a8943214b9767733e7ac0b201f1a08a8b3",
+                "reference": "701d64a8943214b9767733e7ac0b201f1a08a8b3",
                 "shasum": ""
             },
-            "time": "2022-03-22T15:24:29+00:00",
+            "time": "2022-07-25T17:48:16+00:00",
             "type": "library",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -100,8 +100,8 @@
         },
         {
             "name": "ipl/html",
-            "version": "v0.6.0",
-            "version_normalized": "0.6.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
@@ -120,6 +120,7 @@
                 "psr/http-message": "~1.0"
             },
             "time": "2022-06-15T08:17:00+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -144,8 +145,8 @@
         },
         {
             "name": "ipl/i18n",
-            "version": "v0.2.0",
-            "version_normalized": "0.2.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-i18n.git",
@@ -164,6 +165,7 @@
                 "php": ">=7.2"
             },
             "time": "2022-06-15T07:33:40+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -195,8 +197,8 @@
         },
         {
             "name": "ipl/orm",
-            "version": "v0.4.1",
-            "version_normalized": "0.4.1.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-orm.git",
@@ -218,6 +220,7 @@
                 "ext-pdo_sqlite": "*"
             },
             "time": "2022-07-01T16:15:30+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -244,8 +247,8 @@
         },
         {
             "name": "ipl/sql",
-            "version": "v0.5.0",
-            "version_normalized": "0.5.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-sql.git",
@@ -263,6 +266,7 @@
                 "php": ">=7.2"
             },
             "time": "2022-06-15T08:43:21+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -288,8 +292,8 @@
         },
         {
             "name": "ipl/stdlib",
-            "version": "v0.12.0",
-            "version_normalized": "0.12.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-stdlib.git",
@@ -307,6 +311,7 @@
                 "php": ">=7.2"
             },
             "time": "2022-06-15T07:29:19+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -330,8 +335,8 @@
         },
         {
             "name": "ipl/validator",
-            "version": "v0.4.0",
-            "version_normalized": "0.4.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-validator.git",
@@ -350,6 +355,7 @@
                 "php": ">=7.2"
             },
             "time": "2022-06-15T07:51:54+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -371,17 +377,17 @@
         },
         {
             "name": "ipl/web",
-            "version": "v0.5.0",
-            "version_normalized": "0.5.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
-                "reference": "9c3423a504ebea823309452e8414f5b0b1746bdd"
+                "reference": "4499dfdf793ca931bd02385a8372637013211880"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/9c3423a504ebea823309452e8414f5b0b1746bdd",
-                "reference": "9c3423a504ebea823309452e8414f5b0b1746bdd",
+                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/4499dfdf793ca931bd02385a8372637013211880",
+                "reference": "4499dfdf793ca931bd02385a8372637013211880",
                 "shasum": ""
             },
             "require": {
@@ -391,7 +397,8 @@
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2"
             },
-            "time": "2022-06-15T12:25:42+00:00",
+            "time": "2022-07-15T11:14:36+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -410,7 +417,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/v0.5.0"
+                "source": "https://github.com/Icinga/ipl-web/tree/master"
             },
             "install-path": "../ipl/web"
         },
