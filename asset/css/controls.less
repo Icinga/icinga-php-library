@@ -1,0 +1,76 @@
+.pagination-control {
+  li > a {
+    color: var(--control-color, @control-color);
+    border-radius: .25em;
+  }
+
+  li > a:hover {
+    background: var(--control-hover-bg, @control-hover-bg);
+  }
+
+  .previous-page,
+  .next-page {
+    padding: .5em .25em;
+
+    i {
+      display: block;
+    }
+
+    i:before {
+      margin: 0;
+    }
+  }
+
+  .previous-page > i {
+    margin-left: -.125em;
+  }
+
+  .next-page > i {
+    margin-right: -.125em;
+  }
+}
+
+// Style
+
+.control-button {
+  .appearance(none);
+  background: none;
+  border: none;
+  color: var(--control-color, @control-color);
+  .rounded-corners();
+
+  &:hover, &:focus, &.active {
+    background-color: var(--control-hover-bg, @control-hover-bg);
+    text-decoration: none;
+  }
+
+  &.disabled {
+    color: var(--control-disabled-color, @control-disabled-color);
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  i.icon:before {
+    color: inherit;
+  }
+}
+
+// Layout
+
+.control-button {
+  display: inline-block;
+  padding: .25em .5em;
+
+  > i.icon {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  i.icon:before {
+    margin-right: 0;
+  }
+}
+
