@@ -1,0 +1,26 @@
+{
+  "name": "ipl/web",
+  "type": "library",
+  "description": "Icinga PHP Library - Web Components",
+  "keywords": ["html"],
+  "homepage": "https://github.com/Icinga/ipl-web",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ipl\\Web\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Web\\": "tests"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*",
+    "ipl/html": ">=0.6.0",
+    "ipl/i18n": ">=0.2.0",
+    "ipl/stdlib": ">=0.12.0",
+    "fortawesome/font-awesome": "^6"
+  }
+}

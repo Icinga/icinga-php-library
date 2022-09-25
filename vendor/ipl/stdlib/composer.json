@@ -1,0 +1,22 @@
+{
+    "name": "ipl/stdlib",
+    "description": "ipl Standard Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "files": ["src/functions_include.php"],
+        "psr-4": {
+            "ipl\\Stdlib\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ipl\\Tests\\Stdlib\\": "tests"
+        }
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-openssl": "*",
+        "evenement/evenement": "^3"
+    }
+}

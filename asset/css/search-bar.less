@@ -1,0 +1,316 @@
+// Style
+.search-bar {
+  .rounded-corners(.25em);
+  background: var(--searchbar-bg, @searchbar-bg);
+
+  // Reset all input styles
+  input, [type="button"] {
+    .appearance(none);
+    border: none;
+    background: none;
+  }
+
+  // Submit button styles
+  input[type=submit],
+  button[type=submit],
+  button:not([type]) {
+    background: var(--primary-button-bg, @primary-button-bg);
+    color: var(--primary-button-color, @primary-button-color);
+    border-top-right-radius: .25em;
+    border-bottom-right-radius: .25em;
+  }
+
+  // General input styles
+  input:focus {
+    outline-offset: -1px;
+  }
+
+  // Hide the submit button, it must exist, but shouldn't be shown to the user
+  input[type=submit][value="hidden"] {
+    display: none;
+  }
+
+  // Left-most search dropdown style
+  button.search-options {
+    i.icon:before {
+      font-size: 1.2em;
+      margin-right: 0;
+      color: var(--control-color, @control-color);
+    }
+
+    &:disabled {
+      i.icon:before {
+        color: var(--control-disabled-color, @control-disabled-color);
+      }
+    }
+  }
+
+  // Scrollbar style
+  .filter-input-area {
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: var(--searchbar-scrollbar-bg, @searchbar-scrollbar-bg) transparent;
+
+    &::-webkit-scrollbar {
+      display: none;
+      height: .5em;
+    }
+
+    &:hover::-webkit-scrollbar {
+      display: initial;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: .25em;
+      background: var(--searchbar-scrollbar-bg, @searchbar-scrollbar-bg);
+    }
+  }
+
+  // Term styles
+  .filter-condition {
+    button {
+      border-radius: .4em 0 0 .4em;
+      background-color: var(--search-condition-remove-bg, @search-condition-remove-bg);
+      color: var(--search-condition-remove-color, @search-condition-remove-color);
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: .4em;
+        height: 100%;
+        right: 0;
+        top: 0;
+
+        background-color: var(--searchbar-bg, @searchbar-bg);
+        border: .2em solid var(--search-condition-remove-bg, @search-condition-remove-bg);
+        border-width: 0 0 0 .2em;
+        border-top-left-radius: .4em;
+        border-bottom-left-radius: .4em;
+      }
+    }
+
+    input {
+      background-color: var(--search-term-bg, @search-term-bg);
+      color: var(--search-term-color, @search-term-color);
+    }
+  }
+
+  .terms > .filter-condition:first-child button {
+    border-radius: 0 .4em .4em 0;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: .4em;
+      height: 100%;
+      left: 0;
+      top: 0;
+
+      background-color: var(--searchbar-bg, @searchbar-bg);
+      border: .2em solid var(--search-condition-remove-bg, @search-condition-remove-bg);
+      border-width: 0 .2em 0 0;
+      border-top-right-radius: .4em;
+      border-bottom-right-radius: .4em;
+    }
+
+    &:after {
+      content: none;
+    }
+  }
+
+  .logical_operator,
+  .grouping_operator_open,
+  .grouping_operator_close {
+    input {
+      .rounded-corners();
+      background-color: var(--search-logical-operator-bg, @search-logical-operator-bg);
+      color: var(--search-logical-operator-color, @search-logical-operator-color);
+    }
+  }
+
+  .operator,
+  .logical_operator,
+  .grouping_operator_open,
+  .grouping_operator_close {
+    input {
+      text-align: center;
+    }
+  }
+
+  [data-index] input:invalid {
+    background-color: var(--search-term-invalid-bg, @search-term-invalid-bg);
+    color: var(--search-term-invalid-color, @search-term-invalid-color);
+  }
+
+  [data-index] input:disabled {
+    background-color: var(--search-term-disabled-bg, @search-term-disabled-bg);
+  }
+
+  .column input {
+    .rounded-corners(.4em);
+  }
+  .column:not(:last-of-type),
+  .column.last-term {
+    input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .operator:last-of-type:not(.last-term) input {
+    .rounded-corners(.4em);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .value input {
+    .rounded-corners(.4em);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .highlighted input {
+    background-color: var(--search-term-highlighted-bg, @search-term-highlighted-bg);
+    color: var(--search-term-highlighted-color, @search-term-highlighted-color);
+  }
+
+  .selected input {
+    background-color: var(--search-term-selected-bg, @search-term-selected-bg);
+    color: var(--search-term-selected-color, @search-term-selected-color);
+    font-style: italic;
+  }
+
+  ul.comma-separated {
+    display: inline;
+    padding: 0;
+
+    list-style-type: none;
+
+    li {
+      display: inline;
+
+      &:not(:first-of-type):before {
+        display: inline;
+        content: ', ';
+      }
+    }
+  }
+}
+
+// Layout
+.search-bar {
+  height: 2em;
+  display: flex;
+  position: relative; // Required for the suggestions
+
+  button.search-options {
+    line-height: 1em;
+  }
+
+  .filter-input-area {
+    overflow: auto hidden;
+    overflow-x: overlay; // Not invalid, but proprietary feature by chrome/webkit
+    display: flex;
+    width: 100%;
+    height: ~"calc(2em + 10px)"; // Search bar height + approximate scrollbar height
+    padding: 2/12em; // 2 (px) desired / default font size (px)
+
+    // Lets inputs grow based on their contents, Inspired by https://css-tricks.com/auto-growing-inputs-textareas/
+    label {
+      position: relative;
+      display: inline-block;
+      min-width: 2em;
+
+      &::after,
+      input {
+        width: auto;
+        padding: 0 .5em;
+        resize: none;
+      }
+
+      input {
+        width: 100%;
+        position: absolute;
+        line-height: 20/12; // 20 (px) desired / default font size (px)
+      }
+
+      &::after {
+        height: 0;
+        content: attr(data-label);
+        visibility: hidden;
+        white-space: nowrap;
+        padding: 0 7/12em; // 7 (px) desired / default font size (px)
+      }
+    }
+
+    > label {
+      flex: 1 0 auto;
+
+      &::after,
+      input {
+        max-width: none;
+        min-width: 8em;
+      }
+    }
+  }
+
+  .terms {
+    display: inline;
+    flex-shrink: 0;
+
+    .filter-chain,
+    .filter-condition {
+      display: inline;
+    }
+
+    .filter-condition {
+      position: relative;
+
+      button {
+        display: none;
+        z-index: 1;
+        width: ~"calc(2em + 2px)";
+        padding: .15em .6em .15em .4em;
+        position: absolute;
+        left: ~"calc(-2em - 2px)"; // That's min-width + margin-right of an operator
+        line-height: 16/12; // 16 (px) desired / default font size (px)
+
+        i:before {
+          margin-right: 0;
+        }
+      }
+
+      &:not(._hover_delay):hover button {
+        display: inline;
+      }
+    }
+
+    > .filter-condition:first-child button {
+      padding: .15em .4em .15em .6em;
+      left: auto;
+      right: ~"calc(-2em - 1px)"; // That's min-width + margin-left of an operator
+    }
+
+    label {
+      margin-right: 1px;
+
+      &.logical_operator,
+      &.grouping_operator_open,
+      &.grouping_operator_close {
+        margin-left: 1px; // adds up to 2px with the previous term
+        margin-right: 2px;
+      }
+    }
+  }
+
+  &.disabled {
+    .terms .filter-condition:hover button {
+      display: none;
+    }
+  }
+
+  .search-suggestions {
+    // 2 (px) desired / default font-size to match .filter-input outline-offset (-1px) + outline-width (3px)
+    margin-top: 2/12em;
+  }
+}
