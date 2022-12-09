@@ -30,6 +30,7 @@ composer require --no-update \
   ipl/html:"dev-main as 99.x-dev" \
   ipl/i18n:"dev-main as 99.x-dev" \
   ipl/orm:"dev-main as 99.x-dev" \
+  ipl/scheduler:"dev-main as 99.x-dev" \
   ipl/sql:"dev-main as 99.x-dev" \
   ipl/stdlib:"dev-main as 99.x-dev" \
   ipl/validator:"dev-main as 99.x-dev" \
