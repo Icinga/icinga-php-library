@@ -12,6 +12,7 @@ This project bundles all Icinga PHP libraries into one piece and can be integrat
 * [ipl-html](https://github.com/Icinga/ipl-html)
 * [ipl-i18n](https://github.com/Icinga/ipl-i18n)
 * [ipl-orm](https://github.com/Icinga/ipl-orm)
+* [ipl-scheduler](https://github.com/Icinga/ipl-scheduler)
 * [ipl-sql](https://github.com/Icinga/ipl-sql)
 * [ipl-stdlib](https://github.com/Icinga/ipl-stdlib)
 * [ipl-validator](https://github.com/Icinga/ipl-validator)
