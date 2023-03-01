@@ -2,8 +2,8 @@ name: Create Snapshot
 
 on:
   schedule:
-    # Every day at 4pm
-    - cron: "0 16 * * *"
+    # Every day at 6pm
+    - cron: "0 18 * * *"
   workflow_dispatch:
 
 jobs:
