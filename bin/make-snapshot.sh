@@ -27,13 +27,13 @@ composer config prefer-stable true
 
 composer require --no-update \
   php:$PHP_VERSION \
-  ipl/html:"dev-master as 99.x-dev" \
-  ipl/i18n:"dev-master as 99.x-dev" \
-  ipl/orm:"dev-master as 99.x-dev" \
-  ipl/sql:"dev-master as 99.x-dev" \
-  ipl/stdlib:"dev-master as 99.x-dev" \
-  ipl/validator:"dev-master as 99.x-dev" \
-  ipl/web:"dev-master as 99.x-dev"
+  ipl/html:"dev-main as 99.x-dev" \
+  ipl/i18n:"dev-main as 99.x-dev" \
+  ipl/orm:"dev-main as 99.x-dev" \
+  ipl/sql:"dev-main as 99.x-dev" \
+  ipl/stdlib:"dev-main as 99.x-dev" \
+  ipl/validator:"dev-main as 99.x-dev" \
+  ipl/web:"dev-main as 99.x-dev"
 
-git commit -a -m "Require dev-master everywhere"
+git commit -a -m "Require dev-main everywhere"
 bin/make-release.sh "$NEXT_VERSION-dev" --no-checkout
