@@ -1,0 +1,26 @@
+{
+  "name": "ipl/sql",
+  "type": "library",
+  "description": "Icinga PHP Library - SQL abstraction layer",
+  "keywords": ["sql", "database"],
+  "homepage": "https://github.com/Icinga/ipl-sql",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.2",
+    "ext-pdo": "*",
+    "ipl/stdlib": ">=0.12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ipl\\Sql\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Sql\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  }
+}
