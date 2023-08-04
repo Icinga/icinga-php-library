@@ -21,12 +21,11 @@ fi
 git checkout -b $BRANCH
 git merge --no-ff -m "Merge latest tag, to make it reachable for git-describe" $LATEST_TAG
 
-composer config platform.php $PHP_VERSION
 composer config minimum-stability dev
 composer config prefer-stable true
 
 composer require --no-update \
-  php:$PHP_VERSION \
+  php:">=$PHP_VERSION" \
   ipl/html:"dev-main as 99.x-dev" \
   ipl/i18n:"dev-main as 99.x-dev" \
   ipl/orm:"dev-main as 99.x-dev" \
