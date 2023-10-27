@@ -8,17 +8,13 @@
         "sort-packages": true,
         "platform": {
             "php": "7.2.9"
+        },
+        "allow-plugins": {
+            "cweagans/composer-patches": true
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./replacer"
-        }
-    ],
     "require": {
         "php": ">=7.2",
-        "repl/acer": "@dev",
         "ipl/html": "^0.8.0",
         "ipl/i18n": "^0.2.0",
         "ipl/orm": "^0.6.0",
@@ -26,7 +22,10 @@
         "ipl/sql": "^0.7.0",
         "ipl/stdlib": "^0.13.0",
         "ipl/validator": "^0.5.0",
-        "ipl/web": "^0.9.0"
+        "ipl/web": "^0.9.0",
+        "cweagans/composer-patches": "~1.0"
+    },
+    "require-dev": {
     },
     "autoload": {
         "psr-0": { "AssetLoader": "" }
@@ -35,5 +34,13 @@
         "post-update-cmd": [
             "AssetLoader::update"
         ]
+    },
+    "extra": {
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "ramsey/collection": {
+                "Collection: Add PHP 8.1 support": "patches/ramsey-collection.patch"
+            }
+        }
     }
 }
