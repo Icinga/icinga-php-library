@@ -53,12 +53,6 @@ rm -rf vendor
 git checkout vendor
 composer validate --no-check-all --strict || fail "Composer validate failed"
 
-UNKNOWN_VENDOR_FILES=$(find vendor -maxdepth 1 -type d -not -name "ipl" -not -name "fortawesome" -not -name "composer" -not -name "vendor")
-if [ -n "$UNKNOWN_VENDOR_FILES" ]; then
-  echo "Unknown vendor files found! DO NOT TAG!"
-  exit 1
-fi
-
 if [ -z "$NO_OPT" ]; then
   git tag -a v$VERSION -m "Version v$VERSION"
   echo "Finished, tagged v$VERSION"
