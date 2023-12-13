@@ -35,15 +35,15 @@ rm -rf asset vendor
 rm -f composer.lock
 composer install --no-scripts || fail "composer install failed"
 composer run-script post-update-cmd -- copy-assets
-find vendor/ -type f -name "*.php" \
- | grep -v '/examples/' \
- | grep -v '/example/' \
- | grep -v '/tests/' \
- | grep -v '/test/' \
- | xargs -L1 git add -f
-find vendor/ -type f -name LICENSE | xargs -L1 git add -f
-find vendor/ -type f -name '*.json' | xargs -L1 git add -f
-find asset/ -type f | xargs -L1 git add -f
+find vendor/ -type f -name "*.php" -print0 \
+ | grep -z -v '/examples/' \
+ | grep -z -v '/example/' \
+ | grep -z -v '/tests/' \
+ | grep -z -v '/test/' \
+ | xargs -0 -L1 git add -f
+find vendor/ -type f -name LICENSE -print0 | xargs -0 -L1 git add -f
+find vendor/ -type f -name '*.json' -print0 | xargs -0 -L1 git add -f
+find asset/ -type f -print0 | xargs -0 -L1 git add -f
 echo "v$VERSION" > VERSION
 git add VERSION
 git add composer.lock -f
