@@ -13,6 +13,9 @@ class Hydrator
     /** @var array Additional hydration rules for the model's relations */
     protected $hydrators = [];
 
+    /** @var array<string, array<string, bool>> Map of columns to referencing paths */
+    protected $columnToTargetMap = [];
+
     /** @var Query The query the hydration rules are for */
     protected $query;
 
@@ -70,9 +73,29 @@ class Hydrator
             }
         }
 
+        $this->updateColumnToTargetMap($path, $columnToPropertyMap);
         $this->hydrators[$path] = [$target, $relation, $columnToPropertyMap, $defaults];
 
         return $this;
+    }
+
+    /**
+     * Update which columns the given path is referencing
+     *
+     * @param string $path
+     * @param array<string, string> $columnToPropertyMap
+     *
+     * @return void
+     */
+    protected function updateColumnToTargetMap(string $path, array $columnToPropertyMap): void
+    {
+        foreach ($columnToPropertyMap as $qualifiedColumnPath => $_) {
+            if (isset($this->columnToTargetMap[$qualifiedColumnPath])) {
+                $this->columnToTargetMap[$qualifiedColumnPath][$path] = true;
+            } else {
+                $this->columnToTargetMap[$qualifiedColumnPath] = [$path => true];
+            }
+        }
     }
 
     /**
@@ -86,6 +109,7 @@ class Hydrator
     public function hydrate(array $data, Model $model)
     {
         $defaultsToApply = [];
+        $columnToTargetMap = $this->columnToTargetMap;
         foreach ($this->hydrators as $path => $vars) {
             list($target, $relation, $columnToPropertyMap, $defaults) = $vars;
 
@@ -120,33 +144,44 @@ class Hydrator
                 }
             }
 
-            $subject->setProperties($this->extractAndMap($data, $columnToPropertyMap));
+            $subject->setProperties($this->extractAndMap($data, $columnToPropertyMap, $path, $columnToTargetMap));
             $this->query->getResolver()->getBehaviors($target)->retrieve($subject);
             $defaultsToApply[] = [$subject, $defaults];
         }
 
         // If there are any columns left, propagate them to the targeted relation if possible, to the base otherwise
         foreach ($data as $column => $value) {
+            if (($aliasPrefix = $this->query->getResolver()->getAliasPrefix())) {
+                $column = substr($column, strlen($aliasPrefix));
+            }
+
             $columnName = $column;
             $steps = explode('_', $column);
             $baseTable = array_shift($steps);
+            while (! empty($steps) && $baseTable !== $model->getTableAlias()) {
+                $baseTable .= '_' . array_shift($steps);
+            }
 
             $subject = $model;
             $target = $this->query->getModel();
             $stepsTaken = [];
-            foreach ($steps as $step) {
+            for ($i = 0; $i < count($steps); $i++) {
+                $step = $steps[$i];
                 $stepsTaken[] = $step;
                 $relationPath = "$baseTable." . implode('.', $stepsTaken);
 
                 try {
                     $relation = $this->query->getResolver()->resolveRelation($relationPath);
-                } catch (InvalidArgumentException $_) {
-                    // The base table is missing, which means the alias hasn't been qualified and is custom defined
-                    break;
                 } catch (InvalidRelationException $_) {
-                    array_pop($stepsTaken);
-                    $columnName = implode('_', array_slice($steps, count($stepsTaken)));
-                    break;
+                    if (isset($steps[$i + 1])) {
+                        $steps[$i + 1] = $step . '_' . $steps[$i + 1];
+                        array_pop($stepsTaken);
+                        continue;
+                    } else {
+                        array_pop($stepsTaken);
+                        $columnName = implode('_', array_slice($steps, $i));
+                        break;
+                    }
                 }
 
                 if (! $subject->hasProperty($step)) {
@@ -181,15 +216,24 @@ class Hydrator
      *
      * @param array $data
      * @param array $columnToPropertyMap
+     * @param string $path
+     * @param array<string, array<string, bool>> $columnToTargetMap
      *
      * @return array
      */
-    protected function extractAndMap(array &$data, array $columnToPropertyMap)
+    protected function extractAndMap(array &$data, array $columnToPropertyMap, string $path, array &$columnToTargetMap)
     {
         $extracted = [];
         foreach (array_intersect_key($columnToPropertyMap, $data) as $column => $property) {
             $extracted[$property] = $data[$column];
-            unset($data[$column]);
+
+            if (isset($columnToTargetMap[$column][$path])) {
+                unset($columnToTargetMap[$column][$path]);
+                if (empty($columnToTargetMap[$column])) {
+                    // Only unset a column once it's really not required anymore
+                    unset($data[$column], $columnToTargetMap[$column]);
+                }
+            }
         }
 
         return $extracted;

@@ -151,14 +151,14 @@ class TermInput extends FieldsetElement
 
     public function setValue($value)
     {
-        $recipients = $value;
+        $separatedTerms = $value;
         if (is_array($value)) {
-            $recipients = $value['value'] ?? '';
+            $separatedTerms = $value['value'] ?? '';
             parent::setValue($value);
         }
 
         $terms = [];
-        foreach ($this->parseValue($recipients) as $term) {
+        foreach ($this->parseValue((string) $separatedTerms) as $term) {
             $terms[] = new RegisteredTerm($term);
         }
 

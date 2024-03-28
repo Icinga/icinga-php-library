@@ -29,7 +29,10 @@ class Binary extends PropertyBehavior implements QueryAwareBehavior, RewriteFilt
 
         if ($value !== null) {
             if (is_resource($value)) {
-                return stream_get_contents($value);
+                $content = stream_get_contents($value);
+                rewind($value);
+
+                return $content;
             }
 
             return $value;

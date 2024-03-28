@@ -7,6 +7,10 @@ use SplPriorityQueue;
 
 /**
  * Stable priority queue that also maintains insertion order for items with the same priority
+ *
+ * @template TPriority
+ * @template TValue
+ * @extends SplPriorityQueue<array{TPriority, int}, TValue>
  */
 class PriorityQueue extends SplPriorityQueue
 {
@@ -14,9 +18,14 @@ class PriorityQueue extends SplPriorityQueue
     protected $serial = PHP_INT_MAX;
 
     /**
-     * @inheritDoc
+     * Inserts an element in the queue by sifting it up.
      *
      * Maintains insertion order for items with the same priority.
+     *
+     * @param TValue $value
+     * @param TPriority $priority
+     *
+     * @return bool
      */
     public function insert($value, $priority): bool
     {
@@ -36,6 +45,7 @@ class PriorityQueue extends SplPriorityQueue
         $queue->setExtractFlags(static::EXTR_BOTH);
 
         foreach ($queue as $item) {
+            /** @var array{priority: array{0: TPriority, 1: int}, data: TValue} $item */
             yield $item['priority'][0] => $item['data'];
         }
     }

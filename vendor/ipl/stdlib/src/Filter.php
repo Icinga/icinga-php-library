@@ -2,7 +2,6 @@
 
 namespace ipl\Stdlib;
 
-use Exception;
 use InvalidArgumentException;
 use ipl\Stdlib\Filter\All;
 use ipl\Stdlib\Filter\Any;
@@ -18,6 +17,7 @@ use ipl\Stdlib\Filter\None;
 use ipl\Stdlib\Filter\Rule;
 use ipl\Stdlib\Filter\Unequal;
 use ipl\Stdlib\Filter\Unlike;
+use Throwable;
 
 class Filter
 {
@@ -258,19 +258,14 @@ class Filter
     {
         if ($ignoreCase && is_string($rowValue)) {
             $rowValue = strtolower($rowValue);
+            /** @var string|string[] $value {@see self::normalizeTypes} ensures this is the case */
             $value = is_array($value)
-                ? array_map(function ($val) {
-                    return strtolower((string) $val);
-                }, $value)
-                : strtolower((string) $value);
+                ? array_map('strtolower', $value)
+                : ($value === null ? null : strtolower($value)); // phpstan is wrong here
         }
 
         if (is_array($value)) {
             return in_array($rowValue, $value, true);
-        } elseif (! is_string($value)) {
-            if (is_string($rowValue)) {
-                $value = (string) $value;
-            }
         }
 
         return $rowValue === $value;
@@ -279,23 +274,26 @@ class Filter
     /**
      * Apply similarity matching rules on the given row value
      *
-     * @param string|string[] $value
-     * @param string $rowValue
+     * @param mixed $value
+     * @param mixed $rowValue
      * @param bool $ignoreCase
      *
      * @return bool
      */
     protected function performSimilarityMatch($value, $rowValue, $ignoreCase = false)
     {
-        if ($ignoreCase) {
+        if ($ignoreCase && is_string($rowValue)) {
             $rowValue = strtolower($rowValue);
+            /** @var string|string[] $value {@see self::normalizeTypes} ensures this is the case */
             $value = is_array($value)
                 ? array_map('strtolower', $value)
-                : strtolower($value);
+                : ($value === null ? null : strtolower($value)); // phpstan is wrong here
         }
 
         if (is_array($value)) {
             return in_array($rowValue, $value, true);
+        } elseif (! is_string($value) || ! is_string($rowValue)) {
+            return $this->performEqualityMatch($value, $rowValue);
         }
 
         $wildcardSubSegments = preg_split('~\*~', $value);
@@ -394,7 +392,10 @@ class Filter
      */
     protected function matchGreaterThan(GreaterThan $rule, $row)
     {
-        return $this->extractValue($rule->getColumn(), $row) > $rule->getValue();
+        $rowValue = $this->extractValue($rule->getColumn(), $row);
+        $value = $rule->getValue();
+
+        return $rowValue !== null && $value !== null && $rowValue > $value;
     }
 
     /**
@@ -421,11 +422,9 @@ class Filter
     protected function matchLessThan(LessThan $rule, $row)
     {
         $rowValue = $this->extractValue($rule->getColumn(), $row);
-        if ($rowValue === null) {
-            return false;
-        }
+        $value = $rule->getValue();
 
-        return $rowValue < $rule->getValue();
+        return $rowValue !== null && $value !== null && $rowValue < $value;
     }
 
     /**
@@ -451,7 +450,10 @@ class Filter
      */
     protected function matchGreaterThanOrEqual(GreaterThanOrEqual $rule, $row)
     {
-        return $this->extractValue($rule->getColumn(), $row) >= $rule->getValue();
+        $rowValue = $this->extractValue($rule->getColumn(), $row);
+        $value = $rule->getValue();
+
+        return $rowValue !== null && $value !== null && $rowValue >= $value;
     }
 
     /**
@@ -478,11 +480,9 @@ class Filter
     protected function matchLessThanOrEqual(LessThanOrEqual $rule, $row)
     {
         $rowValue = $this->extractValue($rule->getColumn(), $row);
-        if ($rowValue === null) {
-            return false;
-        }
+        $value = $rule->getValue();
 
-        return $rowValue <= $rule->getValue();
+        return $rowValue !== null && $value !== null && $rowValue <= $value;
     }
 
     /**
@@ -538,7 +538,7 @@ class Filter
     {
         try {
             return $row->{$column};
-        } catch (Exception $_) {
+        } catch (Throwable $_) {
             return null;
         }
     }

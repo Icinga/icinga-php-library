@@ -50,8 +50,11 @@ class Seq
                 $item = strtolower($item);
             }
 
-            if ($usesCallback && $needle($item)) {
-                return [$key, $originalItem];
+            if ($usesCallback) {
+                /** @var Closure $needle */
+                if ($needle($item)) {
+                    return [$key, $originalItem];
+                }
             } elseif ($item === $needle) {
                 return [$key, $originalItem];
             }
@@ -99,8 +102,11 @@ class Seq
                 $key = strtolower($key);
             }
 
-            if ($usesCallback && $needle($key)) {
-                return $item;
+            if ($usesCallback) {
+                /** @var Closure $needle */
+                if ($needle($key)) {
+                    return $item;
+                }
             } elseif ($key === $needle) {
                 return $item;
             }

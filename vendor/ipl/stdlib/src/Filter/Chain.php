@@ -8,6 +8,7 @@ use IteratorAggregate;
 use OutOfBoundsException;
 use Traversable;
 
+/** @implements IteratorAggregate<int, Rule> */
 abstract class Chain implements Rule, MetaDataProvider, IteratorAggregate, Countable
 {
     use MetaData;

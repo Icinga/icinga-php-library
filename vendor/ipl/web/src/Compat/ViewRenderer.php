@@ -2,11 +2,16 @@
 
 namespace ipl\Web\Compat;
 
+use Icinga\Web\View;
+use ipl\Html\HtmlDocument;
 use Zend_Controller_Action_Helper_ViewRenderer as Zf1ViewRenderer;
 use Zend_Controller_Action_HelperBroker as Zf1HelperBroker;
 
 class ViewRenderer extends Zf1ViewRenderer
 {
+    /** @var View */
+    public $view;
+
     /**
      * Inject the view renderer
      */
@@ -41,9 +46,10 @@ class ViewRenderer extends Zf1ViewRenderer
      */
     public function render($action = null, $name = null, $noController = null)
     {
-        $view = $this->view;
+        /** @var HtmlDocument $document */
+        $document = $this->view->document;
 
-        if ($view->document->isEmpty() || $this->getRequest()->getParam('error_handler') !== null) {
+        if ($document->isEmpty() || $this->getRequest()->getParam('error_handler') !== null) {
             parent::render($action, $name, $noController);
 
             return;
@@ -53,7 +59,7 @@ class ViewRenderer extends Zf1ViewRenderer
             $name = $this->getResponseSegment();
         }
 
-        $this->getResponse()->appendBody($view->document->render(), $name);
+        $this->getResponse()->appendBody($document->render(), $name);
 
         $this->setNoRender();
     }

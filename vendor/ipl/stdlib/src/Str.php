@@ -60,7 +60,7 @@ class Str
      */
     public static function symmetricSplit(?string $subject, string $delimiter, int $limit, $default = null)
     {
-        if ($subject === null) {
+        if ($subject === null || empty($delimiter)) {
             return array_pad([], $limit, $default);
         }
 
@@ -78,7 +78,7 @@ class Str
      */
     public static function trimSplit(?string $subject, string $delimiter = ',', int $limit = null)
     {
-        if ($subject === null) {
+        if ($subject === null || empty($delimiter)) {
             return [];
         }
 
