@@ -1,0 +1,52 @@
+.state-badge {
+  .rounded-corners();
+  color: var(--default-text-color-inverted, @default-text-color-inverted);
+  display: inline-block;
+  font-size: 1em;
+  min-width: 2em;
+  padding: .25em;
+  text-align: center;
+
+  &.handled {
+    opacity: .8;
+  }
+
+  &.state-critical {
+    background-color: var(--state-critical, @state-critical);
+  }
+
+  &.state-down {
+    background-color: var(--state-down, @state-down);
+  }
+
+  &.state-ok {
+    background-color: var(--state-ok, @state-ok);
+  }
+
+  &.state-pending {
+    background-color: var(--state-pending, @state-pending);
+  }
+
+  &.state-unknown {
+    background-color: var(--state-unknown, @state-unknown);
+  }
+
+  &.state-up {
+    background-color: var(--state-up, @state-up);
+  }
+
+  &.state-warning {
+    background-color: var(--state-warning, @state-warning);
+  }
+
+  &.state-none {
+    background-color: var(--state-none, @state-none);
+    color:  var(--text-color-light, @text-color-light);
+  }
+}
+
+a .state-badge {
+  &:not(.disabled):hover {
+    filter: brightness(80%);
+  }
+}
