@@ -1,0 +1,39 @@
+{
+  "name": "ipl/scheduler",
+  "type": "library",
+  "description": "Icinga PHP Library - Tasks scheduler",
+  "keywords": ["task", "job", "scheduler", "cron"],
+  "homepage": "https://github.com/Icinga/ipl-scheduler",
+  "license": "MIT",
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*",
+    "dragonmantank/cron-expression": "^3",
+    "psr/log": "^1",
+    "ramsey/uuid": "^4.2.3",
+    "react/event-loop": "^1.4",
+    "react/promise": "^2.10",
+    "simshaun/recurr": "^5",
+    "ipl/stdlib": ">=0.12.0"
+  },
+  "require-dev": {
+    "ipl/stdlib": "dev-main"
+  },
+  "suggest": {
+    "ext-ev": "Improves performance, efficiency and avoids system limitations. Highly recommended! (See https://www.php.net/manual/en/intro.ev.php for details)"
+  },
+  "autoload": {
+    "files": ["src/register_cron_aliases.php"],
+    "psr-4": {
+      "ipl\\Scheduler\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Scheduler\\": "tests"
+    }
+  }
+}

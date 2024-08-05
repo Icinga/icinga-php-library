@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'Icinga-Icons';
+  src: url('@{iplWebAssets}/font/icinga-icons/fonts/Icinga-Icons.ttf') format('truetype'),
+  url('@{iplWebAssets}/font/icinga-icons/fonts/Icinga-Icons.woff') format('woff'),
+  url('@{iplWebAssets}/font/icinga-icons/fonts/Icinga-Icons.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="iicon-"]:before, [class*=" iicon-"]:before {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Icinga-Icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iicon-certificate:before {
+  content: "\e906";
+}
+.iicon-filter-check-circle:before {
+  content: "\e90b";
+}
+.iicon-ca-check-circle:before {
+  content: "\e908";
+}
+.iicon-refresh-cert:before {
+  content: "\e909";
+}
+.iicon-th-list:before {
+  content: "\e90a";
+}
+.iicon-icinga:before {
+  content: "\e907";
+}
+.iicon-minimal:before,
+.iicon-list-view-minimal:before {
+  content: "\e900";
+}
+.iicon-detailed:before,
+.iicon-list-view-detailed:before {
+  content: "\e901";
+}
+.iicon-default:before,
+.iicon-list-view-default:before {
+  content: "\e902";
+}
+.iicon-grid:before {
+  content: "\e903";
+}
+.iicon-bracket-open:before {
+  content: "\e904";
+}
+.iicon-bracket-close:before {
+  content: "\e905";
+}
