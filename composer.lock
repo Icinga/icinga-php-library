@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20d4022bc196691807f55d4a47c06474",
+    "content-hash": "f580b55d7310ea22a4bf2f6619442d6e",
     "packages": [
         {
             "name": "brick/math",
@@ -502,7 +502,7 @@
         },
         {
             "name": "ipl/html",
-            "version": "v0.8.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
@@ -526,6 +526,7 @@
                 "ipl/stdlib": "dev-main",
                 "ipl/validator": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -549,7 +550,7 @@
         },
         {
             "name": "ipl/i18n",
-            "version": "v0.2.2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-i18n.git",
@@ -570,6 +571,7 @@
             "require-dev": {
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -600,16 +602,16 @@
         },
         {
             "name": "ipl/orm",
-            "version": "v0.6.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-orm.git",
-                "reference": "d210c4793f6b3d78d0da3eaf0e0d1eb14167701c"
+                "reference": "e9d6117089d1e2acf9a387fb3fdade29b4b8353f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/d210c4793f6b3d78d0da3eaf0e0d1eb14167701c",
-                "reference": "d210c4793f6b3d78d0da3eaf0e0d1eb14167701c",
+                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/e9d6117089d1e2acf9a387fb3fdade29b4b8353f",
+                "reference": "e9d6117089d1e2acf9a387fb3fdade29b4b8353f",
                 "shasum": ""
             },
             "require": {
@@ -623,6 +625,7 @@
                 "ipl/sql": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -642,13 +645,13 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-orm/issues",
-                "source": "https://github.com/Icinga/ipl-orm/tree/v0.6.1"
+                "source": "https://github.com/Icinga/ipl-orm/tree/main"
             },
-            "time": "2024-04-08T13:03:36+00:00"
+            "time": "2024-06-10T12:55:44+00:00"
         },
         {
             "name": "ipl/scheduler",
-            "version": "v0.1.2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-scheduler.git",
@@ -677,6 +680,7 @@
             "suggest": {
                 "ext-ev": "Improves performance, efficiency and avoids system limitations. Highly recommended! (See https://www.php.net/manual/en/intro.ev.php for details)"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -706,7 +710,7 @@
         },
         {
             "name": "ipl/sql",
-            "version": "v0.7.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-sql.git",
@@ -726,6 +730,7 @@
             "require-dev": {
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -750,7 +755,7 @@
         },
         {
             "name": "ipl/stdlib",
-            "version": "v0.14.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-stdlib.git",
@@ -767,6 +772,7 @@
                 "ext-openssl": "*",
                 "php": ">=7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -789,16 +795,16 @@
         },
         {
             "name": "ipl/validator",
-            "version": "v0.5.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-validator.git",
-                "reference": "a601fae0ed330e63cea50e4a2a6659ca1ad97bde"
+                "reference": "bacdda8027d0b4c2937185882d06b1876818b247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-validator/zipball/a601fae0ed330e63cea50e4a2a6659ca1ad97bde",
-                "reference": "a601fae0ed330e63cea50e4a2a6659ca1ad97bde",
+                "url": "https://api.github.com/repos/Icinga/ipl-validator/zipball/bacdda8027d0b4c2937185882d06b1876818b247",
+                "reference": "bacdda8027d0b4c2937185882d06b1876818b247",
                 "shasum": ""
             },
             "require": {
@@ -807,11 +813,14 @@
                 "ipl/i18n": ">=0.2.0",
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2",
-                "psr/http-message": "~1.0"
+                "psr/http-message": "^1.1"
             },
             "require-dev": {
-                "guzzlehttp/psr7": "^1"
+                "guzzlehttp/psr7": "^1",
+                "ipl/i18n": "dev-main",
+                "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -826,13 +835,13 @@
             "homepage": "https://github.com/Icinga/ipl-validator",
             "support": {
                 "issues": "https://github.com/Icinga/ipl-validator/issues",
-                "source": "https://github.com/Icinga/ipl-validator/tree/v0.5.0"
+                "source": "https://github.com/Icinga/ipl-validator/tree/main"
             },
-            "time": "2023-03-21T15:59:00+00:00"
+            "time": "2024-04-15T14:38:01+00:00"
         },
         {
             "name": "ipl/web",
-            "version": "v0.10.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
@@ -864,6 +873,7 @@
                 "ipl/stdlib": "dev-main",
                 "shardj/zf1-future": "^1.22"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1759,10 +1769,68 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
+    "aliases": [
+        {
+            "package": "ipl/html",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/i18n",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/orm",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/scheduler",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/sql",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/stdlib",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/validator",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/web",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        }
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "ipl/html": 20,
+        "ipl/i18n": 20,
+        "ipl/orm": 20,
+        "ipl/scheduler": 20,
+        "ipl/sql": 20,
+        "ipl/stdlib": 20,
+        "ipl/validator": 20,
+        "ipl/web": 20
+    },
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.2"
