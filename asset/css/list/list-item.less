@@ -1,0 +1,89 @@
+// Style
+
+.list-item {
+  color: @default-text-color-light;
+
+  &:not(:first-child) > .main {
+    border-top: 1px solid @list-item-separation-bg;
+  }
+
+  &:not(:first-child) .visual {
+    margin-top: 1px;
+  }
+
+  .caption {
+    i {
+      opacity: 0.8;
+    }
+
+    a {
+      color: @default-text-color;
+    }
+  }
+
+  .title {
+    .subject {
+      color: @default-text-color;
+    }
+
+    a {
+      color: @default-text-color;
+      font-weight: bold;
+
+      &:hover {
+        color: @list-item-title-hover-color;
+        text-decoration: none;
+
+        .subject {
+          color: @list-item-title-hover-color;
+        }
+      }
+    }
+  }
+
+  footer {
+    padding-top: .5em;
+  }
+}
+
+@media print {
+  .list-item.page-break-follows + .list-item {
+    .main {
+      border-top: 1px solid transparent;
+    }
+  }
+}
+
+// Layout
+
+.list-item {
+  .visual {
+    padding: .5em 0;
+    width: 2.5em;
+  }
+
+  .caption {
+    p {
+      display: inline-block;
+    }
+  }
+
+  .title {
+    margin-right: 1em;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  time {
+    white-space: nowrap;
+  }
+
+  footer {
+    > * {
+      font-size: .857em;
+      line-height: 1.5*.857em;
+    }
+  }
+}

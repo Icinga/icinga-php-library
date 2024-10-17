@@ -1,0 +1,210 @@
+// Schedule form element
+
+.schedule-element {
+  @input-border-radius: .25em;
+
+  .ordinal {
+    display: flex;
+    flex-wrap: wrap;
+
+    .radio-label {
+      flex: 1 1 auto;
+    }
+
+    select {
+      flex: 1 1 auto;
+
+      &:first-of-type {
+        margin-right: 1em;
+      }
+
+      &:disabled {
+        color: @schedule-element-fields-disabled-color;
+      }
+    }
+  }
+
+  .radio-label {
+    width: 100%;
+    margin-bottom: .5em;
+    display: flex;
+    align-items: center; // To center the radio element on safari
+  }
+
+  .number-specifier > input[type="number"] {
+    width: 5em;
+    margin: 0 1em;
+  }
+
+  .monthly, .ordinal:not(.annually) {
+    padding: .5em;
+    margin-left: -.5em;
+    border: 1px solid @schedule-element-fields-border-color;
+    .rounded-corners(.75em);
+  }
+
+  .schedule-element-fields {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    .rounded-corners(.25em);
+    overflow: hidden;
+    display:flex;
+    flex-wrap: wrap;
+
+    &.disabled { // When the "On the" radio button is checked
+      pointer-events: none;
+
+      label {
+        color: @schedule-element-fields-disabled-color;
+        background-color: @schedule-element-fields-disabled-bg;
+      }
+
+      input:checked + label {
+        background: @schedule-element-fields-disabled-selected-bg;
+        color: @schedule-element-fields-disabled-color;
+      }
+    }
+
+    li {
+      width: calc(100% / 7); /* default for week based cols makes sense */
+
+      label {
+        display: block;
+        width: 100%;
+        cursor: pointer;
+        text-align: center;
+        padding: .75em 0;
+        background: @schedule-element-fields-bg;
+        color: @schedule-element-fields-color;
+
+        &:hover {
+          background-color: @schedule-element-fields-hover-bg;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      input:checked + label {
+        background-color: @schedule-element-fields-selected-bg;
+        color: @schedule-element-fields-selected-color;
+      }
+
+      input:checked + label:hover {
+        background-color: @schedule-element-fields-selected-hover-bg;
+        border-color: @schedule-element-fields-selected-hover-bg;
+      }
+    }
+
+    &.multiple-fields {
+      li:not(:last-child) label {
+        border-right: 1px solid @schedule-element-fields-border-color;
+      }
+
+      input:focus + label {
+        box-shadow: inset 0 0 0 3px @schedule-element-fields-outline-color;
+      }
+
+      input:checked:focus + label {
+        box-shadow: inset 0 0 0 3px @schedule-element-fields-selected-outline-color;
+      }
+    }
+
+    &.single-fields {
+      li {
+        padding-right: 1px;
+      }
+
+      li label {
+        .rounded-corners(.25em);
+        margin-right: 1px;
+        margin-bottom: 1px;
+      }
+
+      li label {
+        border-right: none;
+      }
+
+      &:focus-within {
+        outline: 3px solid @schedule-element-fields-outline-color;
+        outline-offset: 2px;
+      }
+
+      &:focus-within + .note {
+        display: block;
+      }
+
+      input:checked + label:hover {
+        background-color: @schedule-element-fields-selected-bg;
+      }
+    }
+  }
+
+  .note {
+    display: none;
+    padding: .5em;
+    background: @schedule-element-keyboard-note-bg;
+    .rounded-corners(.25em);
+    text-align: center;
+    margin-top: 1em;
+    line-height: 1.25;
+  }
+
+  /* .weekly */
+  .weekly {  }
+
+  /* .monthly styles */
+  .monthly {
+    li label {
+      border-top: 1px solid @schedule-element-fields-border-color;
+    }
+
+    li:first-child,
+    li:nth-child(2),
+    li:nth-child(3),
+    li:nth-child(4),
+    li:nth-child(5),
+    li:nth-child(6),
+    li:nth-child(7) {
+      label {
+        border-top: none;
+      }
+    }
+
+    /* last of row should not have a border */
+    .schedule-element-fields li:nth-child(7n) label {
+      border-right: none;
+    }
+  }
+
+
+  /* .annually styles */
+  .annually {
+    li {
+      width: 25%; // 100% / 4 elements
+    }
+
+    li:nth-child(4n) label {
+      margin-right: 0;
+    }
+
+    .toggle-slider-controls {
+      display: flex;
+      column-gap: 1em;
+      align-items: center;
+      margin-top: 1em;
+      margin-bottom: -.6em;
+    }
+  }
+}
+
+.schedule-recurrences {
+  line-height: 1.1em;
+  padding-top: 0.5625em;
+
+  p {
+    color: @schedule-element-fields-disabled-color;
+  }
+}
