@@ -454,7 +454,18 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
         foreach ($resolved as $target) {
             $targetColumns = $resolved[$target]->getArrayCopy();
             if (isset($omitted[$target])) {
-                $targetColumns = array_diff($targetColumns, $omitted[$target]->getArrayCopy());
+                $toExclude = $omitted[$target]->getArrayCopy();
+                $targetColumns = array_filter($targetColumns, function ($column, $alias) use ($toExclude) {
+                    if (is_string($alias) && isset($toExclude[$alias])) {
+                        return false;
+                    }
+
+                    if (is_string($alias)) {
+                        return ! in_array($alias, $toExclude, true);
+                    }
+
+                    return ! in_array($column, $toExclude, true);
+                }, ARRAY_FILTER_USE_BOTH);
             }
 
             if (! empty($customAliases)) {

@@ -62,12 +62,24 @@ abstract class BaseItemList extends BaseHtmlElement
     {
     }
 
+    /**
+     * Create a list item for the given data
+     *
+     * @param object $data
+     *
+     * @return BaseListItem|BaseTableRowItem
+     */
+    protected function createListItem(object $data)
+    {
+        $className = $this->getItemClass();
+
+        return new $className($data, $this);
+    }
+
     protected function assemble(): void
     {
-        $itemClass = $this->getItemClass();
         foreach ($this->data as $data) {
-            /** @var BaseListItem|BaseTableRowItem $item */
-            $item = new $itemClass($data, $this);
+            $item = $this->createListItem($data);
             $this->emit(self::BEFORE_ITEM_ADD, [$item, $data]);
             $this->addHtml($item);
             $this->emit(self::ON_ITEM_ADD, [$item, $data]);
