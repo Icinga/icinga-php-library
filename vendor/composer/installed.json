@@ -239,17 +239,17 @@
         },
         {
             "name": "dragonmantank/cron-expression",
-            "version": "v3.3.3",
-            "version_normalized": "3.3.3.0",
+            "version": "v3.4.0",
+            "version_normalized": "3.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dragonmantank/cron-expression.git",
-                "reference": "adfb1f505deb6384dc8b39804c5065dd3c8c8c0a"
+                "reference": "8c784d071debd117328803d86b2097615b457500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/adfb1f505deb6384dc8b39804c5065dd3c8c8c0a",
-                "reference": "adfb1f505deb6384dc8b39804c5065dd3c8c8c0a",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/8c784d071debd117328803d86b2097615b457500",
+                "reference": "8c784d071debd117328803d86b2097615b457500",
                 "shasum": ""
             },
             "require": {
@@ -262,11 +262,15 @@
             "require-dev": {
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^1.0",
-                "phpstan/phpstan-webmozart-assert": "^1.0",
                 "phpunit/phpunit": "^7.0|^8.0|^9.0"
             },
-            "time": "2023-08-10T19:36:49+00:00",
+            "time": "2024-10-09T13:47:03+00:00",
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
@@ -291,7 +295,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dragonmantank/cron-expression/issues",
-                "source": "https://github.com/dragonmantank/cron-expression/tree/v3.3.3"
+                "source": "https://github.com/dragonmantank/cron-expression/tree/v3.4.0"
             },
             "funding": [
                 {
@@ -520,8 +524,8 @@
         },
         {
             "name": "ipl/html",
-            "version": "v0.8.1",
-            "version_normalized": "0.8.1.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
@@ -546,6 +550,7 @@
                 "ipl/validator": "dev-main"
             },
             "time": "2024-06-12T09:56:17+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -570,8 +575,8 @@
         },
         {
             "name": "ipl/i18n",
-            "version": "v0.2.2",
-            "version_normalized": "0.2.2.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-i18n.git",
@@ -593,6 +598,7 @@
                 "ipl/stdlib": "dev-main"
             },
             "time": "2024-04-08T12:28:47+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -624,17 +630,17 @@
         },
         {
             "name": "ipl/orm",
-            "version": "v0.6.1",
-            "version_normalized": "0.6.1.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-orm.git",
-                "reference": "d210c4793f6b3d78d0da3eaf0e0d1eb14167701c"
+                "reference": "832d9ff5346ddce2f2ef19919815067a40bc1ec2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/d210c4793f6b3d78d0da3eaf0e0d1eb14167701c",
-                "reference": "d210c4793f6b3d78d0da3eaf0e0d1eb14167701c",
+                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/832d9ff5346ddce2f2ef19919815067a40bc1ec2",
+                "reference": "832d9ff5346ddce2f2ef19919815067a40bc1ec2",
                 "shasum": ""
             },
             "require": {
@@ -648,7 +654,8 @@
                 "ipl/sql": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
-            "time": "2024-04-08T13:03:36+00:00",
+            "time": "2024-09-24T08:55:43+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -669,14 +676,14 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-orm/issues",
-                "source": "https://github.com/Icinga/ipl-orm/tree/v0.6.1"
+                "source": "https://github.com/Icinga/ipl-orm/tree/main"
             },
             "install-path": "../ipl/orm"
         },
         {
             "name": "ipl/scheduler",
-            "version": "v0.1.2",
-            "version_normalized": "0.1.2.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-scheduler.git",
@@ -706,6 +713,7 @@
                 "ext-ev": "Improves performance, efficiency and avoids system limitations. Highly recommended! (See https://www.php.net/manual/en/intro.ev.php for details)"
             },
             "time": "2023-08-30T14:14:23+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -736,8 +744,8 @@
         },
         {
             "name": "ipl/sql",
-            "version": "v0.7.1",
-            "version_normalized": "0.7.1.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-sql.git",
@@ -758,6 +766,7 @@
                 "ipl/stdlib": "dev-main"
             },
             "time": "2024-06-25T09:55:43+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -783,8 +792,8 @@
         },
         {
             "name": "ipl/stdlib",
-            "version": "v0.14.0",
-            "version_normalized": "0.14.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-stdlib.git",
@@ -802,6 +811,7 @@
                 "php": ">=7.2"
             },
             "time": "2024-04-22T08:47:08+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -825,17 +835,17 @@
         },
         {
             "name": "ipl/validator",
-            "version": "v0.5.0",
-            "version_normalized": "0.5.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-validator.git",
-                "reference": "a601fae0ed330e63cea50e4a2a6659ca1ad97bde"
+                "reference": "bacdda8027d0b4c2937185882d06b1876818b247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-validator/zipball/a601fae0ed330e63cea50e4a2a6659ca1ad97bde",
-                "reference": "a601fae0ed330e63cea50e4a2a6659ca1ad97bde",
+                "url": "https://api.github.com/repos/Icinga/ipl-validator/zipball/bacdda8027d0b4c2937185882d06b1876818b247",
+                "reference": "bacdda8027d0b4c2937185882d06b1876818b247",
                 "shasum": ""
             },
             "require": {
@@ -844,12 +854,15 @@
                 "ipl/i18n": ">=0.2.0",
                 "ipl/stdlib": ">=0.12.0",
                 "php": ">=7.2",
-                "psr/http-message": "~1.0"
+                "psr/http-message": "^1.1"
             },
             "require-dev": {
-                "guzzlehttp/psr7": "^1"
+                "guzzlehttp/psr7": "^1",
+                "ipl/i18n": "dev-main",
+                "ipl/stdlib": "dev-main"
             },
-            "time": "2023-03-21T15:59:00+00:00",
+            "time": "2024-04-15T14:38:01+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -865,23 +878,23 @@
             "homepage": "https://github.com/Icinga/ipl-validator",
             "support": {
                 "issues": "https://github.com/Icinga/ipl-validator/issues",
-                "source": "https://github.com/Icinga/ipl-validator/tree/v0.5.0"
+                "source": "https://github.com/Icinga/ipl-validator/tree/main"
             },
             "install-path": "../ipl/validator"
         },
         {
             "name": "ipl/web",
-            "version": "v0.10.1",
-            "version_normalized": "0.10.1.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
-                "reference": "f4a7411791527935c426266f0aca0dba38f02780"
+                "reference": "e0918ebc0a82f9d5b326cf56e60c7f8e47f6496b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/f4a7411791527935c426266f0aca0dba38f02780",
-                "reference": "f4a7411791527935c426266f0aca0dba38f02780",
+                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/e0918ebc0a82f9d5b326cf56e60c7f8e47f6496b",
+                "reference": "e0918ebc0a82f9d5b326cf56e60c7f8e47f6496b",
                 "shasum": ""
             },
             "require": {
@@ -904,7 +917,8 @@
                 "ipl/stdlib": "dev-main",
                 "shardj/zf1-future": "^1.22"
             },
-            "time": "2024-08-05T12:02:43+00:00",
+            "time": "2024-10-09T11:48:03+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -923,7 +937,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/v0.10.1"
+                "source": "https://github.com/Icinga/ipl-web/tree/main"
             },
             "install-path": "../ipl/web"
         },
@@ -1541,21 +1555,21 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.30.0",
-            "version_normalized": "1.30.0.0",
+            "version": "v1.31.0",
+            "version_normalized": "1.31.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "0424dff1c58f028c451efff2045f5d92410bd540"
+                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/0424dff1c58f028c451efff2045f5d92410bd540",
-                "reference": "0424dff1c58f028c451efff2045f5d92410bd540",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/a3cc8b044a6ea513310cbd48ef7333b384945638",
+                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "provide": {
                 "ext-ctype": "*"
@@ -1563,7 +1577,7 @@
             "suggest": {
                 "ext-ctype": "For best performance"
             },
-            "time": "2024-05-31T15:07:36+00:00",
+            "time": "2024-09-09T11:45:10+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1603,7 +1617,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.30.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.31.0"
             },
             "funding": [
                 {
@@ -1623,23 +1637,23 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.30.0",
-            "version_normalized": "1.30.0.0",
+            "version": "v1.31.0",
+            "version_normalized": "1.31.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "77fa7995ac1b21ab60769b7323d600a991a90433"
+                "reference": "60328e362d4c2c802a54fcbf04f9d3fb892b4cf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/77fa7995ac1b21ab60769b7323d600a991a90433",
-                "reference": "77fa7995ac1b21ab60769b7323d600a991a90433",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/60328e362d4c2c802a54fcbf04f9d3fb892b4cf8",
+                "reference": "60328e362d4c2c802a54fcbf04f9d3fb892b4cf8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
-            "time": "2024-05-31T15:07:36+00:00",
+            "time": "2024-09-09T11:45:10+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1686,7 +1700,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.30.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.31.0"
             },
             "funding": [
                 {

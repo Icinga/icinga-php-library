@@ -11,14 +11,16 @@ class GreaterThanValidator extends BaseValidator
 {
     use Translation;
 
-    /** @var mixed Comparison value for greater than */
+    /** @var int|float Comparison value for greater than */
     protected $min;
 
     /**
      * Create a new GreaterThanValidator
      *
      * Optional options:
-     * - min: (scalar) Comparison value for greater than, default 0
+     * - min: (int|float) Comparison value for greater than, default 0
+     *
+     * @param array{min?: int|float} $options
      */
     public function __construct(array $options = [])
     {
@@ -28,7 +30,7 @@ class GreaterThanValidator extends BaseValidator
     /**
      * Get the min option
      *
-     * @return mixed
+     * @return int|float
      */
     public function getMin()
     {
@@ -38,7 +40,7 @@ class GreaterThanValidator extends BaseValidator
     /**
      * Set the min option
      *
-     * @param mixed $min
+     * @param int|float $min
      *
      * @return $this
      */
@@ -49,7 +51,12 @@ class GreaterThanValidator extends BaseValidator
         return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param int|float $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

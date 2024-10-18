@@ -4,6 +4,7 @@ namespace ipl\Web\Widget;
 
 use ipl\Html\Attributes;
 use ipl\Html\BaseHtmlElement;
+use ipl\Stdlib\Str;
 
 /**
  * Icon element
@@ -30,9 +31,13 @@ class Icon extends BaseHtmlElement
      */
     public function __construct(string $name, $attributes = null)
     {
+        if (! Str::startsWith($name, 'fa-')) {
+            $name = "fa-$name";
+        }
+
         $this
             ->getAttributes()
-                ->add('class', ['icon', "fa-$name"])
+                ->add('class', ['icon', $name])
                 ->add($attributes);
     }
 
