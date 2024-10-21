@@ -11,7 +11,7 @@ class InArrayValidator extends BaseValidator
 {
     use Translation;
 
-    /** @var array The array */
+    /** @var ?mixed[] The array */
     protected $haystack;
 
     /** @var bool Whether the types of the needle in the haystack should also match */
@@ -25,7 +25,7 @@ class InArrayValidator extends BaseValidator
      * * `haystack`: (`array`) The array
      * * `strict`: (`bool`) Whether the types of the needle in the haystack should also match, default `false`
      *
-     * @param array $options
+     * @param array{haystack?: mixed[], strict?: bool} $options
      */
     public function __construct(array $options = [])
     {
@@ -39,7 +39,7 @@ class InArrayValidator extends BaseValidator
     /**
      * Get the haystack
      *
-     * @return array
+     * @return mixed[]
      */
     public function getHaystack(): array
     {
@@ -49,7 +49,7 @@ class InArrayValidator extends BaseValidator
     /**
      * Set the haystack
      *
-     * @param array $haystack
+     * @param mixed[] $haystack
      *
      * @return $this
      */
@@ -84,7 +84,7 @@ class InArrayValidator extends BaseValidator
         return $this;
     }
 
-    public function isValid($value)
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();
@@ -110,9 +110,9 @@ class InArrayValidator extends BaseValidator
     /**
      * Get the values from the specified array that are not present in the haystack
      *
-     * @param array $values
+     * @param mixed[] $values
      *
-     * @return array Values not found in the haystack
+     * @return mixed[] Values not found in the haystack
      */
     protected function findInvalid(array $values = []): array
     {

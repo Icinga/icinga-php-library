@@ -11,14 +11,16 @@ class LessThanValidator extends BaseValidator
 {
     use Translation;
 
-    /** @var mixed Comparison value for less than */
+    /** @var int|float Comparison value for less than */
     protected $max;
 
     /**
      * Create a new LessThanValidator
      *
      * Optional options:
-     * - max: (int) Comparison value for less than, default 0
+     * - max: (int|float) Comparison value for less than, default 0
+     *
+     * @param array{max?: int|float} $options
      */
     public function __construct(array $options = [])
     {
@@ -28,7 +30,7 @@ class LessThanValidator extends BaseValidator
     /**
      * Get the max option
      *
-     * @return mixed
+     * @return int|float
      */
     public function getMax()
     {
@@ -38,7 +40,7 @@ class LessThanValidator extends BaseValidator
     /**
      * Set the max option
      *
-     * @param mixed $max
+     * @param int|float $max
      *
      * @return $this
      */
@@ -49,7 +51,12 @@ class LessThanValidator extends BaseValidator
         return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param int|float $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();
