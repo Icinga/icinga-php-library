@@ -1,0 +1,88 @@
+// General input styles
+
+.icinga-controls {
+  .uploaded-files {
+    background-color: @default-input-bg;
+  }
+}
+
+form.icinga-form {
+  .uploaded-files {
+    flex: 1 1 auto;
+    width: 0;
+  }
+}
+
+.icinga-controls {
+  .uploaded-files {
+    font-size: inherit;
+    padding: .5em;
+  }
+}
+
+// Button styles
+
+// The `form` selector is only required to overrule the hover effect applied by Icinga Web.
+// It's not required if done by Icinga Web itself, only here because this is applied earlier
+// as it's part of a library.
+form.icinga-controls {
+  button[type="submit"].remove-uploaded-file {
+    all: unset;
+  }
+}
+
+// Schedule Element styles
+
+.icinga-form > .schedule-element,
+.icinga-form > .schedule-element > fieldset {
+  margin-top: 1em;
+
+  > .control-group:first-child {
+    margin-top: 0;
+  }
+}
+
+.icinga-form .schedule-element {
+  .control-group > fieldset > .weekly,
+  .control-group > .ordinal,
+  .control-group > .monthly,
+  .control-group > .annually {
+    flex: 1 1 auto;
+  }
+
+  // TODO: This effectively restricts the weekly fields to always be aligned to the right,
+  //  regardless of the using an icinga-form or not. So this should be removed once we
+  //  have re-implemented the decorators.
+  .control-group > fieldset > .weekly {
+    margin-left: 14em;
+  }
+}
+
+form.icinga-form .control-group {
+  > .monthly,
+  > .ordinal {
+    margin-right: 2em;
+  }
+
+  > .ordinal.annually {
+    margin-right: 1em;
+  }
+}
+
+// TermInput styles
+
+form.icinga-form .control-group {
+  > .term-input-area {
+    flex: 1 1 auto;
+
+    width: auto;
+    &.vertical {
+      width: 0;
+    }
+
+    input[type="text"] {
+      flex: unset;
+      width: 100%;
+    }
+  }
+}
