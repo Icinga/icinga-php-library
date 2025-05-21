@@ -7,14 +7,14 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "7.2.9"
+            "php": "8.2"
         },
         "allow-plugins": {
             "cweagans/composer-patches": true
         }
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=8.2",
         "ipl/html": "^0.8.0",
         "ipl/i18n": "^0.2.0",
         "ipl/orm": "^0.6.0",
