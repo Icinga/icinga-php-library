@@ -8,9 +8,6 @@
         "sort-packages": true,
         "platform": {
             "php": "8.2"
-        },
-        "allow-plugins": {
-            "cweagans/composer-patches": true
         }
     },
     "require": {
@@ -22,8 +19,7 @@
         "ipl/sql": "^0.7.0",
         "ipl/stdlib": "^0.14.0",
         "ipl/validator": "^0.5.0",
-        "ipl/web": "^0.10.0",
-        "cweagans/composer-patches": "~1.0"
+        "ipl/web": "^0.10.0"
     },
     "require-dev": {
     },
@@ -34,13 +30,5 @@
         "post-update-cmd": [
             "AssetLoader::update"
         ]
-    },
-    "extra": {
-        "composer-exit-on-patch-failure": true,
-        "patches": {
-            "ramsey/collection": {
-                "Collection: Add PHP 8.1 support": "patches/ramsey-collection.patch"
-            }
-        }
     }
 }
