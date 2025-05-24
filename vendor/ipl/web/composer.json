@@ -1,0 +1,39 @@
+{
+  "name": "ipl/web",
+  "type": "library",
+  "description": "Icinga PHP Library - Web Components",
+  "keywords": ["html"],
+  "homepage": "https://github.com/Icinga/ipl-web",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ipl\\Web\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Web\\": "tests",
+      "ipl\\Tests\\Html\\": "vendor/ipl/html/tests"
+    }
+  },
+  "require": {
+    "php": ">=8.2",
+    "ext-json": "*",
+    "psr/http-message": "^1.1",
+    "ipl/html": ">=0.8.0",
+    "ipl/i18n": ">=0.2.0",
+    "ipl/orm": ">=0.5.2",
+    "ipl/scheduler": ">=0.1.0",
+    "ipl/stdlib": ">=0.13.0",
+    "fortawesome/font-awesome": "^6",
+    "wikimedia/less.php": "^3.2.1"
+  },
+  "require-dev": {
+    "ipl/html": "dev-main",
+    "ipl/i18n": "dev-main",
+    "ipl/orm": "dev-main",
+    "ipl/scheduler": "dev-main",
+    "ipl/stdlib": "dev-main",
+    "shardj/zf1-future": "^1.22"
+  }
+}
