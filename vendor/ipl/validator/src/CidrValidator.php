@@ -12,6 +12,10 @@ class CidrValidator extends BaseValidator
 {
     use Translation;
 
+    /**
+     * @param string $value
+     * @return bool
+     */
     public function isValid($value): bool
     {
         $this->clearMessages();
