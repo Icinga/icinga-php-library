@@ -1,0 +1,157 @@
+// Layout
+
+.item-layout {
+  // Note that mode specific rules are as strict as possible to avoid conflicts with nested layouts.
+  // Consider an item which contains another item in a different layout mode. Coincidentally, this is
+  // already the case in Icinga DB Web with the last comment flyout.
+
+  .flowing-content(@layout) when (@layout = "default") {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+    min-width: 0;
+    column-gap: .28125em; // calculated &nbsp; width
+
+    > .ellipsize, > .subject { // .subject is compat only, Icinga DB Web used it thoroughly
+      .text-ellipsis();
+    }
+  }
+  .flowing-content(@layout) when (@layout = "detailed") {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: .28125em; // calculated &nbsp; width
+  }
+
+  display: flex;
+
+  .visual {
+    display: flex;
+    flex-direction: column;
+
+    width: auto;
+    padding: .25em 0;
+    margin-right: 1em;
+
+    > i.icon {
+      font-size: 1.5em;
+
+      &::before {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .main {
+    flex: 1 1 auto;
+    padding: .25em 0;
+    width: 0;
+  }
+
+  header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  &.minimal-item-layout > .main > header {
+    max-width: 100%;
+  }
+
+  .caption {
+    p {
+      display: inline-block;
+    }
+
+    img {
+      max-height: 1em;
+    }
+  }
+  &.default-item-layout > .main > .caption {
+    height: 1.5em;
+
+    .text-ellipsis();
+  }
+  &.minimal-item-layout > .main > header > .caption {
+    flex: 1 1 auto;
+    height: 1.5em;
+    width: 0;
+
+    &:not(:empty) {
+      margin-right: 1em;
+    }
+
+    .text-ellipsis();
+  }
+  &.detailed-item-layout > .main > .caption {
+    display: block;
+    overflow: hidden;
+    position: relative;
+
+    .line-clamp(5);
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: .5em;
+  }
+
+  .title {
+    margin-right: 1em;
+  }
+  &.default-item-layout > .main > header > .title {
+    .flowing-content("default");
+  }
+  &.detailed-item-layout > .main > header > .title {
+    .flowing-content("detailed");
+
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+
+  &.default-item-layout > .main > header > .extended-info {
+    .flowing-content("default");
+  }
+  &.detailed-item-layout > .main > header > .extended-info {
+    .flowing-content("detailed");
+  }
+}
+
+// Style
+
+.item-layout {
+  color: @default-text-color-light;
+
+  .caption {
+    i {
+      opacity: 0.8;
+    }
+
+    a {
+      color: @default-text-color;
+    }
+  }
+
+  .title {
+    .subject {
+      color: @default-text-color;
+    }
+
+    a {
+      color: @default-text-color;
+      font-weight: bold;
+
+      &:hover {
+        color: @link-hover-color;
+        text-decoration: none;
+
+        .subject {
+          color: @link-hover-color;
+        }
+      }
+    }
+  }
+}
