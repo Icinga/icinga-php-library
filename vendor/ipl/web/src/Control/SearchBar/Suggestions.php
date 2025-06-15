@@ -8,7 +8,6 @@ use ipl\Html\Attributes;
 use ipl\Html\BaseHtmlElement;
 use ipl\Html\FormattedString;
 use ipl\Html\FormElement\ButtonElement;
-use ipl\Html\FormElement\InputElement;
 use ipl\Html\HtmlElement;
 use ipl\Html\Text;
 use ipl\Stdlib\Contract\Paginatable;
@@ -242,9 +241,15 @@ abstract class Suggestions extends BaseHtmlElement
             $data = new LimitIterator(new IteratorIterator($this->data), 0, self::DEFAULT_LIMIT);
         }
 
+        $noDefault = null;
         foreach ($data as $term => $meta) {
             if (is_int($term)) {
                 $term = $meta;
+            }
+
+            if ($this->searchTerm) {
+                // Only the first exact match will set this to true, any other to false
+                $noDefault = $noDefault === null && $term === $this->searchTerm;
             }
 
             $attributes = [
@@ -290,14 +295,6 @@ abstract class Suggestions extends BaseHtmlElement
             $this->getAttributes()->add('class', 'has-more');
         }
 
-        $showDefault = true;
-        if ($this->searchTerm && $this->count() === 1) {
-            // The default option is only shown if the user's input does not result in an exact match
-            $input = $this->getFirst('li')->getFirst('button');
-            $showDefault = $input->getContent() != $this->searchTerm
-                && $input->getAttributes()->get('data-search')->getValue() != $this->searchTerm;
-        }
-
         if ($this->type === 'column' && ! $this->isEmpty() && ! $this->getFirst('li')->getAttributes()->has('class')) {
             // The column title is only added if there are any suggestions and the first item is not a title already
             $this->prependHtml(new HtmlElement(
@@ -307,7 +304,7 @@ abstract class Suggestions extends BaseHtmlElement
             ));
         }
 
-        if ($showDefault) {
+        if (! $noDefault) {
             $this->assembleDefault();
         }
 
