@@ -1,0 +1,41 @@
+.rounded-corners(@border-radius: 0.4em) {
+  border-radius: @border-radius;
+
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+}
+
+.appearance(@appearance) {
+  -webkit-appearance: @appearance;
+  -moz-appearance: @appearance;
+  -ms-appearance: @appearance;
+  appearance: @appearance;
+}
+
+.box-shadow(@x: 0.2em; @y: 0.2em; @blur: 0.2em; @spread: 0; @color: rgba(83, 83, 83, 0.25)) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.line-clamp(@numOfLines: 2) when (@numOfLines > 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: @numOfLines;
+  -webkit-box-orient: vertical;
+}
+.line-clamp(@numOfLines: 2) when (@numOfLines = "reset") {
+  display: revert;
+  -webkit-line-clamp: initial;
+  -webkit-box-orient: initial;
+}
+
+.text-ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.monospace-font() {
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+}
