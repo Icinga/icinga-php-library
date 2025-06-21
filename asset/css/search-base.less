@@ -1,0 +1,413 @@
+// Style
+
+.search-bar .filter-input-area,
+.term-input-area:not(.vertical) {
+  // Scrollbar style
+
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: var(--searchbar-scrollbar-bg, @searchbar-scrollbar-bg) transparent;
+
+  &::-webkit-scrollbar {
+    display: none;
+    height: .5em;
+  }
+
+  &:hover::-webkit-scrollbar {
+    display: initial;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: .25em;
+    background: var(--searchbar-scrollbar-bg, @searchbar-scrollbar-bg);
+  }
+}
+
+.search-bar,
+.term-input-area {
+  [data-index] input:invalid,
+  [data-index] input.invalid {
+    background-color: var(--search-term-invalid-bg, @search-term-invalid-bg);
+    color: var(--search-term-invalid-color, @search-term-invalid-color);
+  }
+
+  [data-index] input:disabled {
+    background-color: var(--search-term-disabled-bg, @search-term-disabled-bg);
+  }
+
+  .selected input {
+    background-color: var(--search-term-selected-bg, @search-term-selected-bg);
+    color: var(--search-term-selected-color, @search-term-selected-color);
+    font-style: italic;
+  }
+
+  [data-drag-initiator] {
+    cursor: grab;
+  }
+
+  .sortable-drag > label {
+    border: 1px dashed var(--search-term-drag-border-color, @search-term-drag-border-color);
+  }
+
+  .sortable-ghost {
+    opacity: .5;
+  }
+}
+
+fieldset:disabled .term-input-area [data-drag-initiator] {
+  cursor: not-allowed;
+}
+
+.term-input-area {
+  .invalid-reason {
+    padding: .25em;
+    .rounded-corners(.25em);
+    border: 1px solid black;
+    font-weight: bold;
+    background: var(--search-term-invalid-reason-bg, @search-term-invalid-reason-bg);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s, visibility 2s;
+
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+      transition: none;
+    }
+  }
+
+  .remove-action {
+    background: @search-term-remove-action-bg;
+    color: @search-term-remove-action-color;
+    .rounded-corners(0.25em);
+  }
+}
+
+.search-suggestions {
+  background: var(--suggestions-bg, @suggestions-bg);
+  color: var(--suggestions-color, @suggestions-color);
+  border: 1px solid var(--suggestions-border-color, @suggestions-border-color);
+  border-bottom-right-radius: .5em;
+  border-bottom-left-radius:  .5em;
+
+  > ul {
+    list-style-type: none;
+
+    > li {
+      border-top: 1px solid var(--suggestions-separation-bg, @suggestions-separation-bg);
+    }
+    > li.suggestion-title + li {
+      border: none;
+    }
+    > li:not(.default) + li.suggestion-title {
+      border: none;
+    }
+  }
+
+  .default {
+    color: var(--suggestions-default-opt-color, @suggestions-default-opt-color);
+    font-style: italic;
+
+    [type="button"] {
+      background-color: var(--suggestions-default-opt-bg, @suggestions-default-opt-bg);
+    }
+  }
+
+  .suggestion-title {
+    font-size: 80%;
+  }
+
+  .failure-message {
+    font-weight: bold;
+
+    em {
+      font-weight: normal;
+      color: var(--suggestions-failure-message-color, @suggestions-failure-message-color);
+    }
+  }
+
+  .nothing-to-suggest {
+    color: var(--suggestions-color, @suggestions-color);
+  }
+
+  .relation-path {
+    padding: 0 .2em;
+    background-color: var(--suggestions-relation-path-bg, @suggestions-relation-path-bg);
+  }
+
+  [type="button"] {
+    .appearance(none);
+    border: none;
+    background: none;
+  }
+
+  [type="button"]:focus,
+  [type="button"].selected {
+    background: var(--suggestions-focus-bg, @suggestions-focus-bg);
+    color: var(--suggestions-focus-color, @suggestions-focus-color);
+    outline: none;
+
+    .relation-path {
+      background-color: var(--suggestions-relation-path-focus-bg, @suggestions-relation-path-focus-bg);
+    }
+  }
+
+  [type="button"]:not(:focus):hover,
+  [type="button"]:not(.selected):hover {
+    background: var(--suggestions-hover-bg, @suggestions-hover-bg);
+  }
+}
+
+// Layout
+.search-bar .filter-input-area,
+.term-input-area:not(.vertical) {
+  --term-padding-v: .25em;
+  --term-padding-h: .5em;
+
+  overflow: auto hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  // input line-height + (input vertical padding * 2) + approximate scrollbar height
+  height: ~"calc(20px + calc(var(--term-padding-v) * 2) + 10px)";
+
+  // Lets inputs grow based on their contents, Inspired by https://css-tricks.com/auto-growing-inputs-textareas/
+  label {
+    position: relative;
+    display: inline-block;
+    min-width: 2em;
+    height: 100%;
+
+    &::after,
+    input {
+      width: auto;
+      padding: var(--term-padding-v) var(--term-padding-h);
+      resize: none;
+    }
+
+    input {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      line-height: 20/12; // 20 (px) desired / default font size (px)
+    }
+
+    &::after {
+      height: 0;
+      content: attr(data-label);
+      visibility: hidden;
+      white-space: nowrap;
+      padding: 0 7/12em; // 7 (px) desired / default font size (px)
+    }
+  }
+
+  > label {
+    flex: 1 0 auto;
+
+    &::after,
+    input {
+      max-width: none;
+      min-width: 8em;
+    }
+  }
+
+  > .terms {
+    display: inline;
+    flex-shrink: 0;
+
+    label {
+      margin-right: 1px;
+    }
+  }
+
+  &.read-only [data-index] .remove-action {
+    line-height: 20/12;
+    padding: var(--term-padding-v) var(--term-padding-h);
+  }
+}
+
+.term-input-area.vertical {
+  display: flex;
+  flex-direction: column-reverse;
+
+  @itemGap: 1px;
+
+  > .terms {
+    margin-top: @itemGap;
+
+    input {
+      text-overflow: ellipsis;
+    }
+  }
+
+  > div.terms {
+    @termsPerRow: 2;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: @itemGap;
+
+    label {
+      @termWidth: 100%/@termsPerRow;
+      @totalGapWidthPerRow: (@termsPerRow - 1) * @itemGap;
+
+      min-width: ~"calc(@{termWidth} - (@{totalGapWidthPerRow} / @{termsPerRow}))";
+      flex: 1 1 auto;
+    }
+  }
+
+  > ol.terms {
+    padding: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+
+    li:not(:first-child) {
+      margin-top: @itemGap;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: .25em;
+
+      > label {
+        flex: 1 1 auto;
+      }
+
+      > [data-drag-initiator]::before {
+        font-size: 1.75em;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.term-input-area {
+  label input:focus {
+    @labelPad: 7/12em;
+    outline-width: 3px;
+    outline-offset: ~"calc(-@{labelPad} + 3px)";
+  }
+
+  &.read-only {
+    [data-index] {
+      position: relative;
+
+      input {
+        text-align: center;
+        cursor: pointer;
+
+        &:disabled {
+          cursor: default;
+        }
+
+        + i {
+          position: absolute;
+          display: none;
+          top: .5em;
+          left: .5em;
+        }
+
+        &:not(:disabled):hover + i,
+        &:not(:disabled):focus + i {
+          display: revert;
+        }
+      }
+
+      .invalid-reason {
+        position: absolute;
+        z-index: 1;
+        top: 85%;
+        left: .5em;
+      }
+
+      .remove-action {
+        display: flex;
+        align-items: center;
+        visibility: visible;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        line-height: normal;
+        padding: 0.5em;
+        cursor: pointer;
+
+        i.icon {
+          margin-left: auto;
+        }
+
+        .remove-action-label {
+          margin-right: auto;
+          .text-ellipsis();
+        }
+      }
+
+      input:invalid ~ .remove-action,
+      input.invalid ~ .remove-action {
+        pointer-events: none;
+      }
+
+      &:not(:hover) .remove-action {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+.search-suggestions {
+  z-index: 2; // Required so that nothing else can overlap it (such as opaque elements and the impact overlay)
+  position: absolute;
+  overflow: auto;
+  min-width: 5em;
+
+  &:empty {
+    display: none;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
+
+    li.suggestion-title {
+      padding: 1.25em .625em 0 .625em;
+    }
+
+    li.failure-message {
+      padding: .5em 1em;
+
+      em {
+        margin-right: .5em;
+      }
+    }
+
+    li.nothing-to-suggest {
+      padding: .5em 1em;
+    }
+  }
+
+  [type="button"] {
+    padding: .5em 1em;
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    &[data-class="operator"], &[data-class="logical_operator"] {
+      text-align: center;
+    }
+
+    &.has-details {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .relation-path {
+      margin-left: .5em;
+
+      &::first-line {
+        font-size: .8em;
+      }
+    }
+  }
+}
