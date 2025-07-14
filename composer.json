@@ -14,7 +14,7 @@
         "php": ">=8.2",
         "ipl/html": "^0.8.0",
         "ipl/i18n": "^0.2.0",
-        "ipl/orm": "^0.6.0",
+        "ipl/orm": "^0.7.0",
         "ipl/scheduler": "^0.1.0",
         "ipl/sql": "^0.7.0",
         "ipl/stdlib": "^0.14.0",
