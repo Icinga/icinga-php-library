@@ -22,9 +22,8 @@ class UnionQuery extends Query
             /** @var UnionModel $model */
             $model = $this->getModel();
             foreach ($model->getUnions() as list($target, $relations, $columns)) {
-                $query = (new Query())
-                    ->setDb($this->getDb())
-                    ->setModel(new $target())
+                /** @var class-string<Model> $target */
+                $query = $target::on($this->getDb())
                     ->columns($columns)
                     ->disableDefaultSort()
                     ->with($relations);

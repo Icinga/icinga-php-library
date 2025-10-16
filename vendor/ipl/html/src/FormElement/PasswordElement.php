@@ -15,6 +15,9 @@ class PasswordElement extends InputElement
     /** @var bool Status of the form */
     protected $isFormValid = true;
 
+    /** @var bool Status indicating if the form got submitted */
+    protected $isFormSubmitted = false;
+
     protected function registerAttributeCallbacks(Attributes $attributes)
     {
         parent::registerAttributeCallbacks($attributes);
@@ -22,11 +25,16 @@ class PasswordElement extends InputElement
         $attributes->registerAttributeCallback(
             'value',
             function () {
-                if ($this->hasValue() && count($this->getValueCandidates()) === 1 && $this->isFormValid) {
+                if (
+                    $this->hasValue()
+                    && count($this->getValueCandidates()) === 1
+                    && $this->isFormValid
+                    && ! $this->isFormSubmitted
+                ) {
                     return self::DUMMYPASSWORD;
                 }
 
-                if (parent::getValue() === self::DUMMYPASSWORD) {
+                if (parent::getValue() === self::DUMMYPASSWORD && count($this->getValueCandidates()) > 1) {
                     return self::DUMMYPASSWORD;
                 }
 
@@ -39,6 +47,10 @@ class PasswordElement extends InputElement
     {
         $form->on(Form::ON_VALIDATE, function ($form) {
             $this->isFormValid = $form->isValid();
+        });
+
+        $form->on(Form::ON_SENT, function ($form) {
+            $this->isFormSubmitted = $form->hasBeenSent();
         });
     }
 

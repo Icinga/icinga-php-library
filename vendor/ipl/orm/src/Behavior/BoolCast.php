@@ -106,6 +106,8 @@ class BoolCast extends PropertyBehavior
                 return true;
             case $this->falseValue === $value:
                 return false;
+            case is_bool($value):
+                return $value;
             default:
                 if ($this->isStrict() && $value !== null) {
                     throw new InvalidArgumentException(sprintf(
