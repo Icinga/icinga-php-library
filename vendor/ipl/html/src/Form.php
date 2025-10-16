@@ -55,7 +55,7 @@ class Form extends BaseHtmlElement
      */
     public static function isEmptyValue($value): bool
     {
-        return $value === null || $value === '' || $value === [];
+        return $value === null || $value === [] || (is_string($value) && trim($value) === '');
     }
 
     /**

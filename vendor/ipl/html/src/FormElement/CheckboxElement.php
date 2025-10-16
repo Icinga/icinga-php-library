@@ -121,4 +121,13 @@ class CheckboxElement extends InputElement
 
         return (new HiddenElement($this->getValueOfNameAttribute(), ['value' => $this->getUncheckedValue()])) . $html;
     }
+
+    /**
+     * Determine if the checkbox is considered "checked".
+     * Returns true if the current value matches the checked value, otherwise false.
+     */
+    public function hasValue(): bool
+    {
+        return $this->getValue() === $this->getCheckedValue();
+    }
 }
