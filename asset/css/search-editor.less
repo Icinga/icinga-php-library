@@ -1,0 +1,206 @@
+// Style
+
+.search-editor {
+  ul, ol {
+    list-style-type: none;
+  }
+
+  fieldset {
+    border: none;
+  }
+
+  button, input[type="submit"] {
+    .appearance(none);
+    background: none;
+
+    &:not(.cancel-button) {
+      border: none;
+    }
+  }
+
+  select:not([multiple]) {
+    .appearance(none);
+    padding-right: 1.5625em;
+    background-image: url('@{iplWebAssets}/img/select-icon-text-color.svg');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: contain;
+    .rounded-corners(0);
+  }
+
+  i.drag-initiator.icon::before {
+    color: var(--search-editor-control-color, @search-editor-control-color);
+  }
+
+  .drag-initiator {
+    cursor: grab;
+  }
+
+  .remove-button {
+    color: var(--search-editor-remove-control-color, @search-editor-remove-control-color);
+  }
+
+  input[type="text"], select {
+    border: none;
+    background: var(--search-term-bg, @search-term-bg);
+    color: var(--search-term-color, @search-term-color);
+    text-overflow: ellipsis;
+  }
+
+  :not(fieldset) > select {
+    .rounded-corners();
+  }
+
+  fieldset > input[data-type="column"] {
+    .rounded-corners(.4em 0 0 .4em);
+  }
+
+  fieldset > input[data-type="value"] {
+    .rounded-corners(0 .4em .4em 0);
+  }
+
+  .search-error {
+    input:invalid {
+      background: var(--search-term-invalid-bg, @search-term-invalid-bg);
+      color: var(--search-term-invalid-color, @search-term-invalid-color);
+    }
+
+    .search-errors {
+      color: var(--search-editor-error-color, @search-editor-error-color);
+      font-weight: bold;
+    }
+  }
+
+  li > select:not([multiple]) {
+    background-color: var(--search-logical-operator-bg, @search-logical-operator-bg);
+    color: var(--search-logical-operator-color, @search-logical-operator-color);
+    .rounded-corners();
+  }
+
+  .sortable-ghost {
+    border: dashed .2em var(--search-editor-drag-outline-color, @search-editor-drag-outline-color);
+
+    fieldset {
+      opacity: .5;
+    }
+  }
+
+  input[type="submit"] {
+    .rounded-corners();
+    background: var(--primary-button-bg, @primary-button-bg);
+    color: var(--primary-button-color, @primary-button-color);
+
+    &:hover {
+      background: var(--primary-button-hover-bg, @primary-button-hover-bg);
+    }
+  }
+}
+
+// Layout
+
+.search-editor-opener + a.modal-opener {
+  display: none;
+}
+
+.search-editor {
+  padding: 1em;
+
+  @item-spacing: .5em;
+
+  ul, ol {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+
+    > .buttons {
+      margin-left: @item-spacing;
+    }
+
+    > select,
+    > fieldset {
+      margin-left: ~"calc(@{item-spacing} + var(--depth))";
+    }
+  }
+
+  ol {
+    > li {
+      margin-top: @item-spacing;
+    }
+  }
+
+  input[type="text"], select {
+    padding: 0 .5em;
+  }
+
+  fieldset {
+    display: flex;
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0;
+
+    input[data-type="column"],
+    input[data-type="value"] {
+      flex: 1 1 auto;
+    }
+
+    > :not(:first-child) {
+      margin-left: .1em;
+    }
+  }
+
+  input, button, select {
+    height: 28/12em; // Target Pixels @ default font size / default font size
+  }
+
+  .search-errors {
+    margin-left: .5em;
+  }
+
+  i.drag-initiator {
+    width: 1.5em; // Not a fan, but the only way to have a known width
+  }
+
+  li > ul:not(.buttons) > li:first-child:not(:has(.drag-initiator)),
+  ol > li:not(:has(.drag-initiator)) {
+    padding-left: 1.5em;
+  }
+
+  i.icon::before {
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 1.5;
+  }
+
+  select + .buttons {
+    display: flex;
+    width: 100%;
+
+    > :last-child {
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  fieldset + .buttons {
+    display: flex;
+    width: auto;
+  }
+
+  .cancel-button {
+    margin-top: 2em - @item-spacing;
+  }
+
+  input[type="submit"] {
+    float: right;
+    width: 6em;
+    margin-top: 2em - @item-spacing;
+  }
+
+  input[type="submit"]:not(:last-of-type) {
+    display: none;
+  }
+}
