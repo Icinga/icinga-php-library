@@ -7,7 +7,7 @@ use ipl\Stdlib\Data;
 abstract class ValidatedTerm
 {
     /** @var string The default validation constraint */
-    const DEFAULT_PATTERN = '^\s*(?!%s\b).*\s*$';
+    public const DEFAULT_PATTERN = '^\s*(?!%s\b).*\s*$';
 
     /** @var string The search value */
     protected $searchValue;

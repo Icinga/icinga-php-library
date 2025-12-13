@@ -45,7 +45,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
      * });
      * ```
      */
-    const ON_SELECT_ASSEMBLED = 'selectAssembled';
+    public const ON_SELECT_ASSEMBLED = 'selectAssembled';
 
     /** @var int Count cache */
     protected $count;

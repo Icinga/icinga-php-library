@@ -56,14 +56,14 @@ trait Databases
      *
      * @return array<string, Connection[]>
      */
-    public function databases(): array
+    public static function databases(): array
     {
         $supportedAdapters = ['mssql', 'mysql', 'oracle', 'pgsql', 'sqlite'];
 
         $connections = [];
         foreach ($supportedAdapters as $driver) {
             if (isset($_SERVER[strtoupper($driver) . '_TESTDB'])) {
-                $connections[$driver] = [$this->createConnection($driver)];
+                $connections[$driver] = [static::createConnection($driver)];
             }
         }
 
@@ -79,7 +79,7 @@ trait Databases
      *
      * @throws RuntimeException if the environment variable is not set
      */
-    private function getEnvVariable(string $name): string
+    private static function getEnvVariable(string $name): string
     {
         $value = getenv($name);
         if ($value === false) {
@@ -96,15 +96,15 @@ trait Databases
      *
      * @return Connection
      */
-    private function createConnection(string $driver): Connection
+    private static function createConnection(string $driver): Connection
     {
         return new Connection([
             'db' => $driver,
-            'host' => $this->getEnvVariable(strtoupper($driver) . '_TESTDB_HOST'),
-            'port' => $this->getEnvVariable(strtoupper($driver) . '_TESTDB_PORT'),
-            'username' => $this->getEnvVariable(strtoupper($driver) . '_TESTDB_USER'),
-            'password' => $this->getEnvVariable(strtoupper($driver) . '_TESTDB_PASSWORD'),
-            'dbname' => $this->getEnvVariable(strtoupper($driver) . '_TESTDB'),
+            'host' => static::getEnvVariable(strtoupper($driver) . '_TESTDB_HOST'),
+            'port' => static::getEnvVariable(strtoupper($driver) . '_TESTDB_PORT'),
+            'username' => static::getEnvVariable(strtoupper($driver) . '_TESTDB_USER'),
+            'password' => static::getEnvVariable(strtoupper($driver) . '_TESTDB_PASSWORD'),
+            'dbname' => static::getEnvVariable(strtoupper($driver) . '_TESTDB'),
         ]);
     }
 
@@ -122,8 +122,8 @@ trait Databases
                 $this->createSchema($providedData[0], $this->dataName());
             }
         } else {
-            $this->createSchema($this->createConnection('mysql'), 'mysql');
-            $this->createSchema($this->createConnection('pgsql'), 'pgsql');
+            $this->createSchema(static::createConnection('mysql'), 'mysql');
+            $this->createSchema(static::createConnection('pgsql'), 'pgsql');
         }
     }
 
@@ -141,8 +141,8 @@ trait Databases
                 $this->dropSchema($providedData[0], $this->dataName());
             }
         } else {
-            $this->dropSchema($this->createConnection('mysql'), 'mysql');
-            $this->dropSchema($this->createConnection('pgsql'), 'pgsql');
+            $this->dropSchema(static::createConnection('mysql'), 'mysql');
+            $this->dropSchema(static::createConnection('pgsql'), 'pgsql');
         }
     }
 }
