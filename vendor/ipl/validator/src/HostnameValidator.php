@@ -18,7 +18,7 @@ class HostnameValidator extends BaseValidator
      *
      * @return boolean
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         $this->clearMessages();
 
@@ -26,7 +26,7 @@ class HostnameValidator extends BaseValidator
         if (filter_var($asciiHostname, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) === false) {
             $this->addMessage(sprintf(
                 $this->translate("%s is not a valid host name."),
-                $value ?? ''
+                $value
             ));
 
             return false;
