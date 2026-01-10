@@ -1,0 +1,38 @@
+// Style
+
+.item-list {
+  list-style-type: none;
+}
+
+.content:has(> .item-list) > .item-list > .empty-state {
+  .empty-state-bar();
+}
+
+// Layout
+
+.item-list {
+  margin: 0;
+  padding: 0;
+
+  > .empty-state-bar {
+    margin: 0 1em;
+  }
+}
+
+.controls .list-item:not(:last-child) {
+  margin-bottom: .5em;
+}
+
+:not(.dashboard) > .container > .content:has(> .item-list), // compat only, for Icinga Web (See #286)
+.content:has(> .item-list) {
+  padding-left: 0;
+  padding-right: 0;
+
+  > .item-list > .list-item {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  > .item-list > .empty-state {
+    margin: 0 1em;
+  }
+}
