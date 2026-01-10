@@ -45,7 +45,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
      * });
      * ```
      */
-    const ON_SELECT_ASSEMBLED = 'selectAssembled';
+    public const ON_SELECT_ASSEMBLED = 'selectAssembled';
 
     /** @var int Count cache */
     protected $count;
@@ -602,7 +602,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
      *
      * @return static
      */
-    public function createSubQuery(Model $target, $targetPath, Model $from = null, bool $link = true)
+    public function createSubQuery(Model $target, $targetPath, ?Model $from = null, bool $link = true)
     {
         $subQuery = (new static())
             ->setDb($this->getDb())
@@ -744,9 +744,9 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
         $columnStorage = new SplObjectStorage();
 
         foreach ($columns as list($target, $alias, $column)) {
-            if (! $columnStorage->contains($target)) {
+            if (! $columnStorage->offsetExists($target)) {
                 $resolved = new ArrayObject();
-                $columnStorage->attach($target, $resolved);
+                $columnStorage->offsetSet($target, $resolved);
             } else {
                 $resolved = $columnStorage[$target];
             }

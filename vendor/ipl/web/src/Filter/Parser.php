@@ -10,10 +10,10 @@ class Parser
     use Events;
 
     /** @var string Emitted for every completely parsed condition */
-    const ON_CONDITION = 'on_condition';
+    public const ON_CONDITION = 'on_condition';
 
     /** @var string Emitted for every completely parsed chain */
-    const ON_CHAIN = 'on_chain';
+    public const ON_CHAIN = 'on_chain';
 
     /** @var string */
     protected $string;

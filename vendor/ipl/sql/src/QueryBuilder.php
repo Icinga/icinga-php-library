@@ -360,11 +360,11 @@ class QueryBuilder
     /**
      * Build the DELETE FROM part of a query
      *
-     * @param array $from
+     * @param ?array $from
      *
      * @return string The DELETE FROM part of a query
      */
-    public function buildDeleteFrom(array $from = null)
+    public function buildDeleteFrom(?array $from = null)
     {
         if ($from === null) {
             return '';
@@ -486,12 +486,12 @@ class QueryBuilder
     /**
      * Build the WHERE part of a query
      *
-     * @param array $where
+     * @param ?array $where
      * @oaram array $values
      *
      * @return string The WHERE part of the query
      */
-    public function buildWhere(array $where = null, array &$values = [])
+    public function buildWhere(?array $where = null, array &$values = [])
     {
         if ($where === null) {
             return '';
@@ -609,12 +609,12 @@ class QueryBuilder
     /**
      * Build the FROM part of a query
      *
-     * @param array $from
+     * @param ?array $from
      * @param array $values
      *
      * @return string The FROM part of the query
      */
-    public function buildFrom(array $from = null, array &$values = [])
+    public function buildFrom(?array $from = null, array &$values = [])
     {
         if ($from === null) {
             return '';
@@ -686,12 +686,12 @@ class QueryBuilder
     /**
      * Build the GROUP BY part of a query
      *
-     * @param array $groupBy
+     * @param ?array $groupBy
      * @param array $values
      *
      * @return string The GROUP BY part of the query
      */
-    public function buildGroupBy(array $groupBy = null, array &$values = [])
+    public function buildGroupBy(?array $groupBy = null, array &$values = [])
     {
         if ($groupBy === null) {
             return '';
@@ -711,12 +711,12 @@ class QueryBuilder
     /**
      * Build the HAVING part of a query
      *
-     * @param array $having
+     * @param ?array $having
      * @param array $values
      *
      * @return string The HAVING part of the query
      */
-    public function buildHaving(array $having = null, array &$values = [])
+    public function buildHaving(?array $having = null, array &$values = [])
     {
         if ($having === null) {
             return '';
@@ -728,12 +728,12 @@ class QueryBuilder
     /**
      * Build the ORDER BY part of a query
      *
-     * @param array $orderBy
+     * @param ?array $orderBy
      * @param array $values
      *
      * @return string The ORDER BY part of the query
      */
-    public function buildOrderBy(array $orderBy = null, array &$values = [])
+    public function buildOrderBy(?array $orderBy = null, array &$values = [])
     {
         if ($orderBy === null) {
             return '';
@@ -798,12 +798,12 @@ class QueryBuilder
     /**
      * Build the UNION parts of a query
      *
-     * @param array $unions
+     * @param ?array $unions
      * @param array $values
      *
      * @return array|null The UNION parts of the query
      */
-    public function buildUnions(array $unions = null, array &$values = [])
+    public function buildUnions(?array $unions = null, array &$values = [])
     {
         if ($unions === null) {
             return null;
@@ -829,11 +829,11 @@ class QueryBuilder
     /**
      * Build the UPDATE {table} part of a query
      *
-     * @param array $updateTable The table to UPDATE
+     * @param ?array $updateTable The table to UPDATE
      *
      * @return string The UPDATE {table} part of the query
      */
-    public function buildUpdateTable(array $updateTable = null)
+    public function buildUpdateTable(?array $updateTable = null)
     {
         if ($updateTable === null) {
             return '';
@@ -857,12 +857,12 @@ class QueryBuilder
     /**
      * Build the SET part of a UPDATE query
      *
-     * @param array $set
+     * @param ?array $set
      * @param array $values
      *
      * @return string The SET part of a UPDATE query
      */
-    public function buildUpdateSet(array $set = null, array &$values = [])
+    public function buildUpdateSet(?array $set = null, array &$values = [])
     {
         if (empty($set)) {
             return '';

@@ -25,9 +25,9 @@ class PriorityQueue extends SplPriorityQueue
      * @param TValue $value
      * @param TPriority $priority
      *
-     * @return bool
+     * @return true
      */
-    public function insert($value, $priority): bool
+    public function insert($value, $priority): true
     {
         return parent::insert($value, [$priority, $this->serial--]);
     }

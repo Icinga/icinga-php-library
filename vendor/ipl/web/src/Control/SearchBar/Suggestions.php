@@ -24,8 +24,8 @@ use function ipl\I18n\t;
 
 abstract class Suggestions extends BaseHtmlElement
 {
-    const DEFAULT_LIMIT = 50;
-    const SUGGESTION_TITLE_CLASS = 'suggestion-title';
+    public const DEFAULT_LIMIT = 50;
+    public const SUGGESTION_TITLE_CLASS = 'suggestion-title';
 
     protected $tag = 'ul';
 

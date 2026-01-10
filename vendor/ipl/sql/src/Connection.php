@@ -210,11 +210,11 @@ class Connection implements Quoter
      * Fetch and return all result rows as sequential array
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute.
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return array
      */
-    public function fetchAll($stmt, array $values = null)
+    public function fetchAll($stmt, ?array $values = null)
     {
         return $this->prepexec($stmt, $values)
             ->fetchAll();
@@ -224,11 +224,11 @@ class Connection implements Quoter
      * Fetch and return the first column of all result rows as sequential array
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute.
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return array
      */
-    public function fetchCol($stmt, array $values = null)
+    public function fetchCol($stmt, ?array $values = null)
     {
         return $this->prepexec($stmt, $values)
             ->fetchAll(PDO::FETCH_COLUMN, 0);
@@ -238,11 +238,11 @@ class Connection implements Quoter
      * Fetch and return the first row of the result rows
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute.
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return array
      */
-    public function fetchOne($stmt, array $values = null)
+    public function fetchOne($stmt, ?array $values = null)
     {
         return $this->prepexec($stmt, $values)
             ->fetch();
@@ -251,7 +251,7 @@ class Connection implements Quoter
     /**
      * Alias of {@link fetchOne()}
      */
-    public function fetchRow($stmt, array $values = null)
+    public function fetchRow($stmt, ?array $values = null)
     {
         return $this->prepexec($stmt, $values)
             ->fetch();
@@ -263,11 +263,11 @@ class Connection implements Quoter
      * First column is the key and the second column is the value.
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute.
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return array
      */
-    public function fetchPairs($stmt, array $values = null)
+    public function fetchPairs($stmt, ?array $values = null)
     {
         return $this->prepexec($stmt, $values)
             ->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -277,11 +277,11 @@ class Connection implements Quoter
      * Fetch and return the first column of the first result row
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute.
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return string
      */
-    public function fetchScalar($stmt, array $values = null)
+    public function fetchScalar($stmt, ?array $values = null)
     {
         return $this->prepexec($stmt, $values)
             ->fetchColumn(0);
@@ -343,11 +343,11 @@ class Connection implements Quoter
      * Yield the first column of each result row
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return \Generator
      */
-    public function yieldCol($stmt, array $values = null)
+    public function yieldCol($stmt, ?array $values = null)
     {
         $sth = $this->prepexec($stmt, $values);
 
@@ -362,11 +362,11 @@ class Connection implements Quoter
      * Yield key-value pairs with the first column as key and the second column as value for each result row
      *
      * @param Select|string $stmt   The SQL statement to prepare and execute
-     * @param array         $values Values to bind to the statement
+     * @param ?array        $values Values to bind to the statement
      *
      * @return \Generator
      */
-    public function yieldPairs($stmt, array $values = null)
+    public function yieldPairs($stmt, ?array $values = null)
     {
         $sth = $this->prepexec($stmt, $values);
 

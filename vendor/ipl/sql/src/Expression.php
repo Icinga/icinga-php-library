@@ -20,10 +20,10 @@ class Expression implements ExpressionInterface
      * Create a new database expression
      *
      * @param string $statement The statement of the expression
-     * @param array $columns The columns used by the expression
+     * @param ?array $columns The columns used by the expression
      * @param mixed  ...$values The values for the expression
      */
-    public function __construct($statement, array $columns = null, ...$values)
+    public function __construct($statement, ?array $columns = null, ...$values)
     {
         $this->statement = $statement;
         $this->columns = $columns;

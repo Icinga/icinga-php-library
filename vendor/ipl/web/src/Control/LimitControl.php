@@ -11,10 +11,10 @@ use ipl\Web\Url;
 class LimitControl extends CompatForm
 {
     /** @var int Default limit */
-    const DEFAULT_LIMIT = 25;
+    public const DEFAULT_LIMIT = 25;
 
     /** @var string Default limit param */
-    const DEFAULT_LIMIT_PARAM = 'limit';
+    public const DEFAULT_LIMIT_PARAM = 'limit';
 
     /** @var int[] Selectable default limits */
     public static $limits = [
