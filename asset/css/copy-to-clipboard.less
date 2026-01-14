@@ -1,0 +1,41 @@
+.clipboard-wrapper {
+  position: relative;
+  > .copy-to-clipboard {
+    margin: 0.1em 0.1em 0 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &:hover {
+    .copy-to-clipboard.active {
+      opacity: 0.8;
+    }
+  }
+}
+
+.copy-to-clipboard {
+  .appearance(none);
+  border: none;
+  opacity: 0;
+  background: none;
+  padding: 0.25em 0.5em;
+  cursor: default;
+
+  &.active {
+    cursor: pointer;
+    &:hover, &:focus {
+      opacity: 0.8;
+      color: var(--control-color, @control-color);
+      outline-offset: -2px;
+    }
+  }
+}
+
+.copy-to-clipboard.active,
+.clipboard-wrapper:hover .copy-to-clipboard.active {
+  &.copied {
+    opacity: 0;
+    transition: opacity 1s linear 3s;
+  }
+}
