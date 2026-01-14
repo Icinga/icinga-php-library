@@ -13,7 +13,7 @@ class DateTimeValidator extends BaseValidator
     use Translation;
 
     /** @var string Default date time format */
-    const FORMAT = 'Y-m-d\TH:i:s';
+    public const FORMAT = 'Y-m-d\TH:i:s';
 
     /** @var bool Whether to use the default date time format */
     protected $local;
@@ -23,9 +23,9 @@ class DateTimeValidator extends BaseValidator
      *
      * @param bool $local
      */
-    public function __construct($local = true)
+    public function __construct(bool $local = true)
     {
-        $this->local = (bool) $local;
+        $this->local = $local;
     }
 
     /**
@@ -35,7 +35,7 @@ class DateTimeValidator extends BaseValidator
      *
      * @return  bool
      */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

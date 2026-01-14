@@ -22,9 +22,9 @@ use ipl\Web\Widget\Icon;
  */
 class IcingaFormDecorator extends DivDecorator
 {
-    const SUBMIT_ELEMENT_CLASS = 'form-controls';
-    const INPUT_ELEMENT_CLASS = 'control-group';
-    const ERROR_CLASS = 'errors';
+    public const SUBMIT_ELEMENT_CLASS = 'form-controls';
+    public const INPUT_ELEMENT_CLASS = 'control-group';
+    public const ERROR_CLASS = 'errors';
 
     protected function assembleElement()
     {

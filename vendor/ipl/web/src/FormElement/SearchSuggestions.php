@@ -231,7 +231,7 @@ class SearchSuggestions extends BaseHtmlElement
         if ($groupingCallback) {
             $provider = yield_groups($this->provider, $groupingCallback);
         } else {
-            $provider = [null => $this->provider];
+            $provider = ['' => $this->provider];
         }
 
         /** @var iterable<?string, array<array<string, string>>> $provider */

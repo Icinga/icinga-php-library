@@ -15,18 +15,19 @@ use UnexpectedValueException;
 
 use function ipl\Stdlib\get_php_type;
 
+/** @implements IteratorAggregate<int, Validator> */
 class ValidatorChain implements Countable, IteratorAggregate, Validator
 {
     use Messages;
     use Plugins;
 
     /** Default priority at which validators are added */
-    const DEFAULT_PRIORITY = 1;
+    public const DEFAULT_PRIORITY = 1;
 
-    /** @var PriorityQueue Validator chain */
+    /** @var PriorityQueue<int, Validator> Validator chain */
     protected $validators;
 
-    /** @var SplObjectStorage Validators that break the chain on failure */
+    /** @var SplObjectStorage<Validator, null> Validators that break the chain on failure */
     protected $validatorsThatBreakTheChain;
 
     /**
@@ -43,7 +44,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Get the validators that break the chain
      *
-     * @return SplObjectStorage
+     * @return SplObjectStorage<Validator, null>
      */
     public function getValidatorsThatBreakTheChain()
     {
@@ -67,7 +68,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
         $this->validators->insert($validator, $priority);
 
         if ($breakChainOnFailure) {
-            $this->validatorsThatBreakTheChain->attach($validator);
+            $this->validatorsThatBreakTheChain->offsetSet($validator);
         }
 
         return $this;
@@ -76,7 +77,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Add the validators from the given validator specification to the chain
      *
-     * @param iterable $validators
+     * @param static|Traversable<int|string, mixed> $validators
      *
      * @return $this
      *
@@ -149,7 +150,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
      *
      * @return $this
      */
-    public function addValidatorLoader($namespace, $postfix = null)
+    public function addValidatorLoader($namespace, $postfix = '')
     {
         $this->addPluginLoader('validator', $namespace, $postfix);
 
@@ -221,8 +222,12 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     {
         $validatorsThatBreakTheChain = $validatorChain->getValidatorsThatBreakTheChain();
 
+        /**
+         * @var  int $priority
+         * @var  Validator $validator
+         */
         foreach ($validatorChain->validators->yieldAll() as $priority => $validator) {
-            $this->add($validator, $validatorsThatBreakTheChain->contains($validator), $priority);
+            $this->add($validator, $validatorsThatBreakTheChain->offsetExists($validator), $priority);
         }
 
         return $this;
@@ -236,11 +241,14 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Export the chain as array
      *
-     * @return array
+     * @return Validator[]
      */
     public function toArray()
     {
-        return array_values(iterator_to_array($this));
+        /** @var Validator[] $validators */
+        $validators = iterator_to_array($this);
+
+        return array_values($validators);
     }
 
     public function count(): int
@@ -251,7 +259,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Get an iterator for traversing the validators
      *
-     * @return Validator[]|PriorityQueue
+     * @return PriorityQueue<int, Validator>
      */
     public function getIterator(): Traversable
     {
@@ -259,7 +267,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
         return clone $this->validators;
     }
 
-    public function isValid($value)
+    public function isValid($value): bool
     {
         $this->clearMessages();
 
@@ -274,7 +282,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
 
             $this->addMessages($validator->getMessages());
 
-            if ($this->validatorsThatBreakTheChain->contains($validator)) {
+            if ($this->validatorsThatBreakTheChain->offsetExists($validator)) {
                 break;
             }
         }

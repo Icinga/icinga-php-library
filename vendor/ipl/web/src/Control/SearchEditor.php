@@ -27,10 +27,10 @@ class SearchEditor extends Form
     use Translation;
 
     /** @var string Emitted for every validated column */
-    const ON_VALIDATE_COLUMN = 'validate-column';
+    public const ON_VALIDATE_COLUMN = 'validate-column';
 
     /** @var string The column name used for empty conditions */
-    const FAKE_COLUMN = '_fake_';
+    public const FAKE_COLUMN = '_fake_';
 
     protected $defaultAttributes = [
         'data-enrichment-type'  => 'search-editor',

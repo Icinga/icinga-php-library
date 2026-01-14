@@ -29,7 +29,7 @@ abstract class BaseTableRowItem extends BaseHtmlElement
      * @param object $item
      * @param BaseItemTable|null $table
      */
-    public function __construct($item, BaseItemTable $table = null)
+    public function __construct($item, ?BaseItemTable $table = null)
     {
         $this->item = $item;
         $this->table = $table;

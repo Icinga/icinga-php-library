@@ -41,7 +41,7 @@ class ButtonLink extends ActionLink
         return parent::createHrefAttribute();
     }
 
-    public function assemble(): void
+    protected function assemble()
     {
         parent::assemble();
 
