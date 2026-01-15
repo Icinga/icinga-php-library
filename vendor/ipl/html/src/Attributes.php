@@ -38,9 +38,9 @@ class Attributes implements ArrayAccess, IteratorAggregate
     /**
      * Create new HTML attributes
      *
-     * @param AttributesType $attributes
+     * @param ?AttributesType $attributes
      */
-    public function __construct(array $attributes = null)
+    public function __construct(?array $attributes = null)
     {
         if (empty($attributes)) {
             return;
@@ -60,11 +60,11 @@ class Attributes implements ArrayAccess, IteratorAggregate
     /**
      * Create new HTML attributes
      *
-     * @param AttributesType $attributes
+     * @param ?AttributesType $attributes
      *
      * @return static
      */
-    public static function create(array $attributes = null)
+    public static function create(?array $attributes = null)
     {
         return new static($attributes);
     }

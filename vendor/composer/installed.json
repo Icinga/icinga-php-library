@@ -489,22 +489,22 @@
         },
         {
             "name": "ipl/html",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-support-php-85",
+            "version_normalized": "dev-support-php-85",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
-                "reference": "08b34b355f7c8f63d3a1b97d783686833872abab"
+                "reference": "63dee376161f070611239b181ec79b6d481e297f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-html/zipball/08b34b355f7c8f63d3a1b97d783686833872abab",
-                "reference": "08b34b355f7c8f63d3a1b97d783686833872abab",
+                "url": "https://api.github.com/repos/Icinga/ipl-html/zipball/63dee376161f070611239b181ec79b6d481e297f",
+                "reference": "63dee376161f070611239b181ec79b6d481e297f",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
-                "guzzlehttp/psr7": "^2.5",
+                "guzzlehttp/psr7": "^2.8",
                 "ipl/stdlib": ">=0.12.0",
                 "ipl/validator": ">=0.5.0",
                 "php": ">=8.2",
@@ -515,8 +515,7 @@
                 "ipl/stdlib": "dev-main",
                 "ipl/validator": "dev-main"
             },
-            "time": "2025-12-11T12:10:00+00:00",
-            "default-branch": true,
+            "time": "2025-12-12T15:22:35+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -535,7 +534,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-html/issues",
-                "source": "https://github.com/Icinga/ipl-html/tree/main"
+                "source": "https://github.com/Icinga/ipl-html/tree/support-php-85"
             },
             "install-path": "../ipl/html"
         },

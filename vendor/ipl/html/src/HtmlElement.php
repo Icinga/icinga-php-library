@@ -13,10 +13,10 @@ class HtmlElement extends BaseHtmlElement
      * Create a new HTML element from the given tag, attributes and content
      *
      * @param string     $tag        The tag for the element
-     * @param Attributes $attributes The HTML attributes for the element
+     * @param ?Attributes $attributes The HTML attributes for the element
      * @param ValidHtml  ...$content The content of the element
      */
-    public function __construct($tag, Attributes $attributes = null, ValidHtml ...$content)
+    public function __construct($tag, ?Attributes $attributes = null, ValidHtml ...$content)
     {
         $this->tag = $tag;
 

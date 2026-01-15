@@ -68,6 +68,9 @@ class RadioElement extends BaseFormElement
      */
     public function getOption($value): RadioOption
     {
+        // php>=8.5 does not support null as array key
+        $value = $value ?? '';
+
         if (! isset($this->options[$value])) {
             throw new InvalidArgumentException(sprintf('There is no such option "%s"', $value));
         }
