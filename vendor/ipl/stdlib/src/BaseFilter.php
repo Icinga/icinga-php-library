@@ -32,11 +32,11 @@ trait BaseFilter
     /**
      * Set the base filter
      *
-     * @param Rule $baseFilter
+     * @param ?Rule $baseFilter
      *
      * @return $this
      */
-    public function setBaseFilter(Rule $baseFilter = null): self
+    public function setBaseFilter(?Rule $baseFilter = null): self
     {
         $this->baseFilter = $baseFilter;
 

@@ -15,19 +15,20 @@ use UnexpectedValueException;
 
 use function ipl\Stdlib\get_php_type;
 
+/** @implements IteratorAggregate<int, Validator> */
 class ValidatorChain implements Countable, IteratorAggregate, Validator
 {
     use Messages;
     use Plugins;
 
     /** Default priority at which validators are added */
-    const DEFAULT_PRIORITY = 1;
+    public const DEFAULT_PRIORITY = 1;
 
-    /** @var PriorityQueue Validator chain */
-    protected $validators;
+    /** @var PriorityQueue<int, Validator> Validator chain */
+    protected PriorityQueue $validators;
 
-    /** @var SplObjectStorage Validators that break the chain on failure */
-    protected $validatorsThatBreakTheChain;
+    /** @var SplObjectStorage<Validator, null> Validators that break the chain on failure */
+    protected SplObjectStorage $validatorsThatBreakTheChain;
 
     /**
      * Create a new validator chain
@@ -43,9 +44,9 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Get the validators that break the chain
      *
-     * @return SplObjectStorage
+     * @return SplObjectStorage<Validator, null>
      */
-    public function getValidatorsThatBreakTheChain()
+    public function getValidatorsThatBreakTheChain(): SplObjectStorage
     {
         return $this->validatorsThatBreakTheChain;
     }
@@ -56,18 +57,20 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
      * If $breakChainOnFailure is true and the validator fails, subsequent validators won't be executed.
      *
      * @param Validator $validator
-     * @param bool      $breakChainOnFailure
-     * @param int       $priority            Priority at which to add validator
+     * @param bool $breakChainOnFailure
+     * @param int $priority Priority at which to add validator
      *
      * @return $this
-     *
      */
-    public function add(Validator $validator, $breakChainOnFailure = false, $priority = self::DEFAULT_PRIORITY)
-    {
+    public function add(
+        Validator $validator,
+        bool $breakChainOnFailure = false,
+        int $priority = self::DEFAULT_PRIORITY
+    ): static {
         $this->validators->insert($validator, $priority);
 
         if ($breakChainOnFailure) {
-            $this->validatorsThatBreakTheChain->attach($validator);
+            $this->validatorsThatBreakTheChain->offsetSet($validator);
         }
 
         return $this;
@@ -76,13 +79,13 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Add the validators from the given validator specification to the chain
      *
-     * @param iterable $validators
+     * @param static|Traversable<int|string, mixed> $validators
      *
      * @return $this
      *
      * @throws InvalidArgumentException If $validators is not iterable or if the validator specification is invalid
      */
-    public function addValidators($validators)
+    public function addValidators($validators): static
     {
         if ($validators instanceof static) {
             return $this->merge($validators);
@@ -145,11 +148,11 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
      * Add a validator loader
      *
      * @param string $namespace Namespace of the validators
-     * @param string $postfix   Validator name postfix, if any
+     * @param string $postfix Validator name postfix, if any
      *
      * @return $this
      */
-    public function addValidatorLoader($namespace, $postfix = null)
+    public function addValidatorLoader(string $namespace, string $postfix = ''): static
     {
         $this->addPluginLoader('validator', $namespace, $postfix);
 
@@ -161,7 +164,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
      *
      * @return $this
      */
-    public function clearValidators()
+    public function clearValidators(): static
     {
         $this->validators = new PriorityQueue();
         $this->validatorsThatBreakTheChain = new SplObjectStorage();
@@ -173,14 +176,14 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
      * Create a validator from the given name and options
      *
      * @param string $name
-     * @param mixed  $options
+     * @param mixed $options
      *
      * @return Validator
      *
      * @throws InvalidArgumentException If the validator to load is unknown
      * @throws UnexpectedValueException If a validator loader did not return an instance of {@link Validator}
      */
-    public function createValidator($name, $options = null)
+    public function createValidator(string $name, mixed $options = null): Validator
     {
         $class = $this->loadPlugin('validator', $name);
 
@@ -217,12 +220,16 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
      *
      * @return $this
      */
-    public function merge(ValidatorChain $validatorChain)
+    public function merge(ValidatorChain $validatorChain): static
     {
         $validatorsThatBreakTheChain = $validatorChain->getValidatorsThatBreakTheChain();
 
+        /**
+         * @var  int $priority
+         * @var  Validator $validator
+         */
         foreach ($validatorChain->validators->yieldAll() as $priority => $validator) {
-            $this->add($validator, $validatorsThatBreakTheChain->contains($validator), $priority);
+            $this->add($validator, $validatorsThatBreakTheChain->offsetExists($validator), $priority);
         }
 
         return $this;
@@ -236,11 +243,14 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Export the chain as array
      *
-     * @return array
+     * @return Validator[]
      */
-    public function toArray()
+    public function toArray(): array
     {
-        return array_values(iterator_to_array($this));
+        /** @var Validator[] $validators */
+        $validators = iterator_to_array($this);
+
+        return array_values($validators);
     }
 
     public function count(): int
@@ -251,15 +261,15 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
     /**
      * Get an iterator for traversing the validators
      *
-     * @return Validator[]|PriorityQueue
+     * @return PriorityQueue<int, Validator>
      */
     public function getIterator(): Traversable
     {
-         // Clone validators because the PriorityQueue acts as a heap and thus items are removed upon iteration
+        // Clone validators because the PriorityQueue acts as a heap and thus items are removed upon iteration
         return clone $this->validators;
     }
 
-    public function isValid($value)
+    public function isValid($value): bool
     {
         $this->clearMessages();
 
@@ -274,7 +284,7 @@ class ValidatorChain implements Countable, IteratorAggregate, Validator
 
             $this->addMessages($validator->getMessages());
 
-            if ($this->validatorsThatBreakTheChain->contains($validator)) {
+            if ($this->validatorsThatBreakTheChain->offsetExists($validator)) {
                 break;
             }
         }

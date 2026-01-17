@@ -3,7 +3,6 @@
 namespace ipl\Validator;
 
 use InvalidArgumentException;
-use ipl\I18n\Translation;
 use LogicException;
 
 /**
@@ -11,24 +10,24 @@ use LogicException;
  */
 class StringLengthValidator extends BaseValidator
 {
-    use Translation;
+    /** @var int Minimum required length */
+    protected int $min;
 
-    /** @var mixed Minimum required length */
-    protected $min;
-
-    /** @var mixed Maximum required length */
-    protected $max;
+    /** @var ?int Maximum required length */
+    protected ?int $max = null;
 
     /** @var ?string Encoding to use */
-    protected $encoding;
+    protected ?string $encoding;
 
     /**
      * Create a new StringLengthValidator
      *
      * Optional options:
-     * - min: (scalar) Minimum required string length, default 0
-     * - max: (scalar) Maximum required string length, default null
-     * - encoding: (string) Encoding type, default null
+     * - min: (int) Minimum required string length, default 0
+     * - max: (int) Maximum required string length, default none
+     * - encoding: (string) Encoding type, default none
+     *
+     * @param array{min?: int, max?: int, encoding?: string} $options
      */
     public function __construct(array $options = [])
     {
@@ -41,9 +40,9 @@ class StringLengthValidator extends BaseValidator
     /**
      * Get the minimum required string length
      *
-     * @return mixed
+     * @return int
      */
-    public function getMin()
+    public function getMin(): int
     {
         return $this->min;
     }
@@ -51,13 +50,13 @@ class StringLengthValidator extends BaseValidator
     /**
      * Set the minimum required string length
      *
-     * @param mixed $min
+     * @param int $min
      *
      * @return $this
      *
      * @throws LogicException When the $min is greater than the $max value
      */
-    public function setMin($min): self
+    public function setMin(int $min): static
     {
         if ($this->getMax() !== null && $min > $this->getMax()) {
             throw new LogicException(
@@ -77,9 +76,9 @@ class StringLengthValidator extends BaseValidator
     /**
      * Get the maximum required string length
      *
-     * @return mixed
+     * @return ?int
      */
-    public function getMax()
+    public function getMax(): ?int
     {
         return $this->max;
     }
@@ -87,13 +86,13 @@ class StringLengthValidator extends BaseValidator
     /**
      * Set the minimum required string length
      *
-     * @param mixed $max
+     * @param ?int $max
      *
      * @return $this
      *
      * @throws LogicException When the $min is greater than the $max value
      */
-    public function setMax($max): self
+    public function setMax(?int $max): static
     {
         if ($max !== null && $this->getMin() > $max) {
             throw new LogicException(
@@ -127,7 +126,7 @@ class StringLengthValidator extends BaseValidator
      *
      * @return $this
      */
-    public function setEncoding(?string $encoding): self
+    public function setEncoding(?string $encoding): static
     {
         if ($encoding !== null) {
             $availableEncodings = array_map('strtolower', mb_list_encodings());
@@ -140,10 +139,15 @@ class StringLengthValidator extends BaseValidator
 
         $this->encoding = $encoding;
 
-        return  $this;
+        return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param string $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

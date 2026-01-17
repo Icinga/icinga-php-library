@@ -30,8 +30,8 @@ trait Promises
      */
     protected function addPromise(UuidInterface $uuid, PromiseInterface $promise): self
     {
-        if (! $this->promises->contains($uuid)) {
-            $this->promises->attach($uuid, new ArrayObject());
+        if (! $this->promises->offsetExists($uuid)) {
+            $this->promises->offsetSet($uuid, new ArrayObject());
         }
 
         $this->promises[$uuid][] = $promise;
@@ -60,7 +60,7 @@ trait Promises
      */
     protected function removePromise(UuidInterface $uuid, PromiseInterface $promise): self
     {
-        if (! $this->promises->contains($uuid)) {
+        if (! $this->promises->offsetExists($uuid)) {
             throw new InvalidArgumentException(
                 sprintf('There are no registered promises for UUID %s', $uuid->toString())
             );
@@ -96,12 +96,12 @@ trait Promises
      */
     protected function detachPromises(UuidInterface $uuid): array
     {
-        if (! $this->promises->contains($uuid)) {
+        if (! $this->promises->offsetExists($uuid)) {
             return [];
         }
 
         $promises = $this->promises[$uuid];
-        $this->promises->detach($uuid);
+        $this->promises->offsetUnset($uuid);
 
         return $promises->getArrayCopy();
     }

@@ -2,23 +2,21 @@
 
 namespace ipl\Validator;
 
-use ipl\I18n\Translation;
-
 /**
  * Validates whether the value is less than the given max
  */
 class LessThanValidator extends BaseValidator
 {
-    use Translation;
-
-    /** @var mixed Comparison value for less than */
-    protected $max;
+    /** @var int|float Comparison value for less than */
+    protected int|float $max;
 
     /**
      * Create a new LessThanValidator
      *
      * Optional options:
-     * - max: (int) Comparison value for less than, default 0
+     * - max: (int|float) Comparison value for less than, default 0
+     *
+     * @param array{max?: int|float} $options
      */
     public function __construct(array $options = [])
     {
@@ -28,9 +26,9 @@ class LessThanValidator extends BaseValidator
     /**
      * Get the max option
      *
-     * @return mixed
+     * @return int|float
      */
-    public function getMax()
+    public function getMax(): int|float
     {
         return $this->max;
     }
@@ -38,18 +36,23 @@ class LessThanValidator extends BaseValidator
     /**
      * Set the max option
      *
-     * @param mixed $max
+     * @param int|float $max
      *
      * @return $this
      */
-    public function setMax($max): self
+    public function setMax(int|float $max): static
     {
         $this->max = $max;
 
         return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param int|float $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

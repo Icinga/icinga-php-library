@@ -2,7 +2,6 @@
 
 namespace ipl\Validator;
 
-use ipl\I18n\Translation;
 use ipl\Stdlib\Str;
 use LogicException;
 use Psr\Http\Message\UploadedFileInterface;
@@ -12,19 +11,17 @@ use Psr\Http\Message\UploadedFileInterface;
  */
 class FileValidator extends BaseValidator
 {
-    use Translation;
-
     /** @var int Minimum allowed file size */
-    protected $minSize;
+    protected int $minSize;
 
     /** @var ?int Maximum allowed file size */
-    protected $maxSize;
+    protected ?int $maxSize = null;
 
     /** @var ?string[] Allowed mime types */
-    protected $allowedMimeTypes;
+    protected ?array $allowedMimeTypes;
 
     /** @var ?int Maximum allowed file name length */
-    protected $maxFileNameLength;
+    protected ?int $maxFileNameLength;
 
     /**
      * Create a new FileValidator
@@ -34,6 +31,8 @@ class FileValidator extends BaseValidator
      * - maxSize: (int) Maximum allowed file size, by default no limit
      * - maxFileNameLength: (int) Maximum allowed file name length, by default no limit
      * - mimeType: (array) Allowed mime types, by default no restriction
+     *
+     * @param array{minSize?: int, maxSize?: int, maxFileNameLength?: int, mimeType?: string[]} $options
      */
     public function __construct(array $options = [])
     {
@@ -61,7 +60,7 @@ class FileValidator extends BaseValidator
      *
      * @return $this
      */
-    public function setMinSize(int $minSize): self
+    public function setMinSize(int $minSize): static
     {
         if (($max = $this->getMaxSize()) !== null && $minSize > $max) {
             throw new LogicException(
@@ -95,7 +94,7 @@ class FileValidator extends BaseValidator
      *
      * @return $this
      */
-    public function setMaxSize(?int $maxSize): self
+    public function setMaxSize(?int $maxSize): static
     {
         if ($maxSize !== null && ($min = $this->getMinSize()) !== null && $maxSize < $min) {
             throw new LogicException(
@@ -129,7 +128,7 @@ class FileValidator extends BaseValidator
      *
      * @return $this
      */
-    public function setAllowedMimeTypes(?array $allowedMimeTypes): self
+    public function setAllowedMimeTypes(?array $allowedMimeTypes): static
     {
         $this->allowedMimeTypes = $allowedMimeTypes;
 
@@ -153,14 +152,18 @@ class FileValidator extends BaseValidator
      *
      * @return $this
      */
-    public function setMaxFileNameLength(?int $maxFileNameLength): self
+    public function setMaxFileNameLength(?int $maxFileNameLength): static
     {
         $this->maxFileNameLength = $maxFileNameLength;
 
         return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param UploadedFileInterface|UploadedFileInterface[] $value
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();
@@ -185,7 +188,7 @@ class FileValidator extends BaseValidator
         if ($this->getMaxSize() && $file->getSize() > $this->getMaxSize()) {
             $this->addMessage(sprintf(
                 $this->translate('File %s is bigger than the allowed maximum size of %d'),
-                $file->getClientFileName(),
+                $file->getClientFilename(),
                 $this->getMaxSize()
             ));
 
@@ -195,7 +198,7 @@ class FileValidator extends BaseValidator
         if ($this->getMinSize() && $file->getSize() < $this->getMinSize()) {
             $this->addMessage(sprintf(
                 $this->translate('File %s is smaller than the minimum required size of %d'),
-                $file->getClientFileName(),
+                $file->getClientFilename(),
                 $this->getMinSize()
             ));
 
@@ -205,7 +208,7 @@ class FileValidator extends BaseValidator
         if ($this->getMaxFileNameLength()) {
             $strValidator = new StringLengthValidator(['max' => $this->getMaxFileNameLength()]);
 
-            if (! $strValidator->isValid($file->getClientFilename())) {
+            if (! $strValidator->isValid($file->getClientFilename() ?? '')) {
                 $this->addMessage(sprintf(
                     $this->translate('File name is longer than the allowed length of %d characters.'),
                     $this->maxFileNameLength
@@ -217,26 +220,29 @@ class FileValidator extends BaseValidator
 
         if (! empty($this->getAllowedMimeTypes())) {
             $hasAllowedMimeType = false;
-            foreach ($this->getAllowedMimeTypes() as $type) {
-                $fileMimetype = $file->getClientMediaType();
-                if (($pos = strpos($type, '/*')) !== false) { // image/*
-                    $typePrefix = substr($type, 0, $pos);
-                    if (Str::startsWith($fileMimetype, $typePrefix)) {
+            $fileMimetype = $file->getClientMediaType();
+
+            if ($fileMimetype) {
+                foreach ($this->getAllowedMimeTypes() as $type) {
+                    if (($pos = strpos($type, '/*')) !== false) { // image/*
+                        $typePrefix = substr($type, 0, $pos);
+                        if (Str::startsWith($fileMimetype, $typePrefix)) {
+                            $hasAllowedMimeType = true;
+                            break;
+                        }
+                    } elseif ($fileMimetype === $type) { // image/png
                         $hasAllowedMimeType = true;
                         break;
                     }
-                } elseif ($fileMimetype === $type) { // image/png
-                    $hasAllowedMimeType = true;
-                    break;
                 }
             }
 
             if (! $hasAllowedMimeType) {
                 $this->addMessage(sprintf(
                     $this->translate('File %s is of type %s. Only %s allowed.'),
-                    $file->getClientFileName(),
+                    $file->getClientFilename(),
                     $file->getClientMediaType(),
-                    implode(', ', $this->allowedMimeTypes)
+                    implode(', ', $this->allowedMimeTypes ?? [])
                 ));
 
                 $isValid = false;

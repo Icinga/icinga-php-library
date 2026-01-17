@@ -3,7 +3,6 @@
 namespace ipl\Validator;
 
 use Exception;
-use ipl\I18n\Translation;
 
 /**
  * Validates an email address
@@ -16,21 +15,19 @@ use ipl\I18n\Translation;
  */
 class EmailAddressValidator extends BaseValidator
 {
-    use Translation;
-
     /**
      * If MX check should be enabled
      *
      * @var bool
      */
-    protected $mx = false;
+    protected bool $mx = false;
 
     /**
      * If a deep MX check should be enabled
      *
      * @var bool
      */
-    protected $deep = false;
+    protected bool $deep = false;
 
     /**
      * Create a new E-mail address validator with optional options
@@ -40,7 +37,7 @@ class EmailAddressValidator extends BaseValidator
      * 'mx'   => If an MX check should be enabled, boolean
      * 'deep' => If a deep MX check should be enabled, boolean
      *
-     * @param array $options
+     * @param array{max?: bool, deep?: bool} $options
      *
      * @throws Exception
      */
@@ -64,7 +61,7 @@ class EmailAddressValidator extends BaseValidator
      *
      * @return $this
      */
-    public function setEnableMxCheck(bool $mx = true): self
+    public function setEnableMxCheck(bool $mx = true): static
     {
         $this->mx = $mx;
 
@@ -83,7 +80,7 @@ class EmailAddressValidator extends BaseValidator
      *
      * @throws Exception in case MX check has not been enabled
      */
-    public function setEnableDeepMxCheck(bool $deep = true): self
+    public function setEnableDeepMxCheck(bool $deep = true): static
     {
         if (! $this->mx) {
             throw new Exception("MX record check has to be enabled to enable deep MX record check");
@@ -266,7 +263,8 @@ class EmailAddressValidator extends BaseValidator
         //decode IDN domain name
         $decodedHostname = idn_to_ascii($hostname, 0, INTL_IDNA_VARIANT_UTS46);
 
-        $result = getmxrr($decodedHostname, $mxHosts);
+        $result = $decodedHostname && getmxrr($decodedHostname, $mxHosts);
+
         if (! $result) {
             $this->addMessage(sprintf(
                 $this->translate("'%s' does not appear to have a valid MX record for the email address '%s'"),
@@ -275,7 +273,7 @@ class EmailAddressValidator extends BaseValidator
             ));
         } elseif ($this->deep) {
             $validAddress = false;
-            $reserved     = true;
+            $reserved = true;
             foreach ($mxHosts as $decodedHostname) {
                 $res = $this->isReserved($decodedHostname);
                 if (! $res) {

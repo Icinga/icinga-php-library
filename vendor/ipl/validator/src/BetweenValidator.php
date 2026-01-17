@@ -3,20 +3,17 @@
 namespace ipl\Validator;
 
 use Exception;
-use ipl\I18n\Translation;
 
 /**
  * Validates whether value is between the given min and max
  */
 class BetweenValidator extends BaseValidator
 {
-    use Translation;
+    /** @var int|float Min value */
+    protected int|float $min;
 
-    /** @var mixed Min value */
-    protected $min;
-
-    /** @var mixed Max value */
-    protected $max;
+    /** @var int|float Max value */
+    protected int|float $max;
 
     /**
      * Whether to do inclusive comparisons, allowing equivalence to min and/or max
@@ -24,23 +21,23 @@ class BetweenValidator extends BaseValidator
      * If false, then strict comparisons are done, and the value may equal neither
      * the min nor max options
      *
-     * @var boolean
+     * @var bool
      */
-    protected $inclusive;
+    protected bool $inclusive;
 
     /**
      * Create a new BetweenValidator
      *
      * Required options:
      *
-     * - min: (scalar) Minimum border
-     * - max: (scalar) Maximum border
+     * - min: (int|float) Minimum border
+     * - max: (int|float) Maximum border
      *
      * Optional options:
      *
      * - inclusive: (bool) Whether inclusive border values, default true
      *
-     * @param array $options
+     * @param array{min: int|float, max: int|float, inclusive?: bool} $options
      *
      * @throws Exception When required option is missing
      */
@@ -58,9 +55,9 @@ class BetweenValidator extends BaseValidator
     /**
      * Return the min option
      *
-     * @return mixed
+     * @return int|float
      */
-    public function getMin()
+    public function getMin(): int|float
     {
         return $this->min;
     }
@@ -68,11 +65,11 @@ class BetweenValidator extends BaseValidator
     /**
      * Set the min option
      *
-     * @param  mixed $min
+     * @param int|float $min
      *
      * @return $this
      */
-    public function setMin($min): self
+    public function setMin(int|float $min): static
     {
         $this->min = $min;
 
@@ -82,9 +79,9 @@ class BetweenValidator extends BaseValidator
     /**
      * Return the max option
      *
-     * @return mixed
+     * @return int|float
      */
-    public function getMax()
+    public function getMax(): int|float
     {
         return $this->max;
     }
@@ -92,11 +89,11 @@ class BetweenValidator extends BaseValidator
     /**
      * Set the max option
      *
-     * @param  mixed $max
+     * @param int|float $max
      *
      * @return $this
      */
-    public function setMax($max): self
+    public function setMax(int|float $max): static
     {
         $this->max = $max;
 
@@ -116,18 +113,23 @@ class BetweenValidator extends BaseValidator
     /**
      * Set the inclusive option
      *
-     * @param  bool $inclusive
+     * @param bool $inclusive
      *
      * @return $this
      */
-    public function setInclusive($inclusive = true): self
+    public function setInclusive(bool $inclusive = true): static
     {
-        $this->inclusive = (bool) $inclusive;
+        $this->inclusive = $inclusive;
 
         return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param int|float $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

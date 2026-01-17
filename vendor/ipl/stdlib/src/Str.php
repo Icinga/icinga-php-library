@@ -76,7 +76,7 @@ class Str
      *
      * @return array<string>
      */
-    public static function trimSplit(?string $subject, string $delimiter = ',', int $limit = null)
+    public static function trimSplit(?string $subject, string $delimiter = ',', ?int $limit = null)
     {
         if ($subject === null || empty($delimiter)) {
             return [];

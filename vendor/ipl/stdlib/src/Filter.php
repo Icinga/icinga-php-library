@@ -536,11 +536,7 @@ class Filter
      */
     protected function extractValue($column, $row)
     {
-        try {
-            return $row->{$column};
-        } catch (Throwable $_) {
-            return null;
-        }
+        return $row->$column ?? null;
     }
 
     /**
