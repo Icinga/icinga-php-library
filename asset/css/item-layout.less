@@ -1,0 +1,178 @@
+// Layout
+
+.item-layout {
+  // Note that mode specific rules are as strict as possible to avoid conflicts with nested layouts.
+  // Consider an item which contains another item in a different layout mode. Coincidentally, this is
+  // already the case in Icinga DB Web with the last comment flyout.
+
+  .flowing-content(@layout) when (@layout = "default") {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+    min-width: 0;
+    column-gap: .28125em; // calculated &nbsp; width
+
+    > .ellipsize, > .subject { // .subject is compat only, Icinga DB Web used it thoroughly
+      .text-ellipsis();
+    }
+  }
+  .flowing-content(@layout) when (@layout = "detailed") {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: .28125em; // calculated &nbsp; width
+  }
+
+  display: flex;
+
+  .visual {
+    display: flex;
+    flex-direction: column;
+
+    width: auto;
+    padding: .25em 0;
+    margin-right: 1em;
+
+    > i.icon {
+      font-size: 1.5em;
+
+      &::before {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .main {
+    flex: 1 1 auto;
+    padding: .25em 0;
+    width: 0;
+  }
+
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    > .extended-info {
+      flex-shrink: 0;
+    }
+  }
+
+  .caption {
+    p {
+      display: inline-block;
+    }
+
+    img {
+      max-height: 1em;
+    }
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: .5em;
+  }
+
+  .title {
+    margin-right: 1em;
+  }
+
+  &.minimal-item-layout > .main > header {
+    max-width: 100%;
+    height: 1.5em;
+
+    > .caption {
+      flex: 1 1 auto;
+      height: 1.5em;
+      width: 0;
+      margin-right: 1em;
+
+      &:empty {
+        display: none; // not for Common/detailed, as it would not take up any height, making the list items appear smaller.
+      }
+
+      .text-ellipsis();
+    }
+  }
+
+  &.default-item-layout > .main {
+    > header {
+      height: 1.5em;
+
+      > .title {
+        .flowing-content("default");
+      }
+
+      > .extended-info {
+        .flowing-content("default");
+      }
+    }
+
+    > .caption {
+      height: 1.5em;
+
+      .text-ellipsis();
+    }
+  }
+
+  &.detailed-item-layout > .main {
+    > header {
+      > .title {
+        .flowing-content("detailed");
+
+        word-break: break-word;
+        hyphens: auto;
+      }
+
+      > .extended-info {
+        .flowing-content("detailed");
+      }
+    }
+
+    > .caption {
+      display: block;
+      overflow: hidden;
+      position: relative;
+
+      .line-clamp(5);
+    }
+  }
+}
+
+// Style
+
+.item-layout {
+  color: var(--default-text-color-light, @default-text-color-light);
+
+  .caption {
+    i {
+      opacity: 0.8;
+    }
+
+    a {
+      color: var(--default-text-color, @default-text-color);
+    }
+  }
+
+  .title {
+    .subject {
+      color: var(--default-text-color, @default-text-color);
+    }
+
+    a {
+      color: var(--default-text-color, @default-text-color);
+      font-weight: bold;
+
+      &:hover {
+        color: var(--link-hover-color, @link-hover-color);
+        text-decoration: none;
+
+        .subject {
+          color: var(--link-hover-color, @link-hover-color);
+        }
+      }
+    }
+  }
+}
