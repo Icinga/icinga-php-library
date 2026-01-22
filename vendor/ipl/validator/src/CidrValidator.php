@@ -2,7 +2,6 @@
 
 namespace ipl\Validator;
 
-use ipl\I18n\Translation;
 use ipl\Stdlib\Str;
 
 /**
@@ -10,8 +9,10 @@ use ipl\Stdlib\Str;
  */
 class CidrValidator extends BaseValidator
 {
-    use Translation;
-
+    /**
+     * @param string $value
+     * @return bool
+     */
     public function isValid($value): bool
     {
         $this->clearMessages();

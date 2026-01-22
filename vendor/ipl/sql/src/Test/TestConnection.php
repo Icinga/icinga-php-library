@@ -43,7 +43,7 @@ class TestConnection extends Connection
                     return new \ArrayIterator([]);
                 }
 
-                public function setFetchMode($mode, ...$args): bool
+                public function setFetchMode($mode, ...$args): true
                 {
                     return true;
                 }
@@ -55,7 +55,7 @@ class TestConnection extends Connection
                     return new \ArrayIterator([]);
                 }
 
-                public function setFetchMode($mode, $params = null): bool
+                public function setFetchMode($mode, ...$params): true
                 {
                     return true;
                 }

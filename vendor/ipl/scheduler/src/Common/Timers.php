@@ -27,7 +27,7 @@ trait Timers
      */
     protected function attachTimer(UuidInterface $uuid, TimerInterface $timer): self
     {
-        $this->timers->attach($uuid, $timer);
+        $this->timers->offsetSet($uuid, $timer);
 
         return $this;
     }
@@ -47,13 +47,13 @@ trait Timers
      */
     protected function detachTimer(UuidInterface $uuid): ?TimerInterface
     {
-        if (! $this->timers->contains($uuid)) {
+        if (! $this->timers->offsetExists($uuid)) {
             return null;
         }
 
         $timer = $this->timers->offsetGet($uuid);
 
-        $this->timers->detach($uuid);
+        $this->timers->offsetUnset($uuid);
 
         return $timer;
     }

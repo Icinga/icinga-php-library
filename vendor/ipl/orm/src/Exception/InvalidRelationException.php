@@ -17,9 +17,9 @@ class InvalidRelationException extends Exception
      * Create a new InvalidRelationException
      *
      * @param string $relation The relation name
-     * @param Model $model The target model
+     * @param ?Model $model The target model
      */
-    public function __construct($relation, Model $model = null)
+    public function __construct($relation, ?Model $model = null)
     {
         $this->relation = (string) $relation;
         $this->model = $model;

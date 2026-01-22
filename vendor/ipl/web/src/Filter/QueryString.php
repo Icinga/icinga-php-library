@@ -8,10 +8,10 @@ use ipl\Stdlib\Filter;
 final class QueryString
 {
     /** @var string Emitted for every completely parsed condition */
-    const ON_CONDITION = Parser::ON_CONDITION;
+    public const ON_CONDITION = Parser::ON_CONDITION;
 
     /** @var string Emitted for every completely parsed chain */
-    const ON_CHAIN = Parser::ON_CHAIN;
+    public const ON_CHAIN = Parser::ON_CHAIN;
 
     /**
      * This class is only a factory / helper

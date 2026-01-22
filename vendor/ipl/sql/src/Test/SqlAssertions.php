@@ -33,7 +33,7 @@ trait SqlAssertions
      *
      * @return void
      */
-    public function assertSql(string $sql, $statement, array $values = null, string $message = ''): void
+    public function assertSql(string $sql, $statement, ?array $values = null, string $message = ''): void
     {
         // Reduce whitespaces to just one space
         $sql = preg_replace('/\s+/', ' ', trim($sql));

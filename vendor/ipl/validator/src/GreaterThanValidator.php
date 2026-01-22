@@ -2,23 +2,21 @@
 
 namespace ipl\Validator;
 
-use ipl\I18n\Translation;
-
 /**
  * Validates whether the value is greater than the given min
  */
 class GreaterThanValidator extends BaseValidator
 {
-    use Translation;
-
-    /** @var mixed Comparison value for greater than */
-    protected $min;
+    /** @var int|float Comparison value for greater than */
+    protected int|float $min;
 
     /**
      * Create a new GreaterThanValidator
      *
      * Optional options:
-     * - min: (scalar) Comparison value for greater than, default 0
+     * - min: (int|float) Comparison value for greater than, default 0
+     *
+     * @param array{min?: int|float} $options
      */
     public function __construct(array $options = [])
     {
@@ -28,9 +26,9 @@ class GreaterThanValidator extends BaseValidator
     /**
      * Get the min option
      *
-     * @return mixed
+     * @return int|float
      */
-    public function getMin()
+    public function getMin(): int|float
     {
         return $this->min;
     }
@@ -38,18 +36,24 @@ class GreaterThanValidator extends BaseValidator
     /**
      * Set the min option
      *
-     * @param mixed $min
+     * @param int|float $min
      *
      * @return $this
      */
-    public function setMin($min): self
+
+    public function setMin(int|float $min): static
     {
         $this->min = $min;
 
         return $this;
     }
 
-    public function isValid($value)
+    /**
+     * @param int|float $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

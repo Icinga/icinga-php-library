@@ -21,19 +21,19 @@ class TermInput extends FieldsetElement
     use Events;
 
     /** @var string Emitted in case the user added new terms */
-    const ON_ADD = 'on_add';
+    public const ON_ADD = 'on_add';
 
     /** @var string Emitted in case the user inserted new terms */
-    const ON_PASTE = 'on_paste';
+    public const ON_PASTE = 'on_paste';
 
     /** @var string Emitted in case the user changed existing terms */
-    const ON_SAVE = 'on_save';
+    public const ON_SAVE = 'on_save';
 
     /** @var string Emitted in case the user removed terms */
-    const ON_REMOVE = 'on_remove';
+    public const ON_REMOVE = 'on_remove';
 
     /** @var string Emitted in case terms need to be enriched */
-    const ON_ENRICH = 'on_enrich';
+    public const ON_ENRICH = 'on_enrich';
 
     /** @var Url The suggestion url */
     protected $suggestionUrl;

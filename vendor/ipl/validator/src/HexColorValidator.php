@@ -2,15 +2,11 @@
 
 namespace ipl\Validator;
 
-use ipl\I18n\Translation;
-
 /**
  * Validator for color input controls
  */
 class HexColorValidator extends BaseValidator
 {
-    use Translation;
-
     /**
      * Check whether the given color is valid
      *

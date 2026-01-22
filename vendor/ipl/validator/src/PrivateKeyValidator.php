@@ -2,16 +2,17 @@
 
 namespace ipl\Validator;
 
-use ipl\I18n\Translation;
-
 /**
  * Validates a private key
  */
 class PrivateKeyValidator extends BaseValidator
 {
-    use Translation;
-
-    public function isValid($value)
+    /**
+     * @param string $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
     {
         // Multiple isValid() calls must not stack validation messages
         $this->clearMessages();

@@ -17,7 +17,7 @@ class AliasedExpression extends Expression
      * @param ?array $columns   The columns used by the expression
      * @param mixed ...$values  The values for the expression
      */
-    public function __construct(string $alias, string $statement, array $columns = null, ...$values)
+    public function __construct(string $alias, string $statement, ?array $columns = null, ...$values)
     {
         parent::__construct($statement, $columns, ...$values);
 

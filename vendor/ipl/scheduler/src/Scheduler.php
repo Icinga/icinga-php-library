@@ -161,7 +161,7 @@ class Scheduler
 
         $this->cancelTask($task);
 
-        $this->tasks->detach($task);
+        $this->tasks->offsetUnset($task);
 
         return $this;
     }
@@ -191,7 +191,7 @@ class Scheduler
      */
     public function hasTask(Task $task): bool
     {
-        return $this->tasks->contains($task);
+        return $this->tasks->offsetExists($task);
     }
 
     /**
@@ -233,7 +233,7 @@ class Scheduler
                     $this->emit(static::ON_TASK_EXPIRED, [$task, $nextDue]);
                 };
 
-                if ($this->promises->contains($task->getUuid())) {
+                if ($this->promises->offsetExists($task->getUuid())) {
                     $pendingPromises = (array) $this->promises->offsetGet($task->getUuid());
                     Promise\all($pendingPromises)->always($removeTask);
                 } else {
@@ -257,7 +257,7 @@ class Scheduler
         );
         $this->emit(static::ON_TASK_SCHEDULED, [$task, $nextDue]);
 
-        $this->tasks->attach($task);
+        $this->tasks->offsetSet($task);
 
         return $this;
     }

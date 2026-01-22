@@ -15,7 +15,7 @@ class DeferredInArrayValidator extends InArrayValidator
      *
      * **Required parameter:**
      *
-     * - `callback`: (`callable`) The callback to create haystack
+     * - `callback`: (`callable`) The callback to create the haystack
      *
      * **Optional parameter:**
      *
@@ -23,8 +23,8 @@ class DeferredInArrayValidator extends InArrayValidator
      *
      *  * `strict`: (`bool`) Whether the types of the needle in the haystack should also match, default `false`
      *
-     * @param callable $callback Validation callback
-     * @param array $options
+     * @param callable $callback The callback to create the haystack
+     * @param array{haystack?: mixed[], strict?: bool} $options
      */
     public function __construct(callable $callback, array $options = [])
     {
@@ -45,7 +45,7 @@ class DeferredInArrayValidator extends InArrayValidator
      *
      * @return $this
      */
-    public function setCallback(callable $callback): self
+    public function setCallback(callable $callback): static
     {
         $this->haystack = null;
         $this->callback = $callback;

@@ -26,16 +26,16 @@ class SearchBar extends Form
     use FormUid;
 
     /** @var string Emitted in case the user added a new condition */
-    const ON_ADD = 'on_add';
+    public const ON_ADD = 'on_add';
 
     /** @var string Emitted in case the user inserted a new condition */
-    const ON_INSERT = 'on_insert';
+    public const ON_INSERT = 'on_insert';
 
     /** @var string Emitted in case the user changed an existing condition */
-    const ON_SAVE = 'on_save';
+    public const ON_SAVE = 'on_save';
 
     /** @var string Emitted in case the user removed a condition */
-    const ON_REMOVE = 'on_remove';
+    public const ON_REMOVE = 'on_remove';
 
     protected $defaultAttributes = [
         'data-enrichment-type'  => 'search-bar',
