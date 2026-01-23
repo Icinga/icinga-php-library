@@ -1,0 +1,307 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$value of static method ipl\\Html\\Attribute\:\:escapeValue\(\) expects array\<string\>\|string, array\<bool\|string\|null\>\|bool\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Attribute.php
+
+		-
+			message: '#^Parameter \#1 \$attribute of method ipl\\Html\\Attributes\:\:add\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attribute\|ipl\\Html\\Attributes\|string, bool\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Attributes.php
+
+		-
+			message: '#^Parameter \#2 \$value of static method ipl\\Html\\Attribute\:\:create\(\) expects array\<bool\|string\|null\>\|bool\|string\|null, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Attributes.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method ipl\\Html\\Attributes\:\:wantAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes\|null, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/BaseHtmlElement.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method ipl\\Html\\Attributes\:\:wantAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes\|null, array\|ipl\\Html\\Attributes\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/BaseHtmlElement.php
+
+		-
+			message: '#^Method ipl\\Html\\DeferredText\:\:render\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/DeferredText.php
+
+		-
+			message: '#^Parameter \#1 \$content of static method ipl\\Html\\Html\:\:escape\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DeferredText.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(string\)\: Unexpected token "\\n     \* ", expected variable at offset 24 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Error.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method ipl\\Html\\Contract\\HtmlElementInterface\:\:addAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form.php
+
+		-
+			message: '#^Parameter \#1 \$values of method ipl\\Html\\Form\:\:populate\(\) expects iterable\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form.php
+
+		-
+			message: '#^Property ipl\\Html\\Form\:\:\$request \(Psr\\Http\\Message\\ServerRequestInterface\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Form.php
+
+		-
+			message: '#^Method ipl\\Html\\FormDecorator\\DdDtDecorator\:\:dd\(\) should return ipl\\Html\\HtmlElement but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FormDecorator/DdDtDecorator.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$content of method ipl\\Html\\FormDecorator\\DdDtDecorator\:\:addHtml\(\) expects ipl\\Html\\ValidHtml, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormDecorator/DdDtDecorator.php
+
+		-
+			message: '#^Binary operation "\." between ''desc_'' and array\<bool\|string\|null\>\|bool\|string\|null results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/FormDecorator/DivDecorator.php
+
+		-
+			message: '#^Cannot call method prependHtml\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/FormDecorator/DivDecorator.php
+
+		-
+			message: '#^Parameter \#1 \$content of static method ipl\\Html\\Text\:\:create\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormDecorator/DivDecorator.php
+
+		-
+			message: '#^Parameter \#2 \$value of method ipl\\Html\\Attributes\:\:set\(\) expects array\<bool\|string\|null\>\|bool\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormDecorator/DivDecorator.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method ipl\\Html\\BaseHtmlElement\:\:addAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/BaseFormElement.php
+
+		-
+			message: '#^Parameter \#1 \$messages of method ipl\\Html\\FormElement\\BaseFormElement\:\:setMessages\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/BaseFormElement.php
+
+		-
+			message: '#^Parameter \#1 \$validators of method ipl\\Validator\\ValidatorChain\:\:addValidators\(\) expects Traversable\<int\|string, mixed\>, iterable given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/FormElement/BaseFormElement.php
+
+		-
+			message: '#^Parameter \#1 \$name of class ipl\\Html\\FormElement\\HiddenElement constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/CheckboxElement.php
+
+		-
+			message: '#^Call to an undefined method ipl\\Html\\Contract\\FormElement\:\:isMultiple\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElement/FieldsetElement.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method ipl\\Html\\Contract\\HtmlElementInterface\:\:addAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/FieldsetElement.php
+
+		-
+			message: '#^Parameter \#1 \$name of method ipl\\Html\\FormElement\\FieldsetElement\:\:getElementValue\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/FieldsetElement.php
+
+		-
+			message: '#^Parameter \#1 \$values of method ipl\\Html\\FormElement\\FieldsetElement\:\:populate\(\) expects iterable\<string, mixed\>, iterable given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/FieldsetElement.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/FieldsetElement.php
+
+		-
+			message: '#^Binary operation "\." between ''chosen_file_'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/FormElement/FileElement.php
+
+		-
+			message: '#^Binary operation "\." between ''remove_file_'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/FormElement/FileElement.php
+
+		-
+			message: '#^Property ipl\\Html\\FormElement\\FileElement\:\:\$filesToRemove \(array\<string\>\) does not accept array\<mixed, mixed\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/FormElement/FileElement.php
+
+		-
+			message: '#^Parameter \#1 \$format of method DateTime\:\:format\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/LocalDateTimeElement.php
+
+		-
+			message: '#^Parameter \#1 \$format of static method DateTime\:\:createFromFormat\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/LocalDateTimeElement.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function strrpos expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/LocalDateTimeElement.php
+
+		-
+			message: '#^Parameter \#1 \$string of function substr expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/LocalDateTimeElement.php
+
+		-
+			message: '#^Cannot call method hasBeenSent\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/FormElement/PasswordElement.php
+
+		-
+			message: '#^Cannot call method isValid\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/FormElement/PasswordElement.php
+
+		-
+			message: '#^Property ipl\\Html\\FormElement\\PasswordElement\:\:\$isFormSubmitted \(bool\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/FormElement/PasswordElement.php
+
+		-
+			message: '#^Property ipl\\Html\\FormElement\\PasswordElement\:\:\$isFormValid \(bool\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/FormElement/PasswordElement.php
+
+		-
+			message: '#^Parameter \#1 \$name of class ipl\\Html\\FormElement\\InputElement constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/RadioElement.php
+
+		-
+			message: '#^Parameter \#2 \$label of class ipl\\Html\\FormElement\\RadioOption constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FormElement/RadioElement.php
+
+		-
+			message: '#^Parameter \#2 \$label of method ipl\\Html\\FormElement\\SelectElement\:\:makeOption\(\) expects array\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/FormElement/SelectElement.php
+
+		-
+			message: '#^Method ipl\\Html\\FormElement\\SubmitElement\:\:getButtonLabel\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FormElement/SubmitElement.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method ipl\\Html\\Attributes\:\:wantAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Html.php
+
+		-
+			message: '#^Parameter \#1 \$content of static method ipl\\Html\\Html\:\:escape\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Html.php
+
+		-
+			message: '#^Parameter \#1 \$error of static method ipl\\Html\\Error\:\:render\(\) expects string\|Throwable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Html.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: src/HtmlDocument.php
+
+		-
+			message: '#^Call to an undefined method ipl\\Html\\Contract\\MutableHtml\:\:ensureAssembled\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/HtmlDocument.php
+
+		-
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/HtmlDocument.php
+
+		-
+			message: '#^Cannot use \+\+ on mixed\.$#'
+			identifier: postInc.type
+			count: 1
+			path: src/HtmlDocument.php
+
+		-
+			message: '#^Method ipl\\Html\\HtmlDocument\:\:renderWrapped\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/HtmlDocument.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method ipl\\Html\\Attributes\:\:wantAttributes\(\) expects array\<string, array\<bool\|string\|null\>\|bool\|string\|null\>\|ipl\\Html\\Attributes\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/HtmlElement.php
+
+		-
+			message: '#^Parameter \#1 \$wrapper of method ipl\\Html\\HtmlDocument\:\:prependWrapper\(\) expects ipl\\Html\\Contract\\Wrappable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/TemplateString.php

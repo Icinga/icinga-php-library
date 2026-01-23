@@ -2,7 +2,6 @@
 
 namespace ipl\Html\FormElement;
 
-use InvalidArgumentException;
 use ipl\Html\Attributes;
 use ipl\Html\Common\MultipleAttribute;
 use ipl\Html\Html;
@@ -32,11 +31,11 @@ class SelectElement extends BaseFormElement
     /**
      * Get the option with specified value
      *
-     * @param string|int|null $value
+     * @param string|int $value
      *
      * @return ?SelectOption
      */
-    public function getOption($value): ?SelectOption
+    public function getOption(string|int $value): ?SelectOption
     {
         return $this->options[$value] ?? null;
     }
@@ -75,7 +74,7 @@ class SelectElement extends BaseFormElement
                 $option->setAttribute(
                     'disabled',
                     in_array($optionValue, $disabledOptions, ! is_int($optionValue))
-                    || ($optionValue === null && in_array('', $disabledOptions, true))
+                    || ($optionValue === '' && in_array(null, $disabledOptions, true))
                 );
             }
 
@@ -119,12 +118,12 @@ class SelectElement extends BaseFormElement
     /**
      * Make the selectOption for the specified value and the label
      *
-     * @param string|int|null $value Value of the option
+     * @param string|int $value Value of the option
      * @param string|array $label Label of the option
      *
      * @return SelectOption|HtmlElement
      */
-    protected function makeOption($value, $label)
+    protected function makeOption(string|int $value, string|array $label)
     {
         if (is_array($label)) {
             $grp = Html::tag('optgroup', ['label' => $value]);
@@ -150,17 +149,13 @@ class SelectElement extends BaseFormElement
     /**
      * Get whether the given option is selected
      *
-     * @param int|string|null $optionValue
+     * @param string|int $optionValue
      *
      * @return bool
      */
-    protected function isSelectedOption($optionValue): bool
+    protected function isSelectedOption(string|int $optionValue): bool
     {
         $value = $this->getValue();
-
-        if ($optionValue === '') {
-            $optionValue = null;
-        }
 
         if ($this->isMultiple()) {
             if (! is_array($value)) {
@@ -169,14 +164,18 @@ class SelectElement extends BaseFormElement
                 );
             }
 
-            return in_array($optionValue, $this->getValue(), ! is_int($optionValue))
-                || ($optionValue === null && in_array('', $this->getValue(), true));
+            return in_array($optionValue, $value, ! is_int($optionValue))
+                || ($optionValue === '' && in_array(null, $value, true));
         }
 
         if (is_array($value)) {
             throw new UnexpectedValueException(
                 'Value cannot be an array without setting the `multiple` attribute to `true`'
             );
+        }
+
+        if ($optionValue === '' && $value === null) {
+            return true;
         }
 
         return is_int($optionValue)

@@ -17,7 +17,7 @@ class ComposerStaticInit7a1692c86b6fc70eaaf43c4bee3673aa
     );
 
     public static $prefixLengthsPsr4 = array (
-        'i' =>
+        'i' => 
         array (
             'ipl\\Web\\' => 8,
             'ipl\\Validator\\' => 14,
@@ -28,11 +28,11 @@ class ComposerStaticInit7a1692c86b6fc70eaaf43c4bee3673aa
             'ipl\\I18n\\' => 9,
             'ipl\\Html\\' => 9,
         ),
-        'S' =>
+        'S' => 
         array (
             'Symfony\\Polyfill\\Php84\\' => 23,
         ),
-        'R' =>
+        'R' => 
         array (
             'Recurr\\' => 7,
             'React\\Promise\\' => 14,
@@ -40,137 +40,137 @@ class ComposerStaticInit7a1692c86b6fc70eaaf43c4bee3673aa
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
-        'P' =>
+        'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
         ),
-        'G' =>
+        'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
         ),
-        'E' =>
+        'E' => 
         array (
             'Evenement\\' => 10,
         ),
-        'D' =>
+        'D' => 
         array (
             'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\Common\\Collections\\' => 28,
         ),
-        'C' =>
+        'C' => 
         array (
             'Cron\\' => 5,
         ),
-        'B' =>
+        'B' => 
         array (
             'Brick\\Math\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'ipl\\Web\\' =>
+        'ipl\\Web\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/web/src',
         ),
-        'ipl\\Validator\\' =>
+        'ipl\\Validator\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/validator/src',
         ),
-        'ipl\\Stdlib\\' =>
+        'ipl\\Stdlib\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/stdlib/src',
         ),
-        'ipl\\Sql\\' =>
+        'ipl\\Sql\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/sql/src',
         ),
-        'ipl\\Scheduler\\' =>
+        'ipl\\Scheduler\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/scheduler/src',
         ),
-        'ipl\\Orm\\' =>
+        'ipl\\Orm\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/orm/src',
         ),
-        'ipl\\I18n\\' =>
+        'ipl\\I18n\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/i18n/src',
         ),
-        'ipl\\Html\\' =>
+        'ipl\\Html\\' => 
         array (
             0 => __DIR__ . '/..' . '/ipl/html/src',
         ),
-        'Symfony\\Polyfill\\Php84\\' =>
+        'Symfony\\Polyfill\\Php84\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php84',
         ),
-        'Recurr\\' =>
+        'Recurr\\' => 
         array (
             0 => __DIR__ . '/..' . '/simshaun/recurr/src/Recurr',
         ),
-        'React\\Promise\\' =>
+        'React\\Promise\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/promise/src',
         ),
-        'React\\EventLoop\\' =>
+        'React\\EventLoop\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/event-loop/src',
         ),
-        'Ramsey\\Uuid\\' =>
+        'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
-        'Ramsey\\Collection\\' =>
+        'Ramsey\\Collection\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/collection/src',
         ),
-        'Psr\\Log\\' =>
+        'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Http\\Message\\' =>
+        'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'GuzzleHttp\\Psr7\\' =>
+        'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'Evenement\\' =>
+        'Evenement\\' => 
         array (
             0 => __DIR__ . '/..' . '/evenement/evenement/src',
         ),
-        'Doctrine\\Deprecations\\' =>
+        'Doctrine\\Deprecations\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
         ),
-        'Doctrine\\Common\\Collections\\' =>
+        'Doctrine\\Common\\Collections\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/src',
         ),
-        'Cron\\' =>
+        'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
         ),
-        'Brick\\Math\\' =>
+        'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'L' =>
+        'L' => 
         array (
-            'Less' =>
+            'Less' => 
             array (
                 0 => __DIR__ . '/..' . '/wikimedia/less.php/lib',
             ),
         ),
-        'A' =>
+        'A' => 
         array (
-            'AssetLoader' =>
+            'AssetLoader' => 
             array (
                 0 => __DIR__ . '/../..' . '/',
             ),

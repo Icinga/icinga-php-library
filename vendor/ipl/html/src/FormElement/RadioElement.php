@@ -66,7 +66,7 @@ class RadioElement extends BaseFormElement
      *
      * @throws InvalidArgumentException If no option with the specified value exists
      */
-    public function getOption($value): RadioOption
+    public function getOption(string|int $value): RadioOption
     {
         if (! isset($this->options[$value])) {
             throw new InvalidArgumentException(sprintf('There is no such option "%s"', $value));
@@ -127,10 +127,15 @@ class RadioElement extends BaseFormElement
                     'checked',
                     function () use ($option) {
                         $optionValue = $option->getValue();
+                        $value = $this->getValue();
+
+                        if ($optionValue === '' && $value === null) {
+                            return true;
+                        }
 
                         return ! is_int($optionValue)
-                            ? $this->getValue() === $optionValue
-                            : $this->getValue() == $optionValue;
+                            ? $value === $optionValue
+                            : $value == $optionValue;
                     }
                 )
                 ->registerAttributeCallback(

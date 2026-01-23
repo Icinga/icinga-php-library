@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -ex
+
+PREFER=${PREFER:=}
+PHP_VERSION="$(php -r 'echo phpversion();')"
+PHPCS_VERSION=${PHPCS_VERSION:=3.4.0}
+
+composer update --no-dev $PREFER
+# Force creation of autoload-dev rules
+composer dump-autoload
+
+if [ "$PHP_VERSION" '<' 5.6.0 ]; then
+  PHPUNIT_VERSION=${PHPUNIT_VERSION:=4.8}
+elif [ "$PHP_VERSION" '<' 7.0.0 ]; then
+  PHPUNIT_VERSION=${PHPUNIT_VERSION:=5.7}
+elif [ "$PHP_VERSION" '<' 7.1.0 ]; then
+  PHPUNIT_VERSION=${PHPUNIT_VERSION:=6.5}
+else
+  PHPUNIT_VERSION=${PHPUNIT_VERSION:=7.5}
+fi
+
+PHPUNIT_PATH="vendor/phpunit-${PHPUNIT_VERSION}.phar"
+
+test -e "${PHPUNIT_PATH}" || curl -sLo "${PHPUNIT_PATH}" \
+    https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar
+test -x "${PHPUNIT_PATH}" || chmod +x "${PHPUNIT_PATH}"
+ln -sf "$(basename "${PHPUNIT_PATH}")" vendor/phpunit
+
+PHPCS_PATH="vendor/phpcs-${PHPCS_VERSION}.phar"
+
+test -e "${PHPCS_PATH}" || curl -sLo "${PHPCS_PATH}" \
+    https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${PHPCS_VERSION}/phpcs.phar
+test -x "${PHPCS_PATH}" || chmod +x "${PHPCS_PATH}"
+ln -sf "$(basename "${PHPCS_PATH}")" vendor/phpcs

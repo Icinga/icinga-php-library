@@ -1,0 +1,21 @@
+includes:
+	- phpstan-baseline.neon
+
+parameters:
+    level: max
+
+    checkFunctionNameCase: true
+    checkInternalClassCaseSensitivity: true
+    treatPhpDocTypesAsCertain: false
+
+    paths:
+        - src
+
+    ignoreErrors:
+        -
+            messages:
+                - '#Unsafe usage of new static\(\)#'
+                - '#. but return statement is missing#'
+            reportUnmatched: false
+
+        - '#Parameter \#2 \$haystack of function in_array expects array.#' # SelectElement::getValues() returns array attribute `multiple` is set to `true`
