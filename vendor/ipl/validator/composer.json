@@ -5,12 +5,12 @@
   "homepage": "https://github.com/Icinga/ipl-validator",
   "license": "MIT",
   "require": {
-    "php": ">=7.2",
+    "php": ">=8.0",
     "ext-mbstring": "*",
     "ext-openssl": "*",
     "ipl/stdlib": ">=0.12.0",
     "ipl/i18n": ">=0.2.0",
-    "psr/http-message": "~1.0"
+    "psr/http-message": "^1.1"
   },
   "autoload": {
     "psr-4": {
@@ -23,6 +23,7 @@
     }
   },
   "require-dev": {
-    "guzzlehttp/psr7": "^1"
+    "ipl/stdlib": "dev-main",
+    "ipl/i18n": "dev-main"
   }
 }

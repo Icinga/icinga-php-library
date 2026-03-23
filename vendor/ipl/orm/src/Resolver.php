@@ -81,10 +81,10 @@ class Resolver
      */
     public function getRelations(Model $model)
     {
-        if (! $this->relations->contains($model)) {
+        if (! $this->relations->offsetExists($model)) {
             $relations = new Relations();
             $model->createRelations($relations);
-            $this->relations->attach($model, $relations);
+            $this->relations->offsetSet($model, $relations);
         }
 
         return $this->relations[$model];
@@ -99,10 +99,10 @@ class Resolver
      */
     public function getBehaviors(Model $model)
     {
-        if (! $this->behaviors->contains($model)) {
+        if (! $this->behaviors->offsetExists($model)) {
             $behaviors = new Behaviors();
             $model->createBehaviors($behaviors);
-            $this->behaviors->attach($model, $behaviors);
+            $this->behaviors->offsetSet($model, $behaviors);
 
             foreach ($behaviors as $behavior) {
                 if ($behavior instanceof QueryAwareBehavior) {
@@ -123,10 +123,10 @@ class Resolver
      */
     public function getDefaults(Model $model): Defaults
     {
-        if (! $this->defaults->contains($model)) {
+        if (! $this->defaults->offsetExists($model)) {
             $defaults = new Defaults();
             $model->createDefaults($defaults);
-            $this->defaults->attach($model, $defaults);
+            $this->defaults->offsetSet($model, $defaults);
         }
 
         return $this->defaults[$model];
@@ -143,7 +143,7 @@ class Resolver
      */
     public function getAlias(Model $model)
     {
-        if (! $this->aliases->contains($model)) {
+        if (! $this->aliases->offsetExists($model)) {
             throw new OutOfBoundsException(sprintf(
                 "Can't get alias for model '%s'. Alias does not exist",
                 get_class($model)
@@ -202,7 +202,7 @@ class Resolver
      */
     public function hasSelectableColumn(Model $subject, $column)
     {
-        if (! $this->selectableColumns->contains($subject)) {
+        if (! $this->selectableColumns->offsetExists($subject)) {
             $this->collectColumns($subject);
         }
 
@@ -223,7 +223,7 @@ class Resolver
      */
     public function getSelectableColumns(Model $subject)
     {
-        if (! $this->selectableColumns->contains($subject)) {
+        if (! $this->selectableColumns->offsetExists($subject)) {
             $this->collectColumns($subject);
         }
 
@@ -239,7 +239,7 @@ class Resolver
      */
     public function getSelectColumns(Model $subject)
     {
-        if (! $this->selectColumns->contains($subject)) {
+        if (! $this->selectColumns->offsetExists($subject)) {
             $this->collectColumns($subject);
         }
 
@@ -255,8 +255,8 @@ class Resolver
      */
     public function getColumnDefinitions(Model $subject)
     {
-        if (! $this->metaData->contains($subject)) {
-            $this->metaData->attach($subject, $this->collectMetaData($subject));
+        if (! $this->metaData->offsetExists($subject)) {
+            $this->metaData->offsetSet($subject, $this->collectMetaData($subject));
         }
 
         return $this->metaData[$subject];
@@ -329,14 +329,14 @@ class Resolver
      * Qualify the given columns by the specified model
      *
      * @param iterable $columns
-     * @param Model $model Leave null in case $columns is {@see Resolver::requireAndResolveColumns()}
+     * @param ?Model $model Leave null in case $columns is {@see Resolver::requireAndResolveColumns()}
      *
      * @return array
      *
      * @throws InvalidArgumentException If $columns is not iterable
      * @throws InvalidArgumentException If $model is not passed and $columns is not a generator
      */
-    public function qualifyColumns($columns, Model $model = null)
+    public function qualifyColumns($columns, ?Model $model = null)
     {
         $target = $model ?: $this->query->getModel();
         $targetAlias = $this->getAlias($target);
@@ -382,7 +382,7 @@ class Resolver
      * Qualify the given columns and aliases by the specified model
      *
      * @param iterable $columns
-     * @param Model $model Leave null in case $columns is {@see Resolver::requireAndResolveColumns()}
+     * @param ?Model $model Leave null in case $columns is {@see Resolver::requireAndResolveColumns()}
      * @param bool $autoAlias Set an alias for columns which have none
      *
      * @return array
@@ -390,7 +390,7 @@ class Resolver
      * @throws InvalidArgumentException If $columns is not iterable
      * @throws InvalidArgumentException If $model is not passed and $columns is not a generator
      */
-    public function qualifyColumnsAndAliases($columns, Model $model = null, $autoAlias = true)
+    public function qualifyColumnsAndAliases($columns, ?Model $model = null, $autoAlias = true)
     {
         $target = $model ?: $this->query->getModel();
         $targetAlias = $this->getAlias($target);
@@ -492,14 +492,14 @@ class Resolver
      * Also resolves all other relations.
      *
      * @param string $path
-     * @param Model  $subject
+     * @param ?Model $subject
      *
      * @return Relation
      */
-    public function resolveRelation($path, Model $subject = null)
+    public function resolveRelation($path, ?Model $subject = null)
     {
         $subject = $subject ?: $this->query->getModel();
-        if (! $this->resolvedRelations->contains($subject) || ! isset($this->resolvedRelations[$subject][$path])) {
+        if (! $this->resolvedRelations->offsetExists($subject) || ! isset($this->resolvedRelations[$subject][$path])) {
             foreach ($this->resolveRelations($path, $subject) as $_) {
                 // run and exhaust generator
             }
@@ -514,13 +514,13 @@ class Resolver
      * Traverses the entire path and yields the path travelled so far as key and the relation as value.
      *
      * @param string $path
-     * @param Model  $subject
+     * @param ?Model $subject
      *
      * @return Generator
      * @throws InvalidArgumentException In case $path is not fully qualified
      * @throws InvalidRelationException In case a relation is unknown
      */
-    public function resolveRelations($path, Model $subject = null)
+    public function resolveRelations($path, ?Model $subject = null)
     {
         $relations = explode('.', $path);
         $subject = $subject ?: $this->query->getModel();
@@ -533,7 +533,7 @@ class Resolver
         }
 
         $resolvedRelations = [];
-        if ($this->resolvedRelations->contains($subject)) {
+        if ($this->resolvedRelations->offsetExists($subject)) {
             $resolvedRelations = $this->resolvedRelations[$subject];
         }
 
@@ -585,7 +585,7 @@ class Resolver
             $resolvedRelations[$pathBeingResolved] = $relation;
         }
 
-        $this->resolvedRelations->attach($subject, $resolvedRelations);
+        $this->resolvedRelations->offsetSet($subject, $resolvedRelations);
     }
 
     /**
@@ -593,14 +593,14 @@ class Resolver
      *
      * Related models will be automatically added for eager-loading.
      *
-     * @param array $columns
-     * @param Model $model
+     * @param array  $columns
+     * @param ?Model $model
      *
      * @return Generator
      *
      * @throws InvalidColumnException If a column does not exist
      */
-    public function requireAndResolveColumns(array $columns, Model $model = null)
+    public function requireAndResolveColumns(array $columns, ?Model $model = null)
     {
         $model = $model ?: $this->query->getModel();
         $tableName = $model->getTableAlias();
@@ -745,7 +745,7 @@ class Resolver
         // Don't fail if Model::getColumns() also contains the primary key columns
         $columns = array_merge((array) $subject->getKeyName(), (array) $subject->getColumns());
 
-        $this->selectColumns->attach($subject, $columns);
+        $this->selectColumns->offsetSet($subject, $columns);
 
         $selectable = [];
 
@@ -759,7 +759,7 @@ class Resolver
             }
         }
 
-        $this->selectableColumns->attach($subject, $selectable);
+        $this->selectableColumns->offsetSet($subject, $selectable);
     }
 
     /**

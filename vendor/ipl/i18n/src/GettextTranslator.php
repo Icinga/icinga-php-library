@@ -2,6 +2,7 @@
 
 namespace ipl\I18n;
 
+use Exception;
 use Locale;
 use FilesystemIterator;
 use ipl\Stdlib\Contract\Translator;
@@ -40,26 +41,26 @@ use SplFileInfo;
 class GettextTranslator implements Translator
 {
     /** @var string Default gettext domain */
-    protected $defaultDomain = 'default';
+    protected string $defaultDomain = 'default';
 
     /** @var string Default locale code */
-    protected $defaultLocale = 'en_US';
+    protected string $defaultLocale = 'en_US';
 
     /** @var array<string, string> Known translation directories as array[$domain] => $directory */
-    protected $translationDirectories = [];
+    protected array $translationDirectories = [];
 
     /** @var array<string, string> Loaded translations as array[$domain] => $directory */
-    protected $loadedTranslations = [];
+    protected array $loadedTranslations = [];
 
-    /** @var string Primary locale code used for translations */
-    protected $locale;
+    /** @var ?string Primary locale code used for translations */
+    protected ?string $locale = null;
 
     /**
      * Get the default domain
      *
      * @return string
      */
-    public function getDefaultDomain()
+    public function getDefaultDomain(): string
     {
         return $this->defaultDomain;
     }
@@ -71,7 +72,7 @@ class GettextTranslator implements Translator
      *
      * @return $this
      */
-    public function setDefaultDomain($defaultDomain)
+    public function setDefaultDomain(string $defaultDomain): static
     {
         $this->defaultDomain = $defaultDomain;
 
@@ -83,7 +84,7 @@ class GettextTranslator implements Translator
      *
      * @return string
      */
-    public function getDefaultLocale()
+    public function getDefaultLocale(): string
     {
         return $this->defaultLocale;
     }
@@ -95,7 +96,7 @@ class GettextTranslator implements Translator
      *
      * @return $this
      */
-    public function setDefaultLocale($defaultLocale)
+    public function setDefaultLocale(string $defaultLocale): static
     {
         $this->defaultLocale = $defaultLocale;
 
@@ -107,7 +108,7 @@ class GettextTranslator implements Translator
      *
      * @return array<string, string> Available translations as array[$domain] => $directory
      */
-    public function getTranslationDirectories()
+    public function getTranslationDirectories(): array
     {
         return $this->translationDirectories;
     }
@@ -116,11 +117,11 @@ class GettextTranslator implements Translator
      * Add a translation directory
      *
      * @param string $directory Path to translation files
-     * @param string $domain    Optional domain of the translation
+     * @param ?string $domain Optional domain of the translation
      *
      * @return $this
      */
-    public function addTranslationDirectory($directory, $domain = null)
+    public function addTranslationDirectory(string $directory, ?string $domain = null): static
     {
         $this->translationDirectories[$domain ?: $this->defaultDomain] = $directory;
 
@@ -132,7 +133,7 @@ class GettextTranslator implements Translator
      *
      * @return array<string, string> Loaded translations as array[$domain] => $directory
      */
-    public function getLoadedTranslations()
+    public function getLoadedTranslations(): array
     {
         return $this->loadedTranslations;
     }
@@ -144,9 +145,9 @@ class GettextTranslator implements Translator
      * that has been added with {@link addTranslationDirectory()}.
      *
      * @return $this
-     * @throws \Exception If {@link bindtextdomain()} fails for a domain
+     * @throws Exception If {@link bindtextdomain()} fails for a domain
      */
-    public function loadTranslations()
+    public function loadTranslations(): static
     {
         foreach ($this->translationDirectories as $domain => $directory) {
             if (
@@ -157,7 +158,7 @@ class GettextTranslator implements Translator
             }
 
             if (bindtextdomain($domain, $directory) !== $directory) {
-                throw new \Exception(sprintf(
+                throw new Exception(sprintf(
                     "Can't register domain '%s' with path '%s'",
                     $domain,
                     $directory
@@ -175,9 +176,9 @@ class GettextTranslator implements Translator
     /**
      * Get the primary locale code used for translations
      *
-     * @return string
+     * @return ?string
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -190,9 +191,9 @@ class GettextTranslator implements Translator
      * @param string $locale Locale code
      *
      * @return $this
-     * @throws \Exception If {@link bindtextdomain()} fails for a domain
+     * @throws Exception If {@link bindtextdomain()} fails for a domain
      */
-    public function setLocale($locale)
+    public function setLocale(string $locale): static
     {
         putenv("LANGUAGE=$locale.UTF-8");
         setlocale(LC_ALL, $locale . '.UTF-8');
@@ -215,14 +216,14 @@ class GettextTranslator implements Translator
      *
      * @return string The encoded message as context + "\x04" + message
      */
-    public function encodeMessageWithContext($message, $context)
+    public function encodeMessageWithContext(string $message, string $context): string
     {
         // The encoding of a context and a message in a .mo file is
         // context + "\x04" + message (gettext version >= 0.15)
         return "{$context}\x04{$message}";
     }
 
-    public function translate($message, $context = null)
+    public function translate($message, $context = null): string
     {
         if ($context !== null) {
             $messageForGettext = $this->encodeMessageWithContext($message, $context);
@@ -239,7 +240,7 @@ class GettextTranslator implements Translator
         return $translation;
     }
 
-    public function translateInDomain($domain, $message, $context = null)
+    public function translateInDomain($domain, $message, $context = null): string
     {
         if ($context !== null) {
             $messageForGettext = $this->encodeMessageWithContext($message, $context);
@@ -266,7 +267,7 @@ class GettextTranslator implements Translator
         return $translation;
     }
 
-    public function translatePlural($singular, $plural, $number, $context = null)
+    public function translatePlural($singular, $plural, $number, $context = null): string
     {
         if ($context !== null) {
             $singularForGettext = $this->encodeMessageWithContext($singular, $context);
@@ -288,7 +289,7 @@ class GettextTranslator implements Translator
         return $translation;
     }
 
-    public function translatePluralInDomain($domain, $singular, $plural, $number, $context = null)
+    public function translatePluralInDomain($domain, $singular, $plural, $number, $context = null): string
     {
         if ($context !== null) {
             $singularForGettext = $this->encodeMessageWithContext($singular, $context);
@@ -326,7 +327,7 @@ class GettextTranslator implements Translator
      *
      * @return string[] Array of available locale codes
      */
-    public function listLocales()
+    public function listLocales(): array
     {
         $locales = [];
 

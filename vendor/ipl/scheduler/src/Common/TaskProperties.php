@@ -7,14 +7,14 @@ use Ramsey\Uuid\UuidInterface;
 
 trait TaskProperties
 {
-    /** @var string */
-    protected $description;
+    /** @var ?string */
+    protected ?string $description = null;
 
-    /** @var string Name of this task */
-    protected $name;
+    /** @var ?string Name of this task */
+    protected ?string $name = null;
 
-    /** @var UuidInterface Unique identifier of this task */
-    protected $uuid;
+    /** @var ?UuidInterface Unique identifier of this task */
+    protected ?UuidInterface $uuid = null;
 
     /**
      * Set the description of this task
@@ -23,7 +23,7 @@ trait TaskProperties
      *
      * @return $this
      */
-    public function setDescription(?string $desc): self
+    public function setDescription(?string $desc): static
     {
         $this->description = $desc;
 
@@ -51,7 +51,7 @@ trait TaskProperties
      *
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -74,7 +74,7 @@ trait TaskProperties
      *
      * @return $this
      */
-    public function setUuid(UuidInterface $uuid): self
+    public function setUuid(UuidInterface $uuid): static
     {
         $this->uuid = $uuid;
 

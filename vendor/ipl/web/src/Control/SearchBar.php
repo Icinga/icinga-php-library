@@ -15,8 +15,10 @@ use ipl\Web\Common\FormUid;
 use ipl\Web\Control\SearchBar\Terms;
 use ipl\Web\Control\SearchBar\ValidatedColumn;
 use ipl\Web\Control\SearchBar\ValidatedOperator;
+use ipl\Web\Control\SearchBar\ValidatedTerm;
 use ipl\Web\Control\SearchBar\ValidatedValue;
 use ipl\Web\Filter\ParseException;
+use ipl\Web\Filter\Parser;
 use ipl\Web\Filter\QueryString;
 use ipl\Web\Url;
 use ipl\Web\Widget\Icon;
@@ -26,16 +28,16 @@ class SearchBar extends Form
     use FormUid;
 
     /** @var string Emitted in case the user added a new condition */
-    const ON_ADD = 'on_add';
+    public const ON_ADD = 'on_add';
 
     /** @var string Emitted in case the user inserted a new condition */
-    const ON_INSERT = 'on_insert';
+    public const ON_INSERT = 'on_insert';
 
     /** @var string Emitted in case the user changed an existing condition */
-    const ON_SAVE = 'on_save';
+    public const ON_SAVE = 'on_save';
 
     /** @var string Emitted in case the user removed a condition */
-    const ON_REMOVE = 'on_remove';
+    public const ON_REMOVE = 'on_remove';
 
     protected $defaultAttributes = [
         'data-enrichment-type'  => 'search-bar',
@@ -52,6 +54,9 @@ class SearchBar extends Form
 
     /** @var string */
     protected $searchParameter;
+
+    /** @var string[] */
+    protected array $searchColumns = [];
 
     /** @var Url */
     protected $suggestionUrl;
@@ -133,6 +138,30 @@ class SearchBar extends Form
     public function getSearchParameter()
     {
         return $this->searchParameter ?: 'q';
+    }
+
+    /**
+     * Set the search columns to use
+     *
+     * @param string[] $columns
+     *
+     * @return $this
+     */
+    public function setSearchColumns(array $columns): static
+    {
+        $this->searchColumns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get the search columns in use
+     *
+     * @return string[]
+     */
+    public function getSearchColumns(): array
+    {
+        return $this->searchColumns;
     }
 
     /**
@@ -405,7 +434,7 @@ class SearchBar extends Form
                         if (isset($this->changes[1][$columnIndex])) {
                             $change = $this->changes[1][$columnIndex];
                             $condition->setColumn($change['search']);
-                        } elseif (empty($this->changes)) {
+                        } else {
                             $column = ValidatedColumn::fromFilterCondition($condition);
                             $operator = ValidatedOperator::fromFilterCondition($condition);
                             $value = ValidatedValue::fromFilterCondition($condition);
@@ -449,23 +478,78 @@ class SearchBar extends Form
                     try {
                         $filter = $parser->parse();
                     } catch (ParseException $e) {
-                        $charAt = $e->getCharPos() - 1;
+                        $charAt = $e->getCharPos();
                         $char = $e->getChar();
+
+                        if ($char === Parser::EOL) {
+                            $value = $q;
+                            $title = t('Unexpected end of input');
+                            $pattern = sprintf(
+                                ValidatedTerm::DEFAULT_PATTERN,
+                                ValidatedTerm::escapeForHTMLPattern($q)
+                            );
+                        } else {
+                            $value = substr($q, $charAt);
+                            $title = sprintf(t('Unexpected %s at start of input'), $char);
+                            $pattern = sprintf('^(?!%s).*', ValidatedTerm::escapeForHTMLPattern($char));
+
+                            if ($charAt > 0) {
+                                try {
+                                    $this->setFilter(QueryString::parse(substr($q, 0, $charAt)));
+                                } catch (ParseException) {
+                                    $value = $q;
+                                    $title = sprintf(t('Unexpected %s at position %d'), $char, $charAt + 1);
+                                    $pattern = sprintf(
+                                        ValidatedTerm::DEFAULT_PATTERN,
+                                        ValidatedTerm::escapeForHTMLPattern($q)
+                                    );
+                                }
+                            }
+                        }
 
                         $this->getElement($this->getSearchParameter())
                             ->addAttributes([
-                                'title'     => sprintf(t('Unexpected %s at start of input'), $char),
-                                'pattern'   => sprintf('^(?!%s).*', $char === ')' ? '\)' : $char),
+                                'title'     => $title,
+                                'pattern'   => $pattern,
                                 'data-has-syntax-error' => true
                             ])
                             ->getAttributes()
-                            ->registerAttributeCallback('value', function () use ($q, $charAt) {
-                                return substr($q, $charAt);
+                            ->registerAttributeCallback('value', function () use ($value) {
+                                return $value;
                             });
 
-                        $probablyValidQueryString = substr($q, 0, $charAt);
-                        $this->setFilter(QueryString::parse($probablyValidQueryString));
                         return false;
+                    }
+
+                    if (
+                        $this->getSearchColumns()
+                        && $filter instanceof Filter\Condition
+                        // The parser yields a boolean but the validation may cast this to a string -.-
+                        && ($filter->getValue() === '1' || $filter->getValue() === true)
+                        && $filter->metaData()->has('invalidColumnMessage')
+                    ) {
+                        // A single expression that's invalid and has only a truthy value can be safely
+                        // be transformed to a quick search
+                        $changes = [];
+                        $change = 0;
+                        $filter = Filter::any();
+                        foreach ($this->getSearchColumns() as $column) {
+                            $condition = Filter::like($column, "*$q*");
+                            $column = ValidatedColumn::fromFilterCondition($condition);
+                            $operator = ValidatedOperator::fromFilterCondition($condition);
+                            $value = ValidatedValue::fromFilterCondition($condition);
+                            $this->emit(self::ON_ADD, [$column, $operator, $value]);
+
+                            $condition->setColumn($column->getSearchValue());
+                            $condition->setValue($value->getSearchValue());
+                            $filter->add($condition);
+
+                            $changes[$change++] = $column->toTermData();
+                            $changes[$change++] = $operator->toTermData();
+                            $changes[$change++] = $value->toTermData();
+                        }
+
+                        $invalid = false;
                     }
 
                     $this->getElement($this->getSearchParameter())
@@ -476,7 +560,11 @@ class SearchBar extends Form
                     $this->setFilter($filter);
 
                     if (! empty($changes)) {
-                        $this->changes = ['#' . $searchInputId, $changes];
+                        if (empty($this->changes)) {
+                            $this->changes = ['#' . $searchInputId, $changes];
+                        } else {
+                            $this->changes[1] += $changes;
+                        }
                     }
 
                     return ! $invalid;

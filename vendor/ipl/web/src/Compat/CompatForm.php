@@ -72,6 +72,12 @@ class CompatForm extends Form
                 ]
             ],
             'RenderElement',
+            'AutosubmitIndication' => [
+                'name' => 'AutosubmitIndication',
+                'options' => [
+                    'uniqueName' => fn(string $name) => Icinga::app()->getRequest()->protectId($name)
+                ]
+            ],
             'Description' => [
                 'name' => 'Description',
                 'options' => [

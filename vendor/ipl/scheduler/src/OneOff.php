@@ -13,7 +13,7 @@ use function ipl\Stdlib\get_php_type;
 class OneOff implements Frequency
 {
     /** @var DateTimeInterface Start time of this frequency */
-    protected $dateTime;
+    protected DateTimeInterface $dateTime;
 
     public function __construct(DateTimeInterface $dateTime)
     {
@@ -46,7 +46,7 @@ class OneOff implements Frequency
         return $this->getStart();
     }
 
-    public static function fromJson(string $json): Frequency
+    public static function fromJson(string $json): static
     {
         $data = json_decode($json, true);
         if (! is_string($data)) {

@@ -9,7 +9,7 @@ class RadioOption
     /** @var string The default label class */
     public const LABEL_CLASS = 'radio-label';
 
-    /** @var string|int|null Value of the option */
+    /** @var string|int Value of the option */
     protected $value;
 
     /** @var string Label of the option */
@@ -27,12 +27,12 @@ class RadioOption
     /**
      * RadioOption constructor.
      *
-     * @param string|int|null $value
+     * @param string|int $value
      * @param string $label
      */
-    public function __construct($value, string $label)
+    public function __construct(string|int $value, string $label)
     {
-        $this->value = $value === '' ? null : $value;
+        $this->value = $value;
         $this->label = $label;
     }
 
@@ -63,9 +63,9 @@ class RadioOption
     /**
      * Get the value of the option
      *
-     * @return string|int|null
+     * @return string|int
      */
-    public function getValue()
+    public function getValue(): string|int
     {
         return $this->value;
     }

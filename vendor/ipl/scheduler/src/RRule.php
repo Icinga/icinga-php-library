@@ -49,16 +49,16 @@ class RRule implements Frequency
     private const DEFAULT_LIMIT = 1;
 
     /** @var RecurrRule */
-    protected $rrule;
+    protected RecurrRule $rrule;
 
     /** @var ArrayTransformer */
-    protected $transformer;
+    protected ArrayTransformer $transformer;
 
     /** @var ArrayTransformerConfig */
-    protected $transformerConfig;
+    protected ArrayTransformerConfig $transformerConfig;
 
     /** @var string */
-    protected $frequency;
+    protected string $frequency;
 
     /**
      * Construct a new rrule instance
@@ -67,7 +67,7 @@ class RRule implements Frequency
      *
      * @throws InvalidRRule
      */
-    public function __construct($rule)
+    public function __construct(array|string $rule)
     {
         $this->rrule = new RecurrRule($rule);
         $this->frequency = $this->rrule->getFreqAsText();
@@ -94,7 +94,7 @@ class RRule implements Frequency
      *
      * @return $this
      */
-    public static function fromFrequency(string $frequency): self
+    public static function fromFrequency(string $frequency): static
     {
         $frequencies = array_flip([
             static::MINUTELY,
@@ -123,7 +123,7 @@ class RRule implements Frequency
         return $self;
     }
 
-    public static function fromJson(string $json): Frequency
+    public static function fromJson(string $json): static
     {
         /** @var stdClass $data */
         $data = json_decode($json);
@@ -185,7 +185,7 @@ class RRule implements Frequency
      *
      * @return $this
      */
-    public function setTimezone(string $timezone): self
+    public function setTimezone(string $timezone): static
     {
         $this->rrule->setTimezone($timezone);
         $this->rrule->getStartDate()?->setTimezone(new DateTimeZone($timezone));
@@ -203,7 +203,7 @@ class RRule implements Frequency
      *
      * @return $this
      */
-    public function startAt(DateTimeInterface $start): self
+    public function startAt(DateTimeInterface $start): static
     {
         $startDate = clone $start;
         // When the start time contains microseconds, the first recurrence will always be skipped, as
@@ -231,7 +231,7 @@ class RRule implements Frequency
      *
      * @return $this
      */
-    public function endAt(DateTimeInterface $end): self
+    public function endAt(DateTimeInterface $end): static
     {
         $end = clone $end;
         $end->setTime($end->format('H'), $end->format('i'), $end->format('s'));

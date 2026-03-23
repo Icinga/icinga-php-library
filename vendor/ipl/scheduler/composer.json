@@ -15,7 +15,7 @@
     "psr/log": "^1",
     "ramsey/uuid": "^4.2.3",
     "react/event-loop": "^1.4",
-    "react/promise": "^2.10",
+    "react/promise": "^3.3",
     "simshaun/recurr": "^5",
     "ipl/stdlib": ">=0.12.0"
   },

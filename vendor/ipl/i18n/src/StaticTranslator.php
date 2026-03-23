@@ -10,5 +10,5 @@ use ipl\Stdlib\Contract\Translator;
 class StaticTranslator
 {
     /** @var Translator */
-    public static $instance;
+    public static Translator $instance;
 }

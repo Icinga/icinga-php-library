@@ -14,6 +14,9 @@
     "ipl/stdlib": "dev-main"
   },
   "autoload": {
+    "files": [
+      "src/pdo-driver-consts-forward-compat.php"
+    ],
     "psr-4": {
       "ipl\\Sql\\": "src"
     }

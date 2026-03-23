@@ -79,7 +79,7 @@ class Binary extends PropertyBehavior implements QueryAwareBehavior, RewriteFilt
          * {@see \ipl\Orm\Compat\FilterProcessor::requireAndResolveFilterColumns()}
          */
         $column = $condition->metaData()->get('columnName');
-        if (isset($this->properties[$column])) {
+        if ($column !== null && isset($this->properties[$column])) {
             $value = $condition->metaData()->get('originalValue');
 
             if ($this->isPostgres && is_resource($value)) {

@@ -6,8 +6,14 @@ use ipl\Stdlib\Data;
 
 abstract class ValidatedTerm
 {
-    /** @var string The default validation constraint */
-    const DEFAULT_PATTERN = '^\s*(?!%s\b).*\s*$';
+    /**
+     * The default validation constraint
+     *
+     * Forbids what's inside an input unless non-whitespace chars are prepended or appended.
+     *
+     * @var string
+     */
+    public const DEFAULT_PATTERN = '^(?!\s*%s\s*$).*$';
 
     /** @var string The search value */
     protected $searchValue;
@@ -155,7 +161,10 @@ abstract class ValidatedTerm
             return null;
         }
 
-        return $this->pattern ?? sprintf(self::DEFAULT_PATTERN, $this->getLabel() ?: $this->getSearchValue());
+        return $this->pattern ?? sprintf(
+            static::DEFAULT_PATTERN,
+            static::escapeForHTMLPattern($this->getLabel() ?: $this->getSearchValue())
+        );
     }
 
     /**
@@ -170,6 +179,18 @@ abstract class ValidatedTerm
         $this->pattern = $pattern;
 
         return $this;
+    }
+
+    /**
+     * Escape the given subject for usage inside an HTML pattern attribute
+     *
+     * @param string $subject
+     *
+     * @return string
+     */
+    public static function escapeForHTMLPattern(string $subject): string
+    {
+        return preg_quote($subject);
     }
 
     /**

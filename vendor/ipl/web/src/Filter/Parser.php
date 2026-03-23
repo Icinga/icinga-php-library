@@ -9,11 +9,14 @@ class Parser
 {
     use Events;
 
+    /** @var string Representation used to indicate end of input */
+    public const EOL = 'EOL';
+
     /** @var string Emitted for every completely parsed condition */
-    const ON_CONDITION = 'on_condition';
+    public const ON_CONDITION = 'on_condition';
 
     /** @var string Emitted for every completely parsed chain */
-    const ON_CHAIN = 'on_chain';
+    public const ON_CHAIN = 'on_chain';
 
     /** @var string */
     protected $string;
@@ -136,7 +139,6 @@ class Parser
                             $this->termIndex++;
                             $next = $this->nextChar();
                             if ($next !== false && ! in_array($next, ['&', '|', ')'])) {
-                                $this->pos++;
                                 $this->parseError($next, 'Expected logical operator');
                             }
                         }
@@ -196,7 +198,7 @@ class Parser
                     continue;
                 }
 
-                $this->parseError($next, "$op level $nestingLevel");
+                $this->parseError($next, sprintf("%slevel %d", $op ? "$op " : '', $nestingLevel));
             } else {
                 if ($isNone) {
                     $isNone = false;
@@ -234,7 +236,6 @@ class Parser
                             $this->termIndex++;
                             $next = $this->nextChar();
                             if ($next !== false && ! in_array($next, ['&', '|', ')'])) {
-                                $this->pos++;
                                 $this->parseError($next, 'Expected logical operator');
                             }
                         }
@@ -404,6 +405,14 @@ class Parser
         }
 
         $condition = $this->createCondition($column, $operator, $value);
+        if ($condition === null) {
+            // Rewind to the value start for accurate error reporting
+            $this->pos -= is_array($value)
+                ? strlen(implode('|', $value)) + 2 // Account for the parentheses
+                : strlen($value);
+            $this->parseError(null, 'Invalid operator in column expression');
+        }
+
         $condition->metaData()
             ->set('columnIndex', $columnIndex)
             ->set('operatorIndex', $operatorIndex)
@@ -550,18 +559,21 @@ class Parser
             $extra = ': ' . $extraMsg;
         }
 
+        $pos = $this->pos;
         if ($char === null) {
             if ($this->pos < $this->length) {
                 $char = $this->string[$this->pos];
             } else {
-                $char = $this->string[--$this->pos];
+                $char = self::EOL;
             }
+        } elseif (! isset($this->string[$pos]) || $this->string[$pos] !== $char) {
+            $pos--;
         }
 
         throw new ParseException(
             $this->string,
             $char,
-            $this->pos,
+            $pos,
             $extra
         );
     }

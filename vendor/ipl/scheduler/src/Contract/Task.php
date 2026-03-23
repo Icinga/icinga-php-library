@@ -3,7 +3,7 @@
 namespace ipl\Scheduler\Contract;
 
 use Ramsey\Uuid\UuidInterface;
-use React\Promise\ExtendedPromiseInterface;
+use React\Promise\PromiseInterface;
 
 interface Task
 {
@@ -33,7 +33,7 @@ interface Task
      *
      * This commits the actions in a non-blocking fashion to the event loop and yields a deferred promise
      *
-     * @return ExtendedPromiseInterface
+     * @return PromiseInterface
      */
-    public function run(): ExtendedPromiseInterface;
+    public function run(): PromiseInterface;
 }

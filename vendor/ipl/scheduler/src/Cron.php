@@ -20,16 +20,16 @@ class Cron implements Frequency
     public const PART_WEEKDAY = 4;
 
     /** @var CronExpression */
-    protected $cron;
+    protected CronExpression $cron;
 
     /** @var ?DateTimeInterface Start time of this frequency */
-    protected $start;
+    protected ?DateTimeInterface $start = null;
 
     /** @var ?DateTimeInterface End time of this frequency */
-    protected $end;
+    protected ?DateTimeInterface $end = null;
 
     /** @var string String representation of the cron expression */
-    protected $expression;
+    protected string $expression;
 
     /**
      * Create frequency from the specified cron expression
@@ -98,7 +98,7 @@ class Cron implements Frequency
      *
      * @return $this
      */
-    public function startAt(DateTimeInterface $start): self
+    public function startAt(DateTimeInterface $start): static
     {
         $this->start = clone $start;
         $this->start->setTimezone(new DateTimeZone(date_default_timezone_get()));
@@ -113,7 +113,7 @@ class Cron implements Frequency
      *
      * @return $this
      */
-    public function endAt(DateTimeInterface $end): Frequency
+    public function endAt(DateTimeInterface $end): static
     {
         $this->end = clone $end;
         $this->end->setTimezone(new DateTimeZone(date_default_timezone_get()));
@@ -162,7 +162,7 @@ class Cron implements Frequency
         return CronExpression::isValidExpression($expression);
     }
 
-    public static function fromJson(string $json): Frequency
+    public static function fromJson(string $json): static
     {
         $data = json_decode($json, true);
         if (! is_array($data)) {

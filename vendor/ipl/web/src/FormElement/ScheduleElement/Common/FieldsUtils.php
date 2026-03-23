@@ -105,7 +105,7 @@ trait FieldsUtils
                     $months[] = date('m');
                 }
 
-                $values['month'] = strtoupper($this->getMonthByNumber((int)$months[0]));
+                $values['month'] = strtoupper($this->getMonthByNumber((int) $months[0]));
                 $values['runsOnThe'] = ! empty($byDay) ? 'y' : 'n';
             }
 

@@ -74,7 +74,7 @@ class DescriptionDecorator implements FormElementDecoration, DecoratorOptionsInt
             }
 
             $descriptionId = 'desc_' . $elementId;
-            $formElement->getAttributes()->set('aria-describedby', $descriptionId);
+            $formElement->getAttributes()->add('aria-describedby', $descriptionId);
 
             $elementDescription->getAttributes()->set('id', $descriptionId);
         }

@@ -58,5 +58,5 @@ interface Frequency extends JsonSerializable
      *
      * @return $this
      */
-    public static function fromJson(string $json): self;
+    public static function fromJson(string $json): static;
 }

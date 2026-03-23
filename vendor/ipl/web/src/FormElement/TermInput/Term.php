@@ -5,7 +5,7 @@ namespace ipl\Web\FormElement\TermInput;
 interface Term
 {
     /** @var string The default validation constraint */
-    public const DEFAULT_CONSTRAINT = '^\s*(?!%s\b).*\s*$';
+    public const DEFAULT_CONSTRAINT = \ipl\Web\Control\SearchBar\ValidatedTerm::DEFAULT_PATTERN;
 
     /**
      * Set the search value

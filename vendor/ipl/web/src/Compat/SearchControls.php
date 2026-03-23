@@ -76,6 +76,7 @@ trait SearchControls
         $searchBar->setRedirectUrl($redirectUrl);
         $searchBar->setAction($redirectUrl->getAbsoluteUrl());
         $searchBar->setIdProtector([$this->getRequest(), 'protectId']);
+        $searchBar->setSearchColumns($query->getModel()->getSearchColumns());
         $searchBar->addWrapper(Html::tag('div', ['class' => 'search-controls']));
 
         $moduleName = $this->getRequest()->getModuleName();
@@ -118,7 +119,13 @@ trait SearchControls
             }
 
             if (isset($definition)) {
-                $column->setLabel($definition->getLabel());
+                if (! $definition->getName()) {
+                    // Happens in case the searchPath is considered a valid relation, but without a column name
+                    $column->setMessage(t('Is not a valid column'));
+                    $column->setSearchValue($searchPath);
+                } else {
+                    $column->setLabel($definition->getLabel());
+                }
             }
         };
 

@@ -9,22 +9,22 @@ use ipl\Stdlib\Contract\Translator;
  */
 class NoopTranslator implements Translator
 {
-    public function translate($message, $context = null)
+    public function translate($message, $context = null): string
     {
         return $message;
     }
 
-    public function translateInDomain($domain, $message, $context = null)
+    public function translateInDomain($domain, $message, $context = null): string
     {
         return $message;
     }
 
-    public function translatePlural($singular, $plural, $number, $context = null)
+    public function translatePlural($singular, $plural, $number, $context = null): string
     {
         return $number === 1 ? $singular : $plural;
     }
 
-    public function translatePluralInDomain($domain, $singular, $plural, $number, $context = null)
+    public function translatePluralInDomain($domain, $singular, $plural, $number, $context = null): string
     {
         return $number === 1 ? $singular : $plural;
     }

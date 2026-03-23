@@ -6,7 +6,7 @@ use BadMethodCallException;
 
 class ValidatedTerm extends \ipl\Web\Control\SearchBar\ValidatedTerm implements Term
 {
-    const DEFAULT_PATTERN = Term::DEFAULT_CONSTRAINT;
+    public const DEFAULT_PATTERN = Term::DEFAULT_CONSTRAINT;
 
     /** @var ?string The CSS class */
     protected $class;
