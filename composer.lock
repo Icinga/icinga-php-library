@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a1692c86b6fc70eaaf43c4bee3673aa",
+    "content-hash": "d4def007a76cf5c9e31d63d715ef638f",
     "packages": [
         {
             "name": "brick/math",
@@ -817,16 +817,16 @@
         },
         {
             "name": "ipl/web",
-            "version": "dev-main",
+            "version": "dev-aklimov/iw2-5477",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
-                "reference": "8937f56ecad4963b8ee82ba8b1540e031b7f9f17"
+                "reference": "23b1b1fb4a09b403edf392ba6abbcaa3e90da2b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/8937f56ecad4963b8ee82ba8b1540e031b7f9f17",
-                "reference": "8937f56ecad4963b8ee82ba8b1540e031b7f9f17",
+                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/23b1b1fb4a09b403edf392ba6abbcaa3e90da2b8",
+                "reference": "23b1b1fb4a09b403edf392ba6abbcaa3e90da2b8",
                 "shasum": ""
             },
             "require": {
@@ -849,7 +849,6 @@
                 "ipl/stdlib": "dev-main",
                 "shardj/zf1-future": "^1.22"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -867,9 +866,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/main"
+                "source": "https://github.com/Icinga/ipl-web/tree/aklimov/iw2-5477"
             },
-            "time": "2026-03-20T09:37:49+00:00"
+            "time": "2026-03-24T15:20:27+00:00"
         },
         {
             "name": "psr/http-factory",
@@ -1633,7 +1632,7 @@
         },
         {
             "package": "ipl/web",
-            "version": "dev-main",
+            "version": "dev-aklimov/iw2-5477",
             "alias": "99.x-dev",
             "alias_normalized": "99.9999999.9999999.9999999-dev"
         }
@@ -1658,5 +1657,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
