@@ -1,0 +1,23 @@
+.card() {
+  &.card {
+    .rounded-corners(.5em);
+    border: 1px solid var(--card-border-color, @card-border-color);
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: .5em;
+
+      border-bottom: 1px solid var(--card-border-color, @card-border-color);
+
+      .meta span {
+        font-size: 11/12em;
+      }
+    }
+
+    .card-body {
+      padding: .5em;
+    }
+  }
+}
