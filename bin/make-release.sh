@@ -33,7 +33,7 @@ fi
 git rm -rf --ignore-unmatch asset vendor
 rm -rf asset vendor
 rm -f composer.lock
-composer install --no-scripts || fail "composer install failed"
+composer install --no-scripts --optimize-autoloader || fail "composer install failed"
 composer run-script post-update-cmd -- copy-assets
 find vendor/ -type f -name "*.php" -print0 \
  | grep -z -v '/examples/' \
