@@ -12,7 +12,7 @@ fi
 
 LATEST_TAG=$(git for-each-ref refs/tags --sort=-v:refname --format='%(refname)' --count=1 | awk -F/ '{print $3}')
 NEXT_VERSION=$(echo "${LATEST_TAG:1}" | awk -F. -v OFS=. '{$3=0}; {++$2}; {print}')
-PHP_VERSION=$(echo "<?= join('.', [PHP_MAJOR_VERSION, PHP_MINOR_VERSION]); ?>" | php 2>/dev/null)
+PHP_VERSION=8.2
 
 if [[ -n $(git branch | grep $BRANCH) ]]; then
   git branch -D $BRANCH
@@ -33,7 +33,7 @@ composer require --no-update \
   ipl/sql:"dev-main as 99.x-dev" \
   ipl/stdlib:"dev-main as 99.x-dev" \
   ipl/validator:"dev-main as 99.x-dev" \
-  ipl/web:"dev-main as 99.x-dev"
+  ipl/web:"dev-aklimov/review-csp as 99.x-dev"
 
 git commit -a -m "Require dev-main everywhere"
 bin/make-release.sh "$NEXT_VERSION-dev" --no-checkout
