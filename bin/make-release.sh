@@ -33,7 +33,7 @@ fi
 git rm -rf --ignore-unmatch asset vendor
 rm -rf asset vendor
 rm -f composer.lock
-composer install --no-scripts || fail "composer install failed"
+composer install --no-scripts --optimize-autoloader || fail "composer install failed"
 composer run-script post-update-cmd -- copy-assets
 find vendor/ -type f -name "*.php" -print0 \
  | grep -z -v '/examples/' \
@@ -54,7 +54,7 @@ git checkout vendor
 composer validate --no-check-all --strict || fail "Composer validate failed"
 
 if [ -z "$NO_OPT" ]; then
-  git tag -a v$VERSION -m "Version v$VERSION"
+  git tag -s v$VERSION -m "Version v$VERSION"
   echo "Finished, tagged v$VERSION"
   echo "Now please run:"
 else

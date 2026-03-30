@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-20,-134)">
+        <g transform="matrix(0.25,0,0,0.25,20,134)">
+            <rect id="list-view-detailed" x="0" y="0" width="64" height="64" style="fill:none;"/>
+            <g id="list-view-detailed1" serif:id="list-view-detailed">
+                <g id="_16-list-view-detailed" serif:id="16/list-view-detailed">
+                    <g transform="matrix(4,0,0,4,0,-504)">
+                        <rect x="0" y="126" width="16" height="16" style="fill:none;"/>
+                    </g>
+                    <g transform="matrix(1.00393,0,0,1.07437,1.27514,2.18191)">
+                        <rect x="18.652" y="5.434" width="39.843" height="11.132"/>
+                    </g>
+                    <g transform="matrix(1.00393,0,0,1.03883,1.27514,14.5728)">
+                        <rect x="18.652" y="9.075" width="39.843" height="3.85"/>
+                    </g>
+                    <g transform="matrix(5.87898,0,0,5.87898,-27.9798,-51.5763)">
+                        <circle cx="6.46" cy="11.151" r="1.021"/>
+                    </g>
+                    <g transform="matrix(5.87898,0,0,5.87898,-27.9798,-23.556)">
+                        <circle cx="6.46" cy="11.151" r="1.021"/>
+                    </g>
+                    <g transform="matrix(1.00393,0,0,1.078,1.27514,30.1419)">
+                        <rect x="18.652" y="5.434" width="39.843" height="11.132"/>
+                    </g>
+                    <g transform="matrix(1.00393,0,0,1.03533,1.27513,42.6113)">
+                        <rect x="18.652" y="9.068" width="39.843" height="3.863"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
