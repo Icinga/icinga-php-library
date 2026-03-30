@@ -11,7 +11,7 @@ use ipl\Scheduler\Contract\Task;
 use ipl\Stdlib\Events;
 use React\EventLoop\Loop;
 use React\Promise;
-use React\Promise\ExtendedPromiseInterface;
+use React\Promise\PromiseInterface;
 use SplObjectStorage;
 use Throwable;
 
@@ -24,7 +24,7 @@ class Scheduler
     /**
      * Event raised when a {@link Task task} is canceled
      *
-     * The task and its pending operations as an array of canceled {@link ExtendedPromiseInterface promise}s
+     * The task and its pending operations as an array of canceled {@link PromiseInterface promise}s
      * are passed as parameters to the event callbacks.
      *
      * **Example usage:**
@@ -94,13 +94,13 @@ class Scheduler
     /**
      * Event raised upon operation of a {@link Task task}
      *
-     * The task and the possibly not yet completed result of the operation as a {@link ExtendedPromiseInterface promise}
+     * The task and the possibly not yet completed result of the operation as a {@link PromiseInterface promise}
      * are passed as parameters to the event callbacks.
      *
      * **Example usage:**
      *
      * ```php
-     * $scheduler->on($scheduler::ON_TASK_OPERATION, function (Task $task, ExtendedPromiseInterface $_) use ($logger) {
+     * $scheduler->on($scheduler::ON_TASK_OPERATION, function (Task $task, PromiseInterface $_) use ($logger) {
      *     $logger->info(sprintf('Task %s operating', $task->getName()));
      * });
      * ```
@@ -235,7 +235,7 @@ class Scheduler
 
                 if ($this->promises->offsetExists($task->getUuid())) {
                     $pendingPromises = (array) $this->promises->offsetGet($task->getUuid());
-                    Promise\all($pendingPromises)->always($removeTask);
+                    Promise\all($pendingPromises)->finally($removeTask);
                 } else {
                     $removeTask();
                 }
@@ -285,10 +285,9 @@ class Scheduler
     {
         Loop::cancelTimer($this->detachTimer($task->getUuid()));
 
-        /** @var ExtendedPromiseInterface[] $promises */
+        /** @var PromiseInterface[] $promises */
         $promises = $this->detachPromises($task->getUuid());
         if (! empty($promises)) {
-            /** @var Promise\CancellablePromiseInterface $promise */
             foreach ($promises as $promise) {
                 $promise->cancel();
             }
@@ -301,9 +300,9 @@ class Scheduler
      *
      * @param Task $task
      *
-     * @return ExtendedPromiseInterface
+     * @return PromiseInterface
      */
-    protected function runTask(Task $task): ExtendedPromiseInterface
+    protected function runTask(Task $task): PromiseInterface
     {
         $promise = $task->run();
         $this->addPromise($task->getUuid(), $promise);
@@ -315,7 +314,7 @@ class Scheduler
             function (Throwable $reason) use ($task): void {
                 $this->emit(self::ON_TASK_FAILED, [$task, $reason]);
             }
-        )->always(function () use ($task, $promise): void {
+        )->finally(function () use ($task, $promise): void {
             // Unregister the promise without canceling it as it's already resolved
             $this->removePromise($task->getUuid(), $promise);
         });

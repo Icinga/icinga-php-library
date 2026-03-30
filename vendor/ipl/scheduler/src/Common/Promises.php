@@ -45,7 +45,7 @@ trait Promises
      * **Example Usage:**
      *
      * ```php
-     * $promise->always(function () use ($uuid, $promise) {
+     * $promise->finally(function () use ($uuid, $promise) {
      *     $promises->removePromise($uuid, $promise);
      * })
      * ```

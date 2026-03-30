@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d
+class ComposerStaticInitd3589b5c0868e7281eeccabee7e5c62e
 {
     public static $files = array (
         'a2c78434f64e5f5ed402f42eee19c025' => __DIR__ . '/..' . '/ipl/stdlib/src/functions_include.php',
@@ -521,18 +521,14 @@ class ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d
         'React\\EventLoop\\TimerInterface' => __DIR__ . '/..' . '/react/event-loop/src/TimerInterface.php',
         'React\\EventLoop\\Timer\\Timer' => __DIR__ . '/..' . '/react/event-loop/src/Timer/Timer.php',
         'React\\EventLoop\\Timer\\Timers' => __DIR__ . '/..' . '/react/event-loop/src/Timer/Timers.php',
-        'React\\Promise\\CancellablePromiseInterface' => __DIR__ . '/..' . '/react/promise/src/CancellablePromiseInterface.php',
-        'React\\Promise\\CancellationQueue' => __DIR__ . '/..' . '/react/promise/src/CancellationQueue.php',
         'React\\Promise\\Deferred' => __DIR__ . '/..' . '/react/promise/src/Deferred.php',
+        'React\\Promise\\Exception\\CompositeException' => __DIR__ . '/..' . '/react/promise/src/Exception/CompositeException.php',
         'React\\Promise\\Exception\\LengthException' => __DIR__ . '/..' . '/react/promise/src/Exception/LengthException.php',
-        'React\\Promise\\ExtendedPromiseInterface' => __DIR__ . '/..' . '/react/promise/src/ExtendedPromiseInterface.php',
-        'React\\Promise\\FulfilledPromise' => __DIR__ . '/..' . '/react/promise/src/FulfilledPromise.php',
-        'React\\Promise\\LazyPromise' => __DIR__ . '/..' . '/react/promise/src/LazyPromise.php',
+        'React\\Promise\\Internal\\CancellationQueue' => __DIR__ . '/..' . '/react/promise/src/Internal/CancellationQueue.php',
+        'React\\Promise\\Internal\\FulfilledPromise' => __DIR__ . '/..' . '/react/promise/src/Internal/FulfilledPromise.php',
+        'React\\Promise\\Internal\\RejectedPromise' => __DIR__ . '/..' . '/react/promise/src/Internal/RejectedPromise.php',
         'React\\Promise\\Promise' => __DIR__ . '/..' . '/react/promise/src/Promise.php',
         'React\\Promise\\PromiseInterface' => __DIR__ . '/..' . '/react/promise/src/PromiseInterface.php',
-        'React\\Promise\\PromisorInterface' => __DIR__ . '/..' . '/react/promise/src/PromisorInterface.php',
-        'React\\Promise\\RejectedPromise' => __DIR__ . '/..' . '/react/promise/src/RejectedPromise.php',
-        'React\\Promise\\UnhandledRejectionException' => __DIR__ . '/..' . '/react/promise/src/UnhandledRejectionException.php',
         'Recurr\\DateExclusion' => __DIR__ . '/..' . '/simshaun/recurr/src/Recurr/DateExclusion.php',
         'Recurr\\DateInclusion' => __DIR__ . '/..' . '/simshaun/recurr/src/Recurr/DateInclusion.php',
         'Recurr\\DateInfo' => __DIR__ . '/..' . '/simshaun/recurr/src/Recurr/DateInfo.php',
@@ -1289,7 +1285,9 @@ class ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d
         'ipl\\Web\\Common\\BaseOrderedListItem' => __DIR__ . '/..' . '/ipl/web/src/Common/BaseOrderedListItem.php',
         'ipl\\Web\\Common\\BaseTableRowItem' => __DIR__ . '/..' . '/ipl/web/src/Common/BaseTableRowItem.php',
         'ipl\\Web\\Common\\BaseTarget' => __DIR__ . '/..' . '/ipl/web/src/Common/BaseTarget.php',
+        'ipl\\Web\\Common\\CalloutType' => __DIR__ . '/..' . '/ipl/web/src/Common/CalloutType.php',
         'ipl\\Web\\Common\\Card' => __DIR__ . '/..' . '/ipl/web/src/Common/Card.php',
+        'ipl\\Web\\Common\\Csp' => __DIR__ . '/..' . '/ipl/web/src/Common/Csp.php',
         'ipl\\Web\\Common\\CsrfCounterMeasure' => __DIR__ . '/..' . '/ipl/web/src/Common/CsrfCounterMeasure.php',
         'ipl\\Web\\Common\\FormUid' => __DIR__ . '/..' . '/ipl/web/src/Common/FormUid.php',
         'ipl\\Web\\Common\\ItemRenderer' => __DIR__ . '/..' . '/ipl/web/src/Common/ItemRenderer.php',
@@ -1357,6 +1355,7 @@ class ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d
         'ipl\\Web\\Widget\\ActionLink' => __DIR__ . '/..' . '/ipl/web/src/Widget/ActionLink.php',
         'ipl\\Web\\Widget\\Ball' => __DIR__ . '/..' . '/ipl/web/src/Widget/Ball.php',
         'ipl\\Web\\Widget\\ButtonLink' => __DIR__ . '/..' . '/ipl/web/src/Widget/ButtonLink.php',
+        'ipl\\Web\\Widget\\Callout' => __DIR__ . '/..' . '/ipl/web/src/Widget/Callout.php',
         'ipl\\Web\\Widget\\ContinueWith' => __DIR__ . '/..' . '/ipl/web/src/Widget/ContinueWith.php',
         'ipl\\Web\\Widget\\CopyToClipboard' => __DIR__ . '/..' . '/ipl/web/src/Widget/CopyToClipboard.php',
         'ipl\\Web\\Widget\\Dropdown' => __DIR__ . '/..' . '/ipl/web/src/Widget/Dropdown.php',
@@ -1384,10 +1383,10 @@ class ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit61236a40bbfb35b64aa87a1e1e03e69d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd3589b5c0868e7281eeccabee7e5c62e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd3589b5c0868e7281eeccabee7e5c62e::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd3589b5c0868e7281eeccabee7e5c62e::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitd3589b5c0868e7281eeccabee7e5c62e::$classMap;
 
         }, null, ClassLoader::class);
     }

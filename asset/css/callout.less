@@ -1,0 +1,66 @@
+// Layout
+.callout {
+  display: flex;
+  justify-content: center;
+  column-gap: 1em;
+
+  width: fit-content;
+  margin: 0 auto 1em;
+
+  &.callout-fullwidth {
+    width: 100%;
+    justify-content: start;
+  }
+
+  &.form-callout {
+    margin-left: 14em;
+    width: auto;
+    justify-content: start;
+  }
+
+  i.icon::before {
+    margin-right: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .callout-title {
+    margin-bottom: .5em;
+  }
+
+  .callout-text {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Style
+.callout {
+  padding: .5em 1em;
+  border: 1px solid var(--callout-color);
+  background-color: color-mix(in srgb, var(--callout-color) 10%, transparent);
+  border-radius: .25em;
+
+  i.icon {
+    color: var(--callout-color);
+    font-size: 1.5em;
+  }
+
+  &.callout-type-info {
+    --callout-color: @color-pending;
+  }
+
+  &.callout-type-success {
+    --callout-color: @color-ok;
+  }
+
+  &.callout-type-warning {
+    --callout-color: @color-warning;
+  }
+
+  &.callout-type-error {
+    --callout-color: @color-critical;
+  }
+}
