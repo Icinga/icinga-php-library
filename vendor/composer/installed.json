@@ -876,17 +876,17 @@
         },
         {
             "name": "ipl/web",
-            "version": "v0.10.2",
-            "version_normalized": "0.10.2.0",
+            "version": "v0.10.3",
+            "version_normalized": "0.10.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
-                "reference": "a3d134c0d67aa51a9b186519c76e718603fda835"
+                "reference": "86f8c7804e6feaa1cf639418ec4259c0f889a6a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/a3d134c0d67aa51a9b186519c76e718603fda835",
-                "reference": "a3d134c0d67aa51a9b186519c76e718603fda835",
+                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/86f8c7804e6feaa1cf639418ec4259c0f889a6a0",
+                "reference": "86f8c7804e6feaa1cf639418ec4259c0f889a6a0",
                 "shasum": ""
             },
             "require": {
@@ -909,7 +909,7 @@
                 "ipl/stdlib": "dev-main",
                 "shardj/zf1-future": "^1.22"
             },
-            "time": "2025-03-26T07:49:58+00:00",
+            "time": "2026-06-01T11:20:37+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -928,7 +928,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/v0.10.2"
+                "source": "https://github.com/Icinga/ipl-web/tree/v0.10.3"
             },
             "install-path": "../ipl/web"
         },

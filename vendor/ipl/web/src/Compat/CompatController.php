@@ -501,7 +501,9 @@ class CompatController extends Controller
             }
         } else {
             $partSeparator = base64_encode(random_bytes(16));
-            $this->getResponse()->setHeader('X-Icinga-Multipart-Content', $partSeparator);
+            $this->getResponse()
+                ->setHeader('X-Icinga-Multipart-Content', $partSeparator)
+                ->setHeader('Content-Type', 'application/vnd.icinga+multipart', true);
 
             $this->document->setSeparator("\n$partSeparator\n");
             $this->document->add($this->parts);
