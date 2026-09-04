@@ -1,0 +1,32 @@
+{
+  "name": "ipl/validator",
+  "description": "Icinga PHP Library - Common validators and validator chaining",
+  "license": "MIT",
+  "type": "library",
+  "homepage": "https://github.com/Icinga/ipl-validator",
+  "require": {
+    "php": ">=8.2",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "ipl/i18n": ">=1.0.0",
+    "ipl/stdlib": ">=0.15.0",
+    "psr/http-message": "^1.1"
+  },
+  "require-dev": {
+    "ipl/i18n": "dev-main",
+    "ipl/stdlib": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ipl\\Validator\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Validator\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

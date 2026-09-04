@@ -1,0 +1,60 @@
+// Layout
+.callout {
+  display: flex;
+  column-gap: 1em;
+  justify-content: start;
+
+  &.callout-fit-content {
+    width: fit-content;
+  }
+
+  i.icon::before {
+    margin-right: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .callout-title {
+    margin-bottom: .5em;
+  }
+
+  .callout-text {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Style
+.callout {
+  padding: .5em 1em;
+  border: 1px solid var(--callout-color);
+  background-color: var(--callout-bg-color);
+  border-radius: .25em;
+
+  i.icon {
+    color: var(--callout-color);
+    font-size: 1.5em;
+  }
+
+  &.callout-type-info {
+    --callout-color: @callout-info-color;
+    --callout-bg-color: @callout-info-bg;
+  }
+
+  &.callout-type-success {
+    --callout-color: @callout-success-color;
+    --callout-bg-color: @callout-success-bg;
+  }
+
+  &.callout-type-warning {
+    --callout-color: @callout-warning-color;
+    --callout-bg-color: @callout-warning-bg;
+  }
+
+  &.callout-type-error {
+    --callout-color: @callout-error-color;
+    --callout-bg-color: @callout-error-bg;
+  }
+}
