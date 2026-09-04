@@ -6,6 +6,7 @@ use Icinga\Application\Icinga;
 use Icinga\Application\Logger;
 use Icinga\Exception\IcingaException;
 use InvalidArgumentException;
+use ipl\Html\Attributes;
 use ipl\Html\Contract\FormElement;
 use ipl\Html\Contract\FormSubmitElement;
 use ipl\Html\Contract\HtmlElementInterface;
@@ -13,11 +14,14 @@ use ipl\Html\Form;
 use ipl\Html\FormElement\SubmitButtonElement;
 use ipl\Html\FormElement\SubmitElement;
 use ipl\Html\HtmlDocument;
+use ipl\Html\HtmlElement;
 use ipl\Html\HtmlString;
 use ipl\I18n\Translation;
+use ipl\Web\Common\CalloutType;
 use ipl\Web\Compat\FormDecorator\PrimaryButtonDecorator;
 use ipl\Web\FormDecorator\IcingaFormDecorator;
 use ipl\Web\Compat\FormDecorator\LabelDecorator;
+use ipl\Web\Widget\Callout;
 use Stringable;
 use Throwable;
 
@@ -222,5 +226,37 @@ class CompatForm extends Form
 
         $this->addMessage(str_replace('{error}', $errorMessage, $template), ...$args);
         $this->onError();
+    }
+
+    /**
+     * Render form error messages as callouts
+     *
+     * Overrides the default rendering, which produces a single `<ul class="errors">`
+     * list, to instead prepend a `<div class="error-callouts"></div>` containing
+     * one error callout per message.
+     *
+     * @return void
+     */
+    protected function onError()
+    {
+        $errors = new HtmlElement('div', new Attributes([
+            'class' => 'error-callouts',
+            'role' => 'list',
+        ]));
+
+        foreach ($this->getMessages() as $message) {
+            if ($message instanceof Throwable) {
+                $message = $message->getMessage();
+            }
+
+            $errors->addHtml(
+                (new Callout(CalloutType::Error, $message))
+                    ->setAttribute('role', 'listitem')
+            );
+        }
+
+        if (! $errors->isEmpty()) {
+            $this->prependHtml($errors);
+        }
     }
 }

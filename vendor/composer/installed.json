@@ -369,17 +369,17 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.12.3",
-            "version_normalized": "2.12.3.0",
+            "version": "2.13.1",
+            "version_normalized": "2.13.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "7ec62dc3f44aa218487dbed81a9bf9bc647be55d"
+                "reference": "95e7828100de18b4e269fb1703be530082d5166d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/7ec62dc3f44aa218487dbed81a9bf9bc647be55d",
-                "reference": "7ec62dc3f44aa218487dbed81a9bf9bc647be55d",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/95e7828100de18b4e269fb1703be530082d5166d",
+                "reference": "95e7828100de18b4e269fb1703be530082d5166d",
                 "shasum": ""
             },
             "require": {
@@ -403,7 +403,7 @@
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
-            "time": "2026-06-23T15:21:08+00:00",
+            "time": "2026-08-24T09:13:11+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -471,7 +471,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.12.3"
+                "source": "https://github.com/guzzle/psr7/tree/2.13.1"
             },
             "funding": [
                 {
@@ -540,17 +540,17 @@
         },
         {
             "name": "ipl/html",
-            "version": "v0.11.0",
-            "version_normalized": "0.11.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
-                "reference": "2835c3a9bc536ba16ef68a45132834c0ce32c5e2"
+                "reference": "aecd750b48db964db12cdf3b63beb1ebc16dac36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-html/zipball/2835c3a9bc536ba16ef68a45132834c0ce32c5e2",
-                "reference": "2835c3a9bc536ba16ef68a45132834c0ce32c5e2",
+                "url": "https://api.github.com/repos/Icinga/ipl-html/zipball/aecd750b48db964db12cdf3b63beb1ebc16dac36",
+                "reference": "aecd750b48db964db12cdf3b63beb1ebc16dac36",
                 "shasum": ""
             },
             "require": {
@@ -566,7 +566,8 @@
                 "ipl/stdlib": "dev-main",
                 "ipl/validator": "dev-main"
             },
-            "time": "2026-06-24T16:50:20+00:00",
+            "time": "2026-07-30T15:09:56+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -585,14 +586,14 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-html/issues",
-                "source": "https://github.com/Icinga/ipl-html/tree/v0.11.0"
+                "source": "https://github.com/Icinga/ipl-html/tree/main"
             },
             "install-path": "../ipl/html"
         },
         {
             "name": "ipl/i18n",
-            "version": "v1.0.0",
-            "version_normalized": "1.0.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-i18n.git",
@@ -614,6 +615,7 @@
                 "ipl/stdlib": "dev-main"
             },
             "time": "2026-03-24T19:29:18+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -639,37 +641,39 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-i18n/issues",
-                "source": "https://github.com/Icinga/ipl-i18n/tree/v1.0.0"
+                "source": "https://github.com/Icinga/ipl-i18n/tree/main"
             },
             "install-path": "../ipl/i18n"
         },
         {
             "name": "ipl/orm",
-            "version": "v0.9.0",
-            "version_normalized": "0.9.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-orm.git",
-                "reference": "fcb4f055022c0784bd6686117ea97bcbef250859"
+                "reference": "d60f924e30984b8c69133d81a8ab2d05c8dbdace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/fcb4f055022c0784bd6686117ea97bcbef250859",
-                "reference": "fcb4f055022c0784bd6686117ea97bcbef250859",
+                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/d60f924e30984b8c69133d81a8ab2d05c8dbdace",
+                "reference": "d60f924e30984b8c69133d81a8ab2d05c8dbdace",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
                 "ipl/sql": ">=0.9.1",
                 "ipl/stdlib": ">=0.15.0",
-                "php": ">=8.2"
+                "php": ">=8.2",
+                "ramsey/uuid": "^4.9.2"
             },
             "require-dev": {
                 "ext-pdo_sqlite": "*",
                 "ipl/sql": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
-            "time": "2026-05-21T10:00:09+00:00",
+            "time": "2026-08-26T14:00:59+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -690,14 +694,14 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-orm/issues",
-                "source": "https://github.com/Icinga/ipl-orm/tree/v0.9.0"
+                "source": "https://github.com/Icinga/ipl-orm/tree/main"
             },
             "install-path": "../ipl/orm"
         },
         {
             "name": "ipl/scheduler",
-            "version": "v1.0.0",
-            "version_normalized": "1.0.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-scheduler.git",
@@ -727,6 +731,7 @@
                 "ext-ev": "Improves performance, efficiency and avoids system limitations. Highly recommended! (See https://www.php.net/manual/en/intro.ev.php for details)"
             },
             "time": "2026-07-02T12:49:13+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -751,23 +756,23 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-scheduler/issues",
-                "source": "https://github.com/Icinga/ipl-scheduler/tree/v1.0.0"
+                "source": "https://github.com/Icinga/ipl-scheduler/tree/main"
             },
             "install-path": "../ipl/scheduler"
         },
         {
             "name": "ipl/sql",
-            "version": "v0.9.1",
-            "version_normalized": "0.9.1.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-sql.git",
-                "reference": "ab1ac85ae3e594ce8de33da0ddfde9c2e0d8dc12"
+                "reference": "2a2571c58d8eaa7fe8d38411f8aa9cf522f893a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-sql/zipball/ab1ac85ae3e594ce8de33da0ddfde9c2e0d8dc12",
-                "reference": "ab1ac85ae3e594ce8de33da0ddfde9c2e0d8dc12",
+                "url": "https://api.github.com/repos/Icinga/ipl-sql/zipball/2a2571c58d8eaa7fe8d38411f8aa9cf522f893a4",
+                "reference": "2a2571c58d8eaa7fe8d38411f8aa9cf522f893a4",
                 "shasum": ""
             },
             "require": {
@@ -778,7 +783,8 @@
             "require-dev": {
                 "ipl/stdlib": "dev-main"
             },
-            "time": "2026-03-24T22:08:44+00:00",
+            "time": "2026-07-24T14:52:01+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -801,23 +807,23 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-sql/issues",
-                "source": "https://github.com/Icinga/ipl-sql/tree/v0.9.1"
+                "source": "https://github.com/Icinga/ipl-sql/tree/main"
             },
             "install-path": "../ipl/sql"
         },
         {
             "name": "ipl/stdlib",
-            "version": "v0.16.0",
-            "version_normalized": "0.16.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-stdlib.git",
-                "reference": "96b0009ca0d78f6b09dae9618850dea5d3b2a04f"
+                "reference": "920f8ce695e7afdbe4a40da4e0a282309cc8413f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-stdlib/zipball/96b0009ca0d78f6b09dae9618850dea5d3b2a04f",
-                "reference": "96b0009ca0d78f6b09dae9618850dea5d3b2a04f",
+                "url": "https://api.github.com/repos/Icinga/ipl-stdlib/zipball/920f8ce695e7afdbe4a40da4e0a282309cc8413f",
+                "reference": "920f8ce695e7afdbe4a40da4e0a282309cc8413f",
                 "shasum": ""
             },
             "require": {
@@ -825,7 +831,8 @@
                 "ext-openssl": "*",
                 "php": ">=8.2"
             },
-            "time": "2026-07-02T12:42:46+00:00",
+            "time": "2026-07-30T13:51:00+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -843,14 +850,14 @@
             "description": "ipl Standard Library",
             "support": {
                 "issues": "https://github.com/Icinga/ipl-stdlib/issues",
-                "source": "https://github.com/Icinga/ipl-stdlib/tree/v0.16.0"
+                "source": "https://github.com/Icinga/ipl-stdlib/tree/main"
             },
             "install-path": "../ipl/stdlib"
         },
         {
             "name": "ipl/validator",
-            "version": "v1.0.0",
-            "version_normalized": "1.0.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-validator.git",
@@ -875,6 +882,7 @@
                 "ipl/stdlib": "dev-main"
             },
             "time": "2026-03-24T20:02:58+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -890,23 +898,23 @@
             "homepage": "https://github.com/Icinga/ipl-validator",
             "support": {
                 "issues": "https://github.com/Icinga/ipl-validator/issues",
-                "source": "https://github.com/Icinga/ipl-validator/tree/v1.0.0"
+                "source": "https://github.com/Icinga/ipl-validator/tree/main"
             },
             "install-path": "../ipl/validator"
         },
         {
             "name": "ipl/web",
-            "version": "v0.14.0",
-            "version_normalized": "0.14.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
-                "reference": "f7df38d4f26e17764ec8586389d5fb31c1d38bdb"
+                "reference": "bd8f29cec79f1c092c1c4193594e77114d30584b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/f7df38d4f26e17764ec8586389d5fb31c1d38bdb",
-                "reference": "f7df38d4f26e17764ec8586389d5fb31c1d38bdb",
+                "url": "https://api.github.com/repos/Icinga/ipl-web/zipball/bd8f29cec79f1c092c1c4193594e77114d30584b",
+                "reference": "bd8f29cec79f1c092c1c4193594e77114d30584b",
                 "shasum": ""
             },
             "require": {
@@ -918,7 +926,7 @@
                 "ipl/i18n": ">=1.0.0",
                 "ipl/orm": ">=0.8.0",
                 "ipl/scheduler": ">=0.3.0",
-                "ipl/stdlib": ">=0.15.0",
+                "ipl/stdlib": ">=0.16.0",
                 "php": ">=8.2",
                 "psr/http-message": "^1.1",
                 "wikimedia/less.php": "^5.5"
@@ -931,7 +939,8 @@
                 "ipl/scheduler": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
-            "time": "2026-07-01T13:18:35+00:00",
+            "time": "2026-08-11T13:44:34+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -950,7 +959,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/v0.14.0"
+                "source": "https://github.com/Icinga/ipl-web/tree/main"
             },
             "install-path": "../ipl/web"
         },
@@ -1704,23 +1713,23 @@
         },
         {
             "name": "symfony/polyfill-php83",
-            "version": "v1.38.2",
-            "version_normalized": "1.38.2.0",
+            "version": "v1.41.0",
+            "version_normalized": "1.41.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php83.git",
-                "reference": "796a26abb75ce49f3a84433cd81bf1009d73d5f8"
+                "reference": "5ea99087fb99c273a9b9236ed4c31e78b16103c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/796a26abb75ce49f3a84433cd81bf1009d73d5f8",
-                "reference": "796a26abb75ce49f3a84433cd81bf1009d73d5f8",
+                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/5ea99087fb99c273a9b9236ed4c31e78b16103c6",
+                "reference": "5ea99087fb99c273a9b9236ed4c31e78b16103c6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
-            "time": "2026-05-27T06:51:48+00:00",
+            "time": "2026-07-01T12:47:55+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -1763,7 +1772,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php83/tree/v1.38.2"
+                "source": "https://github.com/symfony/polyfill-php83/tree/v1.41.0"
             },
             "funding": [
                 {

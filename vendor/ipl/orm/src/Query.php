@@ -7,6 +7,7 @@ use Generator;
 use InvalidArgumentException;
 use ipl\Orm\Common\SortUtil;
 use ipl\Orm\Compat\FilterProcessor;
+use ipl\Orm\Relation\BelongsToMany;
 use ipl\Sql\Connection;
 use ipl\Sql\ExpressionInterface;
 use ipl\Sql\LimitOffset;
@@ -26,6 +27,9 @@ use Traversable;
 
 /**
  * Represents a database query which is associated to a model and a database connection.
+ *
+ * @template TRow of Model
+ * @implements IteratorAggregate<int, TRow>
  */
 class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Paginatable, IteratorAggregate
 {
@@ -53,10 +57,10 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /** @var Connection Database connection */
     protected $db;
 
-    /** @var string Class to return results as */
+    /** @var class-string<ResultSet<TRow>> Class to return results as */
     protected string $resultSetClass = ResultSet::class;
 
-    /** @var Model Model to query */
+    /** @var TRow Model to query */
     protected $model;
 
     /** @var array Columns to select from the model (or its relations). If empty, all columns are selected */
@@ -113,7 +117,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Get the class to return results as
      *
-     * @return string
+     * @return class-string<ResultSet<TRow>>
      */
     public function getResultSetClass(): string
     {
@@ -123,7 +127,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Set the class to return results as
      *
-     * @param string $class
+     * @param class-string<ResultSet<TRow>> $class
      *
      * @return $this
      *
@@ -145,7 +149,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Get the model to query
      *
-     * @return Model
+     * @return TRow
      */
     public function getModel()
     {
@@ -155,7 +159,10 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Set the model to query
      *
-     * @param Model $model
+     * @template TNew of Model
+     * @phpstan-self-out static<TNew>
+     *
+     * @param TNew $model
      *
      * @return $this
      */
@@ -322,6 +329,16 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
             $this->selectBase->from([
                 $this->getResolver()->getAlias($this->getModel()) => $this->getModel()->getTableName()
             ]);
+
+            $visibilityFilter = FilterProcessor::assembleFilter(
+                $this->getResolver()->qualifyFilter(
+                    $this->getResolver()->getVisibilityFilter($this->getModel()),
+                    $this->getModel()
+                )
+            );
+            if ($visibilityFilter) {
+                $this->selectBase->where(...array_reverse($visibilityFilter));
+            }
         }
 
         return $this->selectBase;
@@ -496,7 +513,18 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
                     continue;
                 }
 
-                foreach ($relation->resolve() as [$source, $target, $relatedKeys]) {
+                foreach ($relation->resolve() as $targetRelation => [$source, $target, $relatedKeys]) {
+                    if (is_int($targetRelation)) {
+                        $targetRelation = $relation;
+                        trigger_error(sprintf(
+                            'Relation implementation of %s::resolve() returned a numeric key for the target'
+                            . ' relation. This is deprecated and will be removed in a future version. Please return'
+                            . ' the target relation as key instead.',
+                            $relation::class
+                        ), E_USER_DEPRECATED);
+                    }
+
+                    /** @var Relation $targetRelation */
                     /** @var Model $source */
                     /** @var Model $target */
 
@@ -512,9 +540,17 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
                         );
                     }
 
+                    $visibilityConditions = FilterProcessor::assembleFilter(Filter::all(
+                        $resolver->qualifyFilter($targetRelation->getFilter(), $targetRelation),
+                        $resolver->qualifyFilter($resolver->getVisibilityFilter($target), $target)
+                    ));
+                    if ($visibilityConditions) {
+                        $conditions[] = $visibilityConditions;
+                    }
+
                     $table = [$targetAlias => $target->getTableName()];
 
-                    switch ($relation->getJoinType()) {
+                    switch ($targetRelation->getJoinType()) {
                         case 'LEFT':
                             $select->joinLeft($table, $conditions);
 
@@ -572,9 +608,9 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
      * Derive a new query to load the specified relation from a concrete model
      *
      * @param string $relation
-     * @param Model  $source
+     * @param TRow $source
      *
-     * @return static
+     * @return static<*>
      *
      * @throws InvalidArgumentException If the relation with the given name does not exist
      */
@@ -591,12 +627,14 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Create a sub-query linked to rows of this query
      *
-     * @param Model $target The model to query
+     * @template TTarget of Model
+     *
+     * @param TTarget $target The model to query
      * @param string $targetPath The target's absolute relation path
-     * @param ?Model $from The source model
+     * @param ?TRow $from The source model
      * @param bool $link Whether the query should be linked to the parent query
      *
-     * @return static
+     * @return static<TTarget>
      */
     public function createSubQuery(Model $target, string $targetPath, ?Model $from = null, bool $link = true): static
     {
@@ -609,14 +647,29 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
 
         $subQueryResolver = $subQuery->getResolver();
         $sourcePath = join('.', $sourceParts);
-        $subQueryTarget = $subQueryResolver->resolveRelation($sourcePath)->getTarget();
+
+        $originalRelations = iterator_to_array($this->getResolver()->resolveRelations($targetPath, $from), false);
+        foreach ($subQuery->getResolver()->resolveRelations($sourcePath) as $relation) {
+            $original = array_pop($originalRelations);
+
+            if ($relation instanceof BelongsToMany) {
+                $relation->setFilter($original->getThroughFilter());
+                $relation->setThroughFilter($original->getFilter());
+            } else {
+                $relation->setFilter($original->getFilter());
+            }
+
+            $subQueryTarget = $relation->getTarget();
+        }
 
         $subQuery->utilize($sourcePath); // TODO: Don't join if there's a matching foreign key
 
         if (! $link) {
-            return $subQuery->columns(array_map(function ($keyName) use ($sourcePath) {
+            $subQuery->columns(array_map(function ($keyName) use ($sourcePath) {
                 return "$sourcePath.$keyName";
             }, (array) $subQueryTarget->getKeyName()));
+
+            return $subQuery;
         }
 
         // TODO: Should be done by the caller. Though, that's not possible until we've got a filter abstraction
@@ -658,12 +711,11 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Execute the query
      *
-     * @return ResultSet
+     * @return ResultSet<TRow>
      */
     public function execute(): ResultSet
     {
         $class = $this->getResultSetClass();
-        /** @var ResultSet $class Just for type hinting. $class is of course a string */
 
         return $class::fromQuery($this);
     }
@@ -671,7 +723,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Fetch and return the first result
      *
-     * @return Model|null Null in case there's no result
+     * @return ?TRow Null in case there's no result
      */
     public function first(): ?Model
     {
@@ -698,7 +750,8 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Yield the query's results
      *
-     * @return Generator
+     * @return Generator<mixed, int, TRow, void>
+     * @phpstan-return Generator<int, TRow, mixed, void>
      */
     public function yieldResults(): Generator
     {
@@ -723,6 +776,11 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
         return $this->count;
     }
 
+    /**
+     * Get the query's result set
+     *
+     * @return Traversable<int, TRow>
+     */
     public function getIterator(): Traversable
     {
         return $this->execute();

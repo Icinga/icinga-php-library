@@ -10,7 +10,9 @@ use ipl\Orm\Contract\QueryAwareBehavior;
 use ipl\Orm\Exception\InvalidColumnException;
 use ipl\Orm\Exception\InvalidRelationException;
 use ipl\Orm\Relation\BelongsToMany;
+use ipl\Orm\Relation\Junction;
 use ipl\Sql\ExpressionInterface;
+use ipl\Stdlib\Filter;
 use LogicException;
 use OutOfBoundsException;
 use SplObjectStorage;
@@ -50,6 +52,9 @@ class Resolver
     /** @var SplObjectStorage Resolved relations */
     protected SplObjectStorage $resolvedRelations;
 
+    /** @var SplObjectStorage Visibility filters from resolved models */
+    protected SplObjectStorage $visibilityFilters;
+
     /**
      * Create a new resolver
      *
@@ -67,6 +72,7 @@ class Resolver
         $this->selectColumns = new SplObjectStorage();
         $this->metaData = new SplObjectStorage();
         $this->resolvedRelations = new SplObjectStorage();
+        $this->visibilityFilters = new SplObjectStorage();
     }
 
     /**
@@ -85,6 +91,46 @@ class Resolver
         }
 
         return $this->relations[$model];
+    }
+
+    /**
+     * Get a model's visibility filter
+     *
+     * @param Model $model
+     *
+     * @return Filter\Chain
+     *
+     * @throws LogicException If a non-condition rule is used in the filter
+     */
+    public function getVisibilityFilter(Model $model): Filter\Chain
+    {
+        if (! isset($this->visibilityFilters[$model])) {
+            $visibilityFilter = Filter::all();
+            $model->createVisibilityFilter($visibilityFilter);
+            foreach ($visibilityFilter->yieldRules() as $rule) {
+                if (! $rule instanceof Filter\Condition) {
+                    throw new LogicException(sprintf(
+                        'Visibility filter for model "%s" contains a non-condition rule of type "%s"',
+                        get_class($model),
+                        get_class($rule)
+                    ));
+                }
+
+                $rule->setColumn($this->qualifyColumn($rule->getColumn(), $model->getTableAlias()));
+                if ($rule->getValue() instanceof ExpressionInterface) {
+                    $resolvedColumns = [];
+                    foreach ($rule->getValue()->getColumns() as $column) {
+                        $resolvedColumns[] = $this->qualifyColumn($column, $model->getTableAlias());
+                    }
+
+                    $rule->setValue((clone $rule->getValue())->setColumns($resolvedColumns));
+                }
+            }
+
+            $this->visibilityFilters[$model] = $visibilityFilter;
+        }
+
+        return $this->visibilityFilters[$model];
     }
 
     /**
@@ -452,6 +498,131 @@ class Resolver
     }
 
     /**
+     * Resolve the given relation filter
+     *
+     * Resolves each condition's column according to the referenced subject or, by default, the target.
+     * The target may also be referenced by the relation's name.
+     *
+     * @param Filter\Chain $filter
+     * @param string $name The name of the relation
+     * @param Model $source
+     * @param Model $target
+     *
+     * @throws InvalidArgumentException If a non-condition rule or invalid column is used in the filter
+     */
+    public function resolveRelationFilter(Filter\Chain $filter, string $name, Model $source, Model $target): void
+    {
+        $resolveColumn = function (string $column) use ($name, $source, $target): string {
+            // A column may reference the source or target table by its alias, defaulting to the target
+            if (str_contains($column, '.')) {
+                [$alias, $column] = explode('.', $column, 2);
+            } else {
+                $alias = $target->getTableAlias();
+            }
+
+            $subject = match ($alias) {
+                $name => $target,
+                $source->getTableAlias() => $source,
+                $target->getTableAlias() => $target,
+                default => throw new InvalidArgumentException(sprintf(
+                    'Invalid relation alias "%s" for models "%s" and "%s"',
+                    $alias,
+                    get_class($source),
+                    get_class($target)
+                ))
+            };
+
+            if (! $subject instanceof Junction && ! $this->hasSelectableColumn($subject, $column)) {
+                throw new InvalidArgumentException(sprintf(
+                    'Relation filter for model "%s" contains a non-selectable column "%s"',
+                    get_class($subject),
+                    $column
+                ));
+            }
+
+            return "$alias.$column";
+        };
+
+        foreach ($filter->yieldRules() as $rule) {
+            if (! $rule instanceof Filter\Condition) {
+                throw new InvalidArgumentException(sprintf(
+                    'Relation filter for model "%s" contains a non-condition rule of type "%s"',
+                    get_class($target),
+                    get_class($rule)
+                ));
+            }
+
+            $rule->setColumn($resolveColumn($rule->getColumn()));
+            if ($rule->getValue() instanceof ExpressionInterface) {
+                $rule->setValue(
+                    (clone $rule->getValue())
+                        ->setColumns(array_map($resolveColumn(...), $rule->getValue()->getColumns()))
+                );
+            }
+        }
+    }
+
+    /**
+     * Qualify the columns of the given filter
+     *
+     * @param Filter\Chain $filter
+     * @param Model|Relation $subject
+     *
+     * @return Filter\Chain
+     *
+     * @throws InvalidArgumentException If a non-condition rule is used or an unknown model is referenced
+     */
+    public function qualifyFilter(Filter\Chain $filter, Model|Relation $subject): Filter\Chain
+    {
+        $qualifyColumn = function (string $column) use ($subject): string {
+            [$alias, $column] = explode('.', $column, 2);
+
+            if ($subject instanceof Model) {
+                if ($subject->getTableAlias() !== $alias) {
+                    throw new InvalidArgumentException(sprintf(
+                        'Unknown model alias "%s" for filter column "%s"',
+                        $alias,
+                        $column
+                    ));
+                }
+
+                return $this->qualifyColumn($column, $this->getAlias($subject));
+            }
+
+            return $this->qualifyColumn(
+                $column,
+                match ($alias) {
+                    $subject->getSource()->getTableAlias() => $this->getAlias($subject->getSource()),
+                    $subject->getTarget()->getTableAlias() => $this->getAlias($subject->getTarget()),
+                    $subject->getName() => $this->getAlias($subject->getTarget()),
+                    default => throw new InvalidArgumentException(sprintf(
+                        'Unknown model alias "%s" for filter column "%s"',
+                        $alias,
+                        $column
+                    ))
+                }
+            );
+        };
+
+        $filter = clone $filter; // Deep clone
+        foreach ($filter->yieldRules() as $rule) {
+            if (! $rule instanceof Filter\Condition) {
+                throw new InvalidArgumentException(sprintf('Invalid filter rule "%s"', get_class($rule)));
+            }
+
+            $rule->setColumn($qualifyColumn($rule->getColumn()));
+            if ($rule->getValue() instanceof ExpressionInterface) {
+                $rule->setValue(
+                    (clone $rule->getValue())
+                        ->setColumns(array_map($qualifyColumn(...), $rule->getValue()->getColumns()))
+                );
+            }
+        }
+
+        return $filter;
+    }
+
+    /**
      * Get whether the given relation path points to a distinct entity
      *
      * @param string $path
@@ -546,10 +717,23 @@ class Resolver
 
                 $relation = $targetRelations->get($relationName);
                 $relation->setSource($target);
+                $this->resolveRelationFilter(
+                    $relation->getFilter(),
+                    $relationName,
+                    $target,
+                    $relation->getTarget()
+                );
 
                 $resolvedRelations[$relationPath] = $relation;
 
                 if ($relation instanceof BelongsToMany) {
+                    $this->resolveRelationFilter(
+                        $relation->getThroughFilter(),
+                        $relationName,
+                        $target,
+                        $relation->getThrough()
+                    );
+
                     $this->setAlias($relation->getThrough(), join('_', array_merge(
                         array_slice($segments, 0, -1),
                         [$relation->getThroughAlias()]

@@ -6,6 +6,8 @@ use Generator;
 use ipl\Orm\Model;
 use ipl\Orm\Relation;
 use ipl\Orm\Relations;
+use ipl\Stdlib\Filter;
+use ipl\Stdlib\Filter\Rule;
 use LogicException;
 
 /**
@@ -32,6 +34,9 @@ class BelongsToMany extends Relation
 
     /** @var string|array|null Candidate key column name(s) in the target table which references the target foreign key */
     protected string|array|null $targetCandidateKey = null;
+
+    /** @var ?Filter\Chain Additional JOIN conditions for the join table */
+    protected ?Filter\Chain $throughFilter = null;
 
     /**
      * Get the name of the join table or junction model class
@@ -172,6 +177,40 @@ class BelongsToMany extends Relation
         return $this;
     }
 
+    /**
+     * Get the filter to constrain results of the join table or junction model
+     *
+     * @return Filter\Chain
+     */
+    public function getThroughFilter(): Filter\Chain
+    {
+        return $this->throughFilter ?? Filter::all();
+    }
+
+    /**
+     * Set a filter that constraints results of the join table or junction model
+     *
+     * Only actual columns of the source's or junction's table itself are allowed. Qualification happens at runtime.
+     * Use the source's table alias or the junction's one (default) to reference one or the other. Comparison values
+     * are passed as-is to ipl-sql's query builder, thus any behaviors by either the source or junction are not applied.
+     * Custom filter types other than those extending {@see Filter\Condition} are not allowed. Condition values of
+     * type {@see ExpressionInterface} are supported and must adhere to the same assumptions.
+     *
+     * @param Rule $filter
+     *
+     * @return $this
+     */
+    public function setThroughFilter(Filter\Rule $filter): static
+    {
+        if (! $filter instanceof Filter\Chain) {
+            $filter = Filter::all($filter);
+        }
+
+        $this->throughFilter = $filter;
+
+        return $this;
+    }
+
     public function resolve(): Generator
     {
         $source = $this->getSource();
@@ -210,24 +249,24 @@ class BelongsToMany extends Relation
             ->setName($this->getThroughAlias())
             ->setSource($source)
             ->setTarget($junction)
+            ->setFilter($this->getThroughFilter())
             ->setCandidateKey($this->extractKey($possibleCandidateKey))
-            ->setForeignKey($this->extractKey($possibleForeignKey));
+            ->setForeignKey($this->extractKey($possibleForeignKey))
+            ->setJoinType($this->getJoinType());
+
+        yield from $toJunction->resolve();
 
         $targetClass = static::RELATION_CLASS;
         $toTarget = (new $targetClass())
             ->setName($this->getName())
             ->setSource($junction)
             ->setTarget($target)
+            ->setFilter($this->getFilter())
             ->setCandidateKey($this->extractKey($possibleTargetCandidateKey))
-            ->setForeignKey($this->extractKey($possibleTargetForeignKey));
+            ->setForeignKey($this->extractKey($possibleTargetForeignKey))
+            ->setJoinType($this->getJoinType());
 
-        foreach ($toJunction->resolve() as $k => $v) {
-            yield $k => $v;
-        }
-
-        foreach ($toTarget->resolve() as $k => $v) {
-            yield $k => $v;
-        }
+        yield from $toTarget->resolve();
     }
 
     protected function extractKey(array $possibleKey): string|array|null

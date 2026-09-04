@@ -96,8 +96,8 @@ class Str
     /**
      * Check if the given string is empty
      *
-     * Null is considered empty, and strings consisting only of whitespace or visually
-     * empty characters are considered empty.
+     * Null is considered empty, and strings consisting only of whitespace, NUL bytes,
+     * or visually empty characters are considered empty.
      *
      * @param string|Stringable|null $subject
      *
@@ -105,6 +105,6 @@ class Str
      */
     public static function isEmpty(string|Stringable|null $subject): bool
     {
-        return $subject === null || preg_match('/^[\s\x{3164}\x{1160}]*$/u', $subject) === 1;
+        return $subject === null || preg_match('/^[\s\x00\x{3164}\x{1160}]*$/u', $subject) === 1;
     }
 }
