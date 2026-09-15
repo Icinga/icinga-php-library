@@ -1,0 +1,39 @@
+{
+  "name": "ipl/i18n",
+  "description": "Icinga PHP Library - Internationalization",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "gettext",
+    "i18n",
+    "internationalization",
+    "localization",
+    "translation"
+  ],
+  "homepage": "https://github.com/Icinga/ipl-i18n",
+  "require": {
+    "php": ">=8.2",
+    "ext-gettext": "*",
+    "ext-intl": "*",
+    "ipl/stdlib": ">=0.15.0"
+  },
+  "require-dev": {
+    "ipl/stdlib": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ipl\\I18n\\": "src"
+    },
+    "files": [
+      "src/functions_include.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\I18n\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
