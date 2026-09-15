@@ -101,10 +101,12 @@ class Hydrator
     /**
      * Hydrate the given raw database rows into the specified model
      *
-     * @param array $data
-     * @param Model $model
+     * @template TModel of Model
      *
-     * @return Model
+     * @param array $data
+     * @param TModel $model
+     *
+     * @return TModel
      */
     public function hydrate(array $data, Model $model): Model
     {

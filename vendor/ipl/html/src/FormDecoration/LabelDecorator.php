@@ -98,7 +98,7 @@ class LabelDecorator implements FormElementDecoration, DecoratorOptionsInterface
             return null;
         }
 
-        return new HtmlElement('label', content: new Text($label));
+        return new HtmlElement('label', content: $label instanceof ValidHtml ? $label : new Text($label));
     }
 
     protected function registerAttributeCallbacks(Attributes $attributes): void
