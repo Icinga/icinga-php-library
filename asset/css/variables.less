@@ -1,0 +1,233 @@
+/*
+  RECOMMENDATION:
+     Please do not use the base color variables directly,
+     define a new variable instead that assigns the value of this base variable.
+       Examples:
+         - @base-color: red;
+         - @my-new-var: @base-color;
+         - @my-second-new-var: @base-color;
+
+     Do not use the same variable for different use cases, but define a new variable for each use case.
+
+  NOTICE:
+    Color vars identification:
+      - Vars with `-bg` suffix are background-color vars. Please use only for setting bg-color.
+      - Vars with `-color` suffix are color vars. Please use only for setting fg-color.
+
+  MODE SUPPORT:
+    The standard LESS variables represent the dark mode. The LESS detached ruleset `@iplWebLightRules`
+    contains CSS variables that represent the light mode. It must be used explicitly to have any effect.
+    If you use media queries to support modes, just call the ruleset inside your media query:
+
+      @media (prefers-color-scheme: light) {
+        @iplWebLightRules();
+      }
+*/
+
+@default-bg: #282E39;
+
+@base-gray: #c4c4c4;
+@base-gray-light: #5c5c5c;
+@base-gray-lighter: #4b4b4b;
+@base-gray-semilight: #888;
+@base-disabled: #9a9a9a;
+
+@base-primary-color: #00C3ED;
+@base-primary-bg: #00C3ED;
+@base-primary-dark: #0081a6;
+@base-primary-light: fade(@base-primary-bg, 50%);
+
+@default-text-color: #fff;
+@default-text-color-light: fade(@default-text-color, 75%);
+@default-text-color-inverted: @default-bg;
+@default-input-bg: #404d72;
+@default-input-hover-bg: #434374;
+@default-input-outline-color: @base-primary-light;
+@default-remove-bg: @state-critical;
+@default-remove-color: @default-text-color-inverted;
+@default-delete-bg: @state-critical;
+@default-delete-color: @default-text-color-inverted;
+
+@state-ok: #44bb77;
+@state-up: @state-ok;
+@state-warning: #ffaa44;
+@state-critical: #ff5566;
+@state-down: @state-critical;
+@state-pending: #77aaff;
+@state-unknown: #aa44ff;
+@state-none: @base-gray-light;
+
+@primary-button-color: @default-text-color-inverted;
+@primary-button-bg: @base-primary-bg;
+@primary-button-hover-bg: @base-primary-dark;
+@link-hover-color: @base-primary-color;
+
+@search-term-bg: @base-gray;
+@search-term-color: @default-text-color-inverted;
+@search-term-selected-bg: @base-disabled;
+@search-term-invalid-bg: @state-critical;
+@search-term-invalid-color: @default-text-color-inverted;
+@search-term-invalid-reason-bg: @base-gray-lighter;
+@search-term-disabled-bg: @base-disabled;
+@search-term-selected-color: @base-gray-light;
+@search-term-highlighted-bg: @base-primary-bg;
+@search-term-highlighted-color: @default-text-color-inverted;
+@search-term-drag-border-color: @base-gray;
+@search-term-remove-action-bg: @default-remove-bg;
+@search-term-remove-action-color: @default-remove-color;
+
+@search-condition-remove-bg: @state-critical;
+@search-condition-remove-color: @default-text-color-inverted;
+
+@search-logical-operator-bg: @base-gray-light;
+@search-logical-operator-color: @default-text-color-light;
+
+@searchbar-bg: @default-input-bg;
+@searchbar-scrollbar-bg: @base-gray-light;
+
+@search-editor-error-color: @state-critical;
+@search-editor-control-color: @base-gray-light;
+@search-editor-remove-control-color: @state-critical;
+@search-editor-drag-outline-color: @base-gray;
+
+@control-color: @base-primary-color;
+@control-hover-bg: @base-gray-lighter;
+@control-disabled-color: @base-disabled;
+@controls-separator-bg: @base-gray-lighter;
+
+@cancel-button-bg: none;
+@cancel-button-border-color: @state-critical;
+@cancel-button-color: @state-critical;
+@cancel-button-hover-bg: @state-critical;
+@cancel-button-hover-color: @default-text-color-inverted;
+
+@suggestions-bg: @default-bg;
+@suggestions-color: @default-text-color-light;
+@suggestions-focus-bg: @base-primary-bg;
+@suggestions-focus-color: @default-text-color-inverted;
+@suggestions-default-opt-bg: fade(@base-primary-bg, 10%);
+@suggestions-default-opt-color: @default-text-color-light;
+@suggestions-hover-bg: fade(@base-primary-bg, 30%);
+@suggestions-border-color: @base-gray-light;
+@suggestions-separation-bg: @base-gray-lighter;
+@suggestions-failure-message-color: @default-text-color-light;
+@suggestions-relation-path-bg: @base-gray-light;
+@suggestions-relation-path-focus-bg: @base-gray;
+
+@card-border-color: @base-gray-light;
+
+@schedule-element-fields-bg: @default-input-bg;
+@schedule-element-fields-color: @base-primary-color;
+@schedule-element-fields-border-color: @base-gray-light;
+@schedule-element-fields-selected-bg: @primary-button-bg;
+@schedule-element-fields-selected-color: @default-text-color-inverted;
+@schedule-element-fields-hover-bg: @base-primary-light;
+@schedule-element-fields-outline-color: @default-input-outline-color;
+@schedule-element-fields-selected-outline-color: fade(#fff, 50%);
+@schedule-element-fields-selected-hover-bg: @primary-button-hover-bg;
+@schedule-element-fields-disabled-color: @base-gray;
+@schedule-element-fields-disabled-bg: @base-gray-lighter;
+@schedule-element-fields-disabled-selected-bg: @base-gray-light;
+@schedule-element-keyboard-note-bg: @base-gray-light;
+
+@empty-state-color: @base-gray-semilight;
+@empty-state-bar-bg: @base-gray-lighter;
+
+@list-item-title-hover-color: @link-hover-color;
+@list-item-separation-bg: @base-gray-light;
+
+@iplWebLightRules: {
+  :root {
+    --base-gray: #819398;
+    --base-gray-light: #d0d3da;
+    --base-gray-lighter: #e8ecef;
+    --base-gray-semilight: #94a5a6;
+    --base-disabled: var(--base-gray-light);
+
+    --base-remove-bg: @state-critical;
+
+    --default-text-color: #535353;
+    --default-text-color-light: fade(#535353, 75%); // --default-text-color
+    --default-text-color-inverted: #F5F9FA;
+    --default-input-bg: #DEECF1;
+    --default-input-hover-bg: #C0CCCD;
+    --default-input-outline-color: @base-primary-light;
+    --default-remove-bg: var(--base-remove-bg);
+    --default-remove-color: var(--default-text-color-inverted);
+    --default-delete-bg: var(--base-remove-bg);
+    --default-delete-color: var(--default-text-color-inverted);
+
+    --primary-button-color: var(--default-text-color-inverted);
+    --primary-button-bg: @primary-button-bg;
+    --primary-button-hover-bg: @primary-button-hover-bg;
+    --link-hover-color: var(--base-primary-color);
+
+    --searchbar-bg: var(--default-input-bg);
+    --searchbar-scrollbar-bg: var(--base-gray-light);
+
+    --search-term-bg: var(--base-gray-light);
+    --search-term-color: var(--default-text-color);
+    --search-term-selected-bg: var(--base-disabled);
+    --search-term-invalid-bg: var(--base-remove-bg);
+    --search-term-invalid-color: var(--default-text-color-inverted);
+    --search-term-invalid-reason-bg: var(--base-gray-lighter);
+    --search-term-disabled-bg: var(--base-gray-light);
+    --search-term-selected-color: var(--base-gray);
+    --search-term-highlighted-bg: var(--primary-button-bg);
+    --search-term-highlighted-color: var(--default-text-color-inverted);
+    --search-term-drag-border-color: var(--base-gray);
+    --search-term-remove-action-bg: var(--default-remove-bg);
+    --search-term-remove-action-color: var(--default-remove-color);
+
+    --search-condition-remove-bg: var(--base-remove-bg);
+    --search-condition-remove-color: var(--default-text-color-inverted);
+
+    --search-logical-operator-bg: fade(#819398, 50%); // --base-gray
+    --search-logical-operator-color: var(--default-text-color-light);
+
+    --search-editor-error-color: var(--base-remove-bg);
+    --search-editor-control-color: var(--base-gray-light);
+    --search-editor-drag-outline-color: var(--base-gray);
+
+    --control-color: var(--primary-button-bg);
+    --control-hover-bg: var(--base-gray-lighter);
+    --control-disabled-color: var(--base-gray-light);
+
+    --cancel-button-hover-color: var(--default-text-color-inverted);
+
+    --suggestions-bg: var(--default-text-color-inverted);
+    --suggestions-color: var(--default-text-color-light);
+    --suggestions-focus-bg: var(--primary-button-bg);
+    --suggestions-focus-color: var(--default-text-color-inverted);
+    --suggestions-default-opt-bg: fade(@primary-button-bg, 10%);
+    --suggestions-default-opt-color: var(--default-text-color-light);
+    --suggestions-hover-bg: fade(@primary-button-bg, 30%);
+    --suggestions-border-color: var(--base-gray-light);
+    --suggestions-separation-bg: var(--base-gray-lighter);
+    --suggestions-failure-message-color: var(--default-text-color-light);
+    --suggestions-relation-path-bg: var(--base-gray-lighter);
+    --suggestions-relation-path-focus-bg: var(--base-gray);
+
+    --card-border-color: var(--base-gray-light);
+
+    --schedule-element-fields-bg: var(--default-input-bg);
+    --schedule-element-fields-color: var(--base-primary-color);
+    --schedule-element-fields-border-color: var(--base-gray-light);
+    --schedule-element-fields-selected-bg: var(--primary-button-bg);
+    --schedule-element-fields-selected-color: var(--default-text-color-inverted);
+    --schedule-element-fields-hover-bg: @base-primary-light;
+    --schedule-element-fields-outline-color: @default-input-outline-color;
+    --schedule-element-fields-selected-outline-color: fade(#fff, 50%);
+    --schedule-element-fields-selected-hover-bg: var(--primary-button-hover-bg);
+    --schedule-element-fields-disabled-color: var(--base-gray);
+    --schedule-element-fields-disabled-bg: var(--base-gray-lighter);
+    --schedule-element-fields-disabled-selected-bg: var(--base-gray-light);
+    --schedule-element-keyboard-note-bg: var(--base-gray-light);
+
+    --empty-state-color: var(--base-gray-semilight);
+    --empty-state-bar-bg: var(--base-gray-lighter);
+
+    --list-item-title-hover-color: var(--link-hover-color);
+    --list-item-separation-bg: var(--base-gray-light);
+  }
+};
