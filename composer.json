@@ -5,15 +5,15 @@
   "type": "project",
   "homepage": "https://github.com/Icinga/icinga-php-library",
   "require": {
-    "php": ">=8.2",
-    "ipl/html": "^0.11.0",
-    "ipl/i18n": "^1.0.0",
-    "ipl/orm": "^0.9.0",
-    "ipl/scheduler": "^1.0.0",
-    "ipl/sql": "^0.9.1",
-    "ipl/stdlib": "^0.16.0",
-    "ipl/validator": "^1.0.0",
-    "ipl/web": "^0.14.0"
+    "php": ">=7.2",
+    "ipl/html": "dev-main as 99.x-dev",
+    "ipl/i18n": "dev-main as 99.x-dev",
+    "ipl/orm": "dev-main as 99.x-dev",
+    "ipl/scheduler": "dev-main as 99.x-dev",
+    "ipl/sql": "dev-main as 99.x-dev",
+    "ipl/stdlib": "dev-main as 99.x-dev",
+    "ipl/validator": "dev-main as 99.x-dev",
+    "ipl/web": "dev-main as 99.x-dev"
   },
   "repositories": [
     {
@@ -36,5 +36,7 @@
     "post-update-cmd": [
       "AssetLoader::update"
     ]
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
