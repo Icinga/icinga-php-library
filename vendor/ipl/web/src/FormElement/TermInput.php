@@ -9,6 +9,7 @@ use ipl\Html\FormElement\FieldsetElement;
 use ipl\Html\FormElement\HiddenElement;
 use ipl\Html\HtmlElement;
 use ipl\Html\HtmlString;
+use ipl\Html\ValidHtml;
 use ipl\Stdlib\Events;
 use ipl\Web\FormElement\TermInput\RegisteredTerm;
 use ipl\Web\FormElement\TermInput\TermContainer;
@@ -261,13 +262,13 @@ class TermInput extends FieldsetElement
      *
      * @param ServerRequestInterface $request
      *
-     * @return array
+     * @return array<array{0: ValidHtml, 1: ?string}>
      */
     public function prepareMultipartUpdate(ServerRequestInterface $request): array
     {
         $updates = [];
         if ($this->valueHasBeenPasted()) {
-            $updates[] = $this->termContainer();
+            $updates[] = [$this->termContainer(), null];
             $updates[] = [
                 HtmlString::create(json_encode(
                     ['#' . Attribute::sanitizeId($this->getValueOfNameAttribute()) . '-search-input', []]
@@ -284,7 +285,7 @@ class TermInput extends FieldsetElement
         }
 
         if (empty($updates) && $this->hasBeenAutoSubmitted()) {
-            $updates[] = $updates[] = [
+            $updates[] = [
                 HtmlString::create(json_encode(
                     ['#' . Attribute::sanitizeId($this->getValueOfNameAttribute()) . '-search-input', 'bogus']
                 )),

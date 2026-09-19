@@ -109,10 +109,10 @@
 /**
  The default layout of list controls in Icinga Web
 
- ┌────────────────────────────────────────────────────────────────┐
- │ .pagination-control               .limit-control .sort-control │
- │ <-------------------- .search-controls ----------------------> │
- └────────────────────────────────────────────────────────────────┘
+ ┌───────────────────────────────────────────────────────────────────────────────────┐
+ │ .pagination-control              .view-mode-switcher .limit-control .sort-control │
+ │ <---------------------------- .search-controls ---------------------------------> │
+ └───────────────────────────────────────────────────────────────────────────────────┘
  */
 .controls.default-layout {
   .box-shadow(0, 0, 0, 1px, @controls-separator-bg);
@@ -127,10 +127,12 @@
   }
 
   > .sort-control,
+  > .view-mode-switcher,
   > .limit-control {
     float: right;
   }
 
+  > .view-mode-switcher,
   > .limit-control {
     margin-right: .5em;
   }

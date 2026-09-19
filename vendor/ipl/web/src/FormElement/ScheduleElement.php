@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use ipl\Html\Attributes;
 use ipl\Html\FormElement\FieldsetElement;
 use ipl\Html\HtmlElement;
+use ipl\Html\ValidHtml;
 use ipl\Scheduler\Contract\Frequency;
 use ipl\Scheduler\Cron;
 use ipl\Scheduler\OneOff;
@@ -633,7 +634,7 @@ class ScheduleElement extends FieldsetElement
      *
      * @param RequestInterface $request
      *
-     * @return array
+     * @return ValidHtml[]
      */
     public function prepareMultipartUpdate(RequestInterface $request): array
     {
