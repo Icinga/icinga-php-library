@@ -12,10 +12,13 @@ use ipl\Html\HtmlString;
 use ipl\Html\ValidHtml;
 use ipl\Orm\Query;
 use ipl\Stdlib\Contract\Paginatable;
+use ipl\Stdlib\Events;
 use ipl\Web\Control\LimitControl;
 use ipl\Web\Control\PaginationControl;
 use ipl\Web\Control\SearchBar;
 use ipl\Web\Control\SortControl;
+use ipl\Web\Control\ViewModeSwitcher;
+use ipl\Web\Control\ViewModeSwitcher\ViewMode;
 use ipl\Web\Layout\Content;
 use ipl\Web\Layout\Controls;
 use ipl\Web\Layout\Footer;
@@ -26,6 +29,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class CompatController extends Controller
 {
+    use Events;
+
     /** @var Content */
     protected $content;
 
@@ -244,6 +249,10 @@ class CompatController extends Controller
      *
      * This automatically shifts the limit URL parameter from {@link $params}.
      *
+     * If a {@see ViewModeSwitcher} is created using {@see \ipl\Web\Common\Controls::createViewModeSwitcher()}
+     * the default limit will automatically be set to the current {@see ViewMode::getPageSize()},
+     * unless an explicit limit is declared in the url.
+     *
      * @return LimitControl
      */
     public function createLimitControl(): LimitControl
@@ -253,6 +262,17 @@ class CompatController extends Controller
 
         $this->params->shift($limitControl->getLimitParam());
 
+        $this->on(
+        /** {@see \ipl\Web\Common\Controls::ON_VIEW_MODE_SET} */
+            'view-mode-set',
+            function (ViewModeSwitcher $viewModeSwitcher) use ($limitControl) {
+                if (! isset($this->getServerRequest()->getQueryParams()[$limitControl->getLimitParam()])) {
+                    $limit = $viewModeSwitcher->getViewMode()->getPageSize();
+                    $limitControl->setDefaultLimit($this->getPageSize($limit));
+                }
+            }
+        );
+
         return $limitControl;
     }
 
@@ -260,6 +280,13 @@ class CompatController extends Controller
      * Create and return the PaginationControl
      *
      * This automatically shifts the pagination URL parameters from {@link $params}.
+     *
+     * If a {@see ViewModeSwitcher} is created using {@see \ipl\Web\Common\Controls::createViewModeSwitcher()}
+     * the default page size will automatically be set to the current {@see ViewMode::getPageSize()},
+     * unless an explicit page size is declared in the url.
+     *
+     * When a change of view mode changes the page size, the current page is corrected so that the previously first
+     * element is always visible on the corrected page.
      *
      * @param Paginatable $paginatable
      *
@@ -273,6 +300,44 @@ class CompatController extends Controller
 
         $this->params->shift($paginationControl->getPageParam());
         $this->params->shift($paginationControl->getPageSizeParam());
+
+        $this->on(
+        /** {@see \ipl\Web\Common\Controls::ON_VIEW_MODE_SET} */
+            'view-mode-set',
+            function (ViewModeSwitcher $viewModeSwitcher) use ($paginationControl) {
+                if (! isset($this->getServerRequest()->getQueryParams()[$paginationControl->getPageSizeParam()])) {
+                    $limit = $viewModeSwitcher->getViewMode()->getPageSize();
+                    $paginationControl->setDefaultPageSize($this->getPageSize($limit))
+                        ->apply();
+                }
+            }
+        );
+
+        $this->on(
+        /** {@see \ipl\Web\Common\Controls::ON_VIEW_MODE_CHANGE} */
+            'view-mode-change',
+            function (
+                ViewModeSwitcher $viewModeSwitcher,
+                ViewMode $previousViewMode,
+                Url $redirectUrl
+            ) use ($paginationControl) {
+                if (
+                    ! isset($this->getServerRequest()->getQueryParams()[$paginationControl->getPageSizeParam()])
+                    && $viewModeSwitcher->getViewMode()->getName() !== $previousViewMode->getName()
+                ) {
+                    $previous = $previousViewMode->getPageSize();
+                    $new = $viewModeSwitcher->getViewMode()->getPageSize();
+
+                    $page = (int) floor((($paginationControl->getCurrentPageNumber() - 1) * $previous) / $new) + 1;
+
+                    if ($page > 1) {
+                        $redirectUrl->setParam($paginationControl->getPageParam(), $page);
+                    } else {
+                        $redirectUrl->remove($paginationControl->getPageParam());
+                    }
+                }
+            }
+        );
 
         return $paginationControl->apply();
     }

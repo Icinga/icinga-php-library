@@ -17,6 +17,8 @@ use function ipl\Stdlib\get_php_type;
 
 /**
  * Collection of a model's relations.
+ *
+ * @implements IteratorAggregate<int, Relation>
  */
 class Relations implements IteratorAggregate
 {

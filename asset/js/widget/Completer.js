@@ -16,6 +16,7 @@ define(["../notjQuery"], function ($) {
             this.completedValue = null;
             this.completedData = null;
             this._termSuggestions = null;
+            this.suggestionSelector = ':not([hidden]) > [type="button"]';
         }
 
         get termSuggestions() {
@@ -31,15 +32,15 @@ define(["../notjQuery"], function ($) {
             $(this.input.form).on('submit', this.onSubmit, this);
 
             // User interactions
-            $(this.termSuggestions).on('focusout', '[type="button"]', this.onFocusOut, this);
-            $(this.termSuggestions).on('click', '[type="button"]', this.onSuggestionClick, this);
-            $(this.termSuggestions).on('keydown', '[type="button"]', this.onSuggestionKeyDown, this);
+            $(this.termSuggestions).on('focusout', this.suggestionSelector, this.onFocusOut, this);
+            $(this.termSuggestions).on('click', this.suggestionSelector, this.onSuggestionClick, this);
+            $(this.termSuggestions).on('keydown', this.suggestionSelector, this.onSuggestionKeyDown, this);
 
             if (this.selectionEnabled()) {
-                $(this.termSuggestions).on('keyup', '[type="button"]', this.onSuggestionKeyUp, this);
-                $(this.termSuggestions).on('mouseover', '[type="button"]', this.onSuggestionMouseOver, this);
-                $(this.termSuggestions).on('mousedown', '[type="button"]', this.onSuggestionMouseDown, this);
-                $(this.termSuggestions).on('mouseup', '[type="button"]', this.onSuggestionsMouseUp, this);
+                $(this.termSuggestions).on('keyup', this.suggestionSelector, this.onSuggestionKeyUp, this);
+                $(this.termSuggestions).on('mouseover', this.suggestionSelector, this.onSuggestionMouseOver, this);
+                $(this.termSuggestions).on('mousedown', this.suggestionSelector, this.onSuggestionMouseDown, this);
+                $(this.termSuggestions).on('mouseup', this.suggestionSelector, this.onSuggestionsMouseUp, this);
                 $(this.termSuggestions).on('mouseleave', this.onSuggestionsMouseLeave, this);
             }
 
@@ -91,10 +92,53 @@ define(["../notjQuery"], function ($) {
             return template.content;
         }
 
-        showSuggestions(suggestions, input) {
-            this.termSuggestions.innerHTML = '';
-            this.termSuggestions.appendChild(suggestions);
-            this.termSuggestions.style.display = '';
+        loadSuggestions(data) {
+            let matchFound = false;
+            for (const suggestion of this.termSuggestions.querySelectorAll('[type="button"]')) {
+                if (! this.matchSuggestion(suggestion.dataset, data)) {
+                    suggestion.parentNode.hidden = true;
+                } else {
+                    suggestion.parentNode.hidden = false;
+                    matchFound = true;
+                }
+            }
+
+            let nothingToSuggest = this.termSuggestions.querySelector('.nothing-to-suggest');
+            if (! matchFound) {
+                if (nothingToSuggest !== null) {
+                    return;
+                }
+
+                let message = this.termSuggestions.dataset.nothingToSuggestMessage;
+                if (! message) {
+                    message = 'Nothing to suggest';
+                }
+
+                this.termSuggestions.querySelector('ul').appendChild(
+                    $.render('<li class="nothing-to-suggest"><em>' + message + '</em></li>')
+                );
+            } else if (nothingToSuggest !== null) {
+                nothingToSuggest.remove();
+            }
+        }
+
+        matchSuggestion(suggestionData, completionData) {
+            if ("exclude" in completionData && completionData.exclude.includes(suggestionData.search)) {
+                return false;
+            }
+
+            const regex = new RegExp('^' + completionData.term.label.replaceAll('*', '.*') + '$', 'i');
+
+            return regex.test(suggestionData.label) || regex.test(suggestionData.search);
+        }
+
+        showSuggestions(input, suggestions = null) {
+            if (suggestions !== null) {
+                this.termSuggestions.innerHTML = '';
+                this.termSuggestions.appendChild(suggestions);
+            }
+
+            this.termSuggestions.hidden = false;
 
             let containingBlock = this.termSuggestions.offsetParent || document.body;
             let containingBlockRect = containingBlock.getBoundingClientRect();
@@ -137,8 +181,11 @@ define(["../notjQuery"], function ($) {
                 this.suggestionKiller = null;
             }
 
-            this.termSuggestions.style.display = 'none';
-            this.termSuggestions.innerHTML = '';
+            this.termSuggestions.hidden = true;
+            if (this.input.dataset.suggestUrl) {
+                // Only clear the DOM if suggestions are loaded on-demand
+                this.termSuggestions.innerHTML = '';
+            }
 
             this.completedInput = null;
             this.completedValue = null;
@@ -210,48 +257,64 @@ define(["../notjQuery"], function ($) {
         requestCompletion(input, data, trigger = 'user') {
             this.abort();
 
-            this.nextSuggestion = setTimeout(() => {
-                let req = new XMLHttpRequest();
-                req.open('POST', this.input.dataset.suggestUrl, true);
-                req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                req.setRequestHeader('Content-Type', 'application/json');
+            let handler;
+            if (this.input.dataset.suggestUrl) {
+                handler = () => {
+                    let req = new XMLHttpRequest();
+                    req.open('POST', this.input.dataset.suggestUrl, true);
+                    req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    req.setRequestHeader('Content-Type', 'application/json');
 
-                if (typeof icinga !== 'undefined') {
-                    let windowId = icinga.ui.getWindowId();
-                    let containerId = icinga.ui.getUniqueContainerId(this.termSuggestions);
-                    if (containerId) {
-                        req.setRequestHeader('X-Icinga-WindowId', windowId + '_' + containerId);
-                    } else {
-                        req.setRequestHeader('X-Icinga-WindowId', windowId);
-                    }
-                }
-
-                req.addEventListener('loadend', () => {
-                    if (req.readyState > 0) {
-                        if (req.responseText) {
-                            let suggestions = this.renderSuggestions(req.responseText);
-                            if (trigger === 'script') {
-                                // If the suggestions are to be displayed due to a scripted event,
-                                // show them only if the completed input is still focused..
-                                if (document.activeElement === input) {
-                                    this.showSuggestions(suggestions, input);
-                                }
-                            } else {
-                                this.showSuggestions(suggestions, input);
-                            }
+                    if (typeof icinga !== 'undefined') {
+                        let windowId = icinga.ui.getWindowId();
+                        let containerId = icinga.ui.getUniqueContainerId(this.termSuggestions);
+                        if (containerId) {
+                            req.setRequestHeader('X-Icinga-WindowId', windowId + '_' + containerId);
                         } else {
-                            this.hideSuggestions();
+                            req.setRequestHeader('X-Icinga-WindowId', windowId);
                         }
                     }
 
-                    this.activeSuggestion = null;
+                    req.addEventListener('loadend', () => {
+                        if (req.readyState > 0) {
+                            if (req.responseText) {
+                                let suggestions = this.renderSuggestions(req.responseText);
+                                if (trigger === 'script') {
+                                    // If the suggestions are to be displayed due to a scripted event,
+                                    // show them only if the completed input is still focused..
+                                    if (document.activeElement === input) {
+                                        this.showSuggestions(input, suggestions);
+                                    }
+                                } else {
+                                    this.showSuggestions(input, suggestions);
+                                }
+                            } else {
+                                this.hideSuggestions();
+                            }
+                        }
+
+                        this.activeSuggestion = null;
+                        this.nextSuggestion = null;
+                    });
+
+                    req.send(JSON.stringify(data));
+
+                    this.activeSuggestion = req;
+                };
+            } else {
+                handler = () => {
                     this.nextSuggestion = null;
-                });
 
-                req.send(JSON.stringify(data));
+                    if (trigger === 'script' && document.activeElement !== input) {
+                        return;
+                    }
 
-                this.activeSuggestion = req;
-            }, 200);
+                    this.loadSuggestions(data);
+                    this.showSuggestions(input);
+                }
+            }
+
+            this.nextSuggestion = setTimeout(handler, 200);
         }
 
         suggest(input, value, data = {}) {
@@ -301,7 +364,7 @@ define(["../notjQuery"], function ($) {
 
         moveToSuggestion(backwards = false, stopAtEdge = false) {
             let focused = this.termSuggestions.querySelector('[type="button"]:focus');
-            let inputs = Array.from(this.termSuggestions.querySelectorAll('[type="button"]'));
+            let inputs = Array.from(this.termSuggestions.querySelectorAll(this.suggestionSelector));
 
             let input;
             if (focused !== null) {
@@ -443,7 +506,7 @@ define(["../notjQuery"], function ($) {
 
             let selectionFound = false;
             let selectionCandidates = [];
-            for (const input of this.termSuggestions.querySelectorAll('[type="button"]')) {
+            for (const input of this.termSuggestions.querySelectorAll(this.suggestionSelector)) {
                 if (input.classList.contains('selected')) {
                     if (selectionFound) {
                         for (const candidate of selectionCandidates) {
@@ -654,7 +717,7 @@ define(["../notjQuery"], function ($) {
 
                     break;
                 case 'Tab':
-                    suggestions = this.termSuggestions.querySelectorAll('[type="button"]');
+                    suggestions = this.termSuggestions.querySelectorAll(this.suggestionSelector);
                     if (suggestions.length === 1) {
                         event.preventDefault();
                         let input = event.target;
@@ -682,7 +745,7 @@ define(["../notjQuery"], function ($) {
 
                     break;
                 case 'ArrowUp':
-                    suggestions = this.termSuggestions.querySelectorAll('[type="button"]');
+                    suggestions = this.termSuggestions.querySelectorAll(this.suggestionSelector);
                     if (suggestions.length) {
                         event.preventDefault();
                         this.moveToSuggestion(true);
@@ -690,7 +753,7 @@ define(["../notjQuery"], function ($) {
 
                     break;
                 case 'ArrowDown':
-                    suggestions = this.termSuggestions.querySelectorAll('[type="button"]');
+                    suggestions = this.termSuggestions.querySelectorAll(this.suggestionSelector);
                     if (suggestions.length) {
                         event.preventDefault();
                         this.moveToSuggestion();
@@ -735,7 +798,7 @@ define(["../notjQuery"], function ($) {
             this.completedData = data;
 
             if (typeof data.suggestions !== 'undefined') {
-                this.showSuggestions(data.suggestions, input);
+                this.showSuggestions(input, data.suggestions);
             } else {
                 this.requestCompletion(input, data, trigger);
             }

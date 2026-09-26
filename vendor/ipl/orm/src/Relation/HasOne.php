@@ -9,4 +9,5 @@ use ipl\Orm\Relation;
  */
 class HasOne extends Relation
 {
+    protected ?string $reverseClass = BelongsTo::class;
 }

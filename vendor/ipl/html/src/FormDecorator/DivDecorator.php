@@ -13,6 +13,7 @@ use ipl\Html\FormElement\HiddenElement;
 use ipl\Html\Html;
 use ipl\Html\HtmlElement;
 use ipl\Html\Text;
+use ipl\Html\ValidHtml;
 
 /**
  * Form element decorator based on div elements
@@ -116,7 +117,7 @@ class DivDecorator extends BaseHtmlElement implements FormElementDecorator
 
         if ($label !== null) {
             if ($this->formElement instanceof FieldsetElement) {
-                return new HtmlElement('legend', null, Text::create($label));
+                return new HtmlElement('legend', null, $label instanceof ValidHtml ? $label : new Text($label));
             } else {
                 $attributes = null;
                 if ($this->formElement->getAttributes()->has('id')) {

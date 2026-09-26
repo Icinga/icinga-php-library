@@ -7,6 +7,7 @@ use ipl\Html\BaseHtmlElement;
 use ipl\Html\HtmlElement;
 use ipl\Html\Text;
 use ipl\Html\ValidHtml;
+use ipl\Stdlib\Str;
 use ipl\Web\Common\CalloutType;
 
 /**
@@ -49,7 +50,7 @@ class Callout extends BaseHtmlElement
             'div',
             ['class' => 'callout-text'],
             [
-                $this->title === null || trim($this->title) === ''
+                Str::isEmpty($this->title)
                     ? null
                     : HtmlElement::create('strong', ['class' => 'callout-title'], Text::create($this->title)),
                 is_string($this->content) ? Text::create($this->content) : $this->content,
