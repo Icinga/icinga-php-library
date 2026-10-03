@@ -1,0 +1,16 @@
+/**
+  Automatically set CSS class for duplicated submit buttons
+  used for implicit form submission that should be invisible
+  and not take up any space. `display: none` is not an option,
+  because at least Safari will then ignore the element completely
+  when submitting a form.
+ */
+.primary-submit-btn-duplicate {
+  border: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
+  width: 0;
+  position: absolute;
+}

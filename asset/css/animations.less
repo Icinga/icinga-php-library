@@ -1,0 +1,27 @@
+// By courtesy of https://csslab.app/animations/wobble
+@keyframes wobble-effect {
+  0%, 100% {
+    transform: translateX(0%);
+    transform-origin: 50% 50%;
+  }
+
+  15% {
+    transform: translateX(calc(-1 * var(--wobble-distance))) rotate(calc(-1 * var(--wobble-rotation)));
+  }
+
+  30% {
+    transform: translateX(calc(var(--wobble-distance) / 2)) rotate(var(--wobble-rotation));
+  }
+
+  45% {
+    transform: translateX(calc(var(--wobble-distance) / -2)) rotate(calc(var(--wobble-rotation) / -1.8));
+  }
+
+  60% {
+    transform: translateX(calc(var(--wobble-distance) / 3.3)) rotate(calc(var(--wobble-rotation) / 3));
+  }
+
+  75% {
+    transform: translateX(calc(var(--wobble-distance) / -5.5)) rotate(calc(var(--wobble-rotation) / -5));
+  }
+}
