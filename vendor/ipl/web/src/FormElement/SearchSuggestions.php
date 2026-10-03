@@ -304,6 +304,8 @@ class SearchSuggestions extends BaseHtmlElement
 
     protected function assemble(): void
     {
+        $this->getAttributes()->set('data-nothing-to-suggest-message', $this->translate('Nothing to suggest'));
+
         if ($this->failureMessage === null) {
             try {
                 $this->assembleSuggestions();

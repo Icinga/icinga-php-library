@@ -68,7 +68,11 @@ define(["../notjQuery", "../functions", "Completer"], function ($, functions, Co
             $(this.input).on('cut', this.onCopyAndCut, this);
 
             // Should terms be completed?
-            if (this.input.dataset.suggestUrl) {
+            if (this.input.dataset.suggestUrl || (
+                this.input.dataset.termSuggestions && document.querySelector(
+                    this.input.dataset.termSuggestions
+                ).hasChildNodes()
+            )) {
                 if (this.completer === null) {
                     this.completer = new Completer(this.input, true);
                     this.completer.bind(this.termContainer);

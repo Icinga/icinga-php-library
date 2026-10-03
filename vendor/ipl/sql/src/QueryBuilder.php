@@ -445,7 +445,12 @@ class QueryBuilder
                 }
             } else {
                 if ($value instanceof ExpressionInterface) {
-                    $sql[] = $this->buildExpression($value, $values);
+                    $stmt = $this->buildExpression($value, $values);
+                    if (is_int($expression)) {
+                        $sql[] = $stmt;
+                    } else {
+                        $sql[] = str_replace('?', $stmt, $expression);
+                    }
                 } elseif ($value instanceof Select) {
                     $stmt = '(' . $this->assembleSelect($value, $values)[0] . ')';
                     if (is_int($expression)) {

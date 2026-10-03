@@ -5,6 +5,7 @@ namespace ipl\Web\Common;
 use Error;
 use ipl\Html\Contract\FormElement;
 use ipl\Html\FormElement\HiddenElement;
+use ipl\Validator\CallbackValidator;
 
 trait CsrfCounterMeasure
 {
@@ -49,25 +50,23 @@ trait CsrfCounterMeasure
      *
      * @return FormElement
      *
-     * @throws Error If {@see requestIsSafe()} returns false
-     *
      * @deprecated Use {@see addCsrfCounterMeasure()} instead
      */
     protected function createCsrfCounterMeasure($uniqueId)
     {
         $requestIsSafe = $this->requestIsSafe();
-
         if ($requestIsSafe !== null) {
-            if (! $requestIsSafe) {
-                throw new Error('Rejecting cross-site request');
-            }
-
-            return new HiddenElement('CSRFToken', [
-                'ignore'     => true,
-                'validators' => ['Callback' => function () {
-                    return true;
-                }]
-            ]);
+            return new class ('CSRFToken', [
+                'ignore' => true,
+                'validators' => [
+                    new CallbackValidator(fn() => $requestIsSafe ?: throw new Error('Rejecting cross-site request')),
+                ],
+            ]) extends HiddenElement {
+                public function hasValue(): bool
+                {
+                    return true; // The validator must run even if no value was submitted
+                }
+            };
         }
 
         $hashAlgo = in_array('sha3-256', hash_algos(), true) ? 'sha3-256' : 'sha256';
@@ -134,21 +133,13 @@ trait CsrfCounterMeasure
      * Get whether the request is safe from CSRF based on the Sec-Fetch-Site header
      *
      * Returns true if the header indicates a same-origin request or a user-originated operation (e.g. typing a URL),
-     * both of which cannot be forged by a cross-site attacker. Returns false if the header indicates a cross-site
-     * request. Returns null in two cases where a token-based fallback should be used instead: when the request uses an
-     * RFC 9110 safe method (GET, HEAD, OPTIONS, TRACE), which cannot carry CSRF side effects by definition, or when
-     * the header is absent, indicating a legacy browser that must be validated via the CSRF token.
-     *
-     * @see https://datatracker.ietf.org/doc/html/rfc9110#section-9.2.1
+     * both of which cannot be forged by a cross-site attacker. Returns null if the header is absent,
+     * in which case a CSRF token must be validated. False indicates a cross-site request.
      *
      * @return ?bool
      */
     protected function requestIsSafe(): ?bool
     {
-        if (in_array($_SERVER['REQUEST_METHOD'] ?? null, ['GET', 'HEAD', 'OPTIONS', 'TRACE'], true)) {
-            return null;
-        }
-
         return match ($_SERVER['HTTP_SEC_FETCH_SITE'] ?? null) {
             'same-origin' => true, // same scheme, host and port
             'none'        => true, // a user-originated operation

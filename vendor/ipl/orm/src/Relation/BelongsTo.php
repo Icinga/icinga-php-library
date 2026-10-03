@@ -10,4 +10,6 @@ use ipl\Orm\Relation;
 class BelongsTo extends Relation
 {
     protected bool $inverse = true;
+
+    protected ?string $reverseClass = HasMany::class;
 }

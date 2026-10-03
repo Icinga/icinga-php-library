@@ -7,6 +7,10 @@ use Generator;
 use InvalidArgumentException;
 use ipl\Orm\Common\SortUtil;
 use ipl\Orm\Compat\FilterProcessor;
+use ipl\Orm\Relation\BelongsTo;
+use ipl\Orm\Relation\BelongsToMany;
+use ipl\Orm\Relation\BelongsToOne;
+use ipl\Orm\Relation\HasOne;
 use ipl\Sql\Connection;
 use ipl\Sql\ExpressionInterface;
 use ipl\Sql\LimitOffset;
@@ -21,11 +25,15 @@ use ipl\Stdlib\Filter;
 use ipl\Stdlib\Filters;
 use IteratorAggregate;
 use ReflectionClass;
+use RuntimeException;
 use SplObjectStorage;
 use Traversable;
 
 /**
  * Represents a database query which is associated to a model and a database connection.
+ *
+ * @template TRow of Model
+ * @implements IteratorAggregate<int, TRow>
  */
 class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Paginatable, IteratorAggregate
 {
@@ -53,10 +61,10 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /** @var Connection Database connection */
     protected $db;
 
-    /** @var string Class to return results as */
+    /** @var class-string<ResultSet<TRow>> Class to return results as */
     protected string $resultSetClass = ResultSet::class;
 
-    /** @var Model Model to query */
+    /** @var TRow Model to query */
     protected $model;
 
     /** @var array Columns to select from the model (or its relations). If empty, all columns are selected */
@@ -113,7 +121,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Get the class to return results as
      *
-     * @return string
+     * @return class-string<ResultSet<TRow>>
      */
     public function getResultSetClass(): string
     {
@@ -123,7 +131,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Set the class to return results as
      *
-     * @param string $class
+     * @param class-string<ResultSet<TRow>> $class
      *
      * @return $this
      *
@@ -145,7 +153,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Get the model to query
      *
-     * @return Model
+     * @return TRow
      */
     public function getModel()
     {
@@ -155,7 +163,10 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Set the model to query
      *
-     * @param Model $model
+     * @template TNew of Model
+     * @phpstan-self-out static<TNew>
+     *
+     * @param TNew $model
      *
      * @return $this
      */
@@ -322,6 +333,16 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
             $this->selectBase->from([
                 $this->getResolver()->getAlias($this->getModel()) => $this->getModel()->getTableName()
             ]);
+
+            $visibilityFilter = FilterProcessor::assembleFilter(
+                $this->getResolver()->qualifyFilter(
+                    $this->getResolver()->getVisibilityFilter($this->getModel()),
+                    ...[$this->getModel()->getTableAlias() => $this->getModel()]
+                )
+            );
+            if ($visibilityFilter) {
+                $this->selectBase->where(...array_reverse($visibilityFilter));
+            }
         }
 
         return $this->selectBase;
@@ -496,7 +517,24 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
                     continue;
                 }
 
-                foreach ($relation->resolve() as [$source, $target, $relatedKeys]) {
+                foreach ($relation->resolve() as $targetRelation => [$source, $target, $relatedKeys]) {
+                    if (is_int($targetRelation)) {
+                        $targetRelation = $relation;
+                        $relationFilter = Filter::any();
+                        trigger_error(sprintf(
+                            'Relation implementation of %s::resolve() returned a numeric key for the target'
+                            . ' relation. This is deprecated and will be removed in a future version. Please return'
+                            . ' the target relation as key instead.',
+                            $relation::class
+                        ), E_USER_DEPRECATED);
+                    } else {
+                        /** @var Relation $targetRelation */
+                        $relationFilter = $resolver->qualifyFilter(
+                            $targetRelation->getFilter(),
+                            ...$targetRelation->getFilterSubjects()
+                        );
+                    }
+
                     /** @var Model $source */
                     /** @var Model $target */
 
@@ -512,9 +550,20 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
                         );
                     }
 
+                    $visibilityConditions = FilterProcessor::assembleFilter(Filter::all(
+                        $relationFilter,
+                        $resolver->qualifyFilter(
+                            $resolver->getVisibilityFilter($target),
+                            ...[$target->getTableAlias() => $target]
+                        )
+                    ));
+                    if ($visibilityConditions) {
+                        $conditions[] = $visibilityConditions;
+                    }
+
                     $table = [$targetAlias => $target->getTableName()];
 
-                    switch ($relation->getJoinType()) {
+                    switch ($targetRelation->getJoinType()) {
                         case 'LEFT':
                             $select->joinLeft($table, $conditions);
 
@@ -571,32 +620,80 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Derive a new query to load the specified relation from a concrete model
      *
-     * @param string $relation
-     * @param Model  $source
+     * The passed source can be referenced in filters using the `self` relation path.
      *
-     * @return static
+     * @param string $relation
+     * @param TRow $source
+     *
+     * @return static<*>
      *
      * @throws InvalidArgumentException If the relation with the given name does not exist
+     * @throws RuntimeException If the reversed relation does not meet the expected target
      */
     public function derive($relation, Model $source): static
     {
-        // TODO: Think of a way to merge derive() and createSubQuery()
-        return $this->createSubQuery(
-            $this->getResolver()->getRelations($source)->get($relation)->getTarget(),
+        $relation = clone $this->getResolver()->resolveRelation(
             $this->getResolver()->qualifyPath($relation, $source->getTableAlias()),
             $source
         );
+        $relation
+            ->setReverseName('self')
+            ->setReverseClass(match (get_class($relation)) {
+                BelongsToMany::class, BelongsToOne::class => BelongsToOne::class,
+                BelongsTo::class => HasOne::class,
+                default => BelongsTo::class
+            });
+
+        $query = $relation->getTargetClass()::on($this->getDb());
+        $resolver = $query->getResolver();
+
+        $reversed = $relation->reverse($resolver);
+
+        // This will fail if the name ("self") is occupied, but that's fine…
+        $resolver->getRelations($query->getModel())->add($reversed);
+        $reversed->bindTo($query->getModel(), $reversed->getName(), $resolver);
+
+        $relatedKeys = null;
+        foreach ($reversed->resolve() as [$_, $target, $relatedKeys]) {
+            if ($target === $relation->getTarget()) {
+                break;
+            }
+        }
+
+        if ($relatedKeys === null) {
+            throw new RuntimeException(sprintf(
+                'Reversed relation "%s" (%s) does not resolve to the expected target: %s)',
+                $relation->getName(),
+                get_class($source),
+                $relation->getTargetClass()
+            ));
+        }
+
+        foreach ($relatedKeys as $fk => $_) {
+            if (! isset($source->$fk)) {
+                return new NoopQuery();
+            }
+
+            $query->filter(Filter::equal(
+                sprintf('%s.%s', $reversed->getName(), $fk),
+                $source->$fk
+            ));
+        }
+
+        return $query;
     }
 
     /**
      * Create a sub-query linked to rows of this query
      *
-     * @param Model $target The model to query
+     * @template TTarget of Model
+     *
+     * @param TTarget $target The model to query
      * @param string $targetPath The target's absolute relation path
-     * @param ?Model $from The source model
+     * @param ?TRow $from The source model
      * @param bool $link Whether the query should be linked to the parent query
      *
-     * @return static
+     * @return static<TTarget>
      */
     public function createSubQuery(Model $target, string $targetPath, ?Model $from = null, bool $link = true): static
     {
@@ -604,19 +701,56 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
             ->setDb($this->getDb())
             ->setModel($target);
 
-        $sourceParts = array_reverse(explode('.', $targetPath));
-        $sourceParts[0] = $target->getTableAlias();
-
         $subQueryResolver = $subQuery->getResolver();
-        $sourcePath = join('.', $sourceParts);
-        $subQueryTarget = $subQueryResolver->resolveRelation($sourcePath)->getTarget();
 
-        $subQuery->utilize($sourcePath); // TODO: Don't join if there's a matching foreign key
+        $forwardHops = array_slice(explode('.', $targetPath), 0, -1);
+        $forwardRelations = iterator_to_array($this->getResolver()->resolveRelations($targetPath, $from));
+
+        $previousHop = $target;
+        $sourceHops = [$target->getTableAlias()];
+        foreach (array_reverse($forwardRelations) as $forwardPath => $relation) {
+            /** @var Relation $relation */
+            $oppositeRelation = $relation->reverse($subQueryResolver);
+
+            $predecessor = array_pop($forwardHops);
+            if ($relation->getReverseName() === null && $predecessor !== $oppositeRelation->getName()) {
+                trigger_error(sprintf(
+                    'Relation "%s" still uses the default table alias during reversal.'
+                    . ' Use `%s::setReverseName("%s")` to get rid of this deprecation notice.',
+                    $forwardPath,
+                    $relation::class,
+                    $predecessor
+                ), E_USER_DEPRECATED);
+                $oppositeRelation->setName($predecessor);
+            }
+
+            $relations = new Relations();
+            $relations->add($oppositeRelation);
+            foreach ($subQueryResolver->getRelations($previousHop) as $detour) {
+                // Keep remaining relations. I did not want this initially, but it seems to be required…
+                if ($detour->getName() !== $oppositeRelation->getName()) {
+                    $relations->add($detour);
+                }
+            }
+
+            $subQueryResolver->setRelations($previousHop, $relations);
+
+            $sourceHops[] = $oppositeRelation->getName();
+            $previousHop = $oppositeRelation->getTarget();
+        }
+
+        unset($previousHop);
+        $sourcePath = join('.', $sourceHops);
+
+        // Up until here only the required relations are eagerly registered but not used yet
+        $subQueryTarget = $subQuery->utilize($sourcePath)->getResolver()->resolveRelation($sourcePath)->getTarget();
 
         if (! $link) {
-            return $subQuery->columns(array_map(function ($keyName) use ($sourcePath) {
+            $subQuery->columns(array_map(function ($keyName) use ($sourcePath) {
                 return "$sourcePath.$keyName";
             }, (array) $subQueryTarget->getKeyName()));
+
+            return $subQuery;
         }
 
         // TODO: Should be done by the caller. Though, that's not possible until we've got a filter abstraction
@@ -658,12 +792,11 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Execute the query
      *
-     * @return ResultSet
+     * @return ResultSet<TRow>
      */
     public function execute(): ResultSet
     {
         $class = $this->getResultSetClass();
-        /** @var ResultSet $class Just for type hinting. $class is of course a string */
 
         return $class::fromQuery($this);
     }
@@ -671,7 +804,7 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Fetch and return the first result
      *
-     * @return Model|null Null in case there's no result
+     * @return ?TRow Null in case there's no result
      */
     public function first(): ?Model
     {
@@ -698,7 +831,8 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
     /**
      * Yield the query's results
      *
-     * @return Generator
+     * @return Generator<mixed, int, TRow, void>
+     * @phpstan-return Generator<int, TRow, mixed, void>
      */
     public function yieldResults(): Generator
     {
@@ -723,6 +857,11 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
         return $this->count;
     }
 
+    /**
+     * Get the query's result set
+     *
+     * @return Traversable<int, TRow>
+     */
     public function getIterator(): Traversable
     {
         return $this->execute();

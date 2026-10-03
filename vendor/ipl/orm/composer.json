@@ -13,7 +13,8 @@
     "php": ">=8.2",
     "ext-pdo": "*",
     "ipl/sql": ">=0.9.1",
-    "ipl/stdlib": ">=0.15.0"
+    "ipl/stdlib": ">=0.15.0",
+    "ramsey/uuid": "^4.9.2"
   },
   "require-dev": {
     "ext-pdo_sqlite": "*",
