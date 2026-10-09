@@ -1,0 +1,62 @@
+<?php
+
+namespace ipl\Validator;
+
+use DateTime;
+
+/**
+ * Validate date-and-time input values
+ */
+class DateTimeValidator extends BaseValidator
+{
+    /** @var string Default date time format */
+    public const FORMAT = 'Y-m-d\TH:i:s';
+
+    /** @var bool Whether to use the default date time format */
+    protected bool $local;
+
+    /**
+     * Create a new DateTimeValidator
+     *
+     * @param bool $local Whether to use the local date time format instead of RFC3339
+     */
+    public function __construct(bool $local = true)
+    {
+        $this->local = $local;
+    }
+
+    /**
+     * Check whether the given date time is valid
+     *
+     * @param string|DateTime $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
+    {
+        // Reset messages from a previous isValid() call.
+        $this->clearMessages();
+
+        if (! $value instanceof DateTime && ! is_string($value)) {
+            $this->addMessage($this->translate('Invalid date/time given.'));
+
+            return false;
+        }
+
+        if (! $value instanceof DateTime) {
+            $format = $this->local === true ? static::FORMAT : DateTime::RFC3339;
+            $dateTime = DateTime::createFromFormat($format, $value);
+
+            if ($dateTime === false || $dateTime->format($format) !== $value) {
+                $this->addMessage(sprintf(
+                    $this->translate("Date/time string not in the expected format: %s"),
+                    $format
+                ));
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+}

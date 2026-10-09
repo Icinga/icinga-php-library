@@ -1,0 +1,34 @@
+.cancel-button {
+  display: inline-flex;
+  align-items: baseline;
+  padding: .5em 1em;
+
+  .appearance(none);
+  .rounded-corners();
+  line-height: normal;
+  cursor: pointer;
+
+  background: var(--cancel-button-bg, @cancel-button-bg);
+  border: 1px solid var(--cancel-button-border-color, @cancel-button-border-color);
+  color: var(--cancel-button-color, @cancel-button-color);
+
+  &:focus,
+  &:hover {
+    background-color: var(--cancel-button-hover-bg, @cancel-button-hover-bg);
+    color: var(--cancel-button-hover-color, @cancel-button-hover-color);
+  }
+
+  &[disabled] {
+    background: none;
+    cursor: default;
+
+    border: 1px solid var(--control-disabled-color, @control-disabled-color);
+    color: var(--control-disabled-color, @control-disabled-color);
+
+    &:focus,
+    &:hover {
+      background: none;
+      color: var(--control-disabled-color, @control-disabled-color);
+    }
+  }
+}

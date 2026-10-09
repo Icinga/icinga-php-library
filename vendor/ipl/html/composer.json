@@ -1,0 +1,36 @@
+{
+  "name": "ipl/html",
+  "description": "Icinga PHP Library - HTML abstraction layer",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "html"
+  ],
+  "homepage": "https://github.com/Icinga/ipl-html",
+  "require": {
+    "php": ">=8.2",
+    "ext-fileinfo": "*",
+    "guzzlehttp/psr7": "^2.8",
+    "ipl/stdlib": ">=0.15.0",
+    "ipl/validator": ">=1.0.0",
+    "psr/http-message": "^1.1"
+  },
+  "require-dev": {
+    "ext-dom": "*",
+    "ipl/stdlib": "dev-main",
+    "ipl/validator": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ipl\\Html\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Html\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

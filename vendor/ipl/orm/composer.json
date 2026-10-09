@@ -1,0 +1,36 @@
+{
+  "name": "ipl/orm",
+  "description": "Icinga PHP Library - ORM",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "sql",
+    "database",
+    "orm"
+  ],
+  "homepage": "https://github.com/Icinga/ipl-orm",
+  "require": {
+    "php": ">=8.2",
+    "ext-pdo": "*",
+    "ipl/sql": ">=0.9.1",
+    "ipl/stdlib": ">=0.15.0"
+  },
+  "require-dev": {
+    "ext-pdo_sqlite": "*",
+    "ipl/sql": "dev-main",
+    "ipl/stdlib": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ipl\\Orm\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ipl\\Tests\\Orm\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
