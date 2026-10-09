@@ -10,7 +10,7 @@ interface QueryAwareBehavior extends Behavior
     /**
      * Set the query
      *
-     * @param Query $query
+     * @param Query<*> $query
      *
      * @return $this
      */

@@ -12,18 +12,32 @@
     margin-right: 0;
   }
 
-  p {
-    margin: 0;
-  }
-
-  .callout-title {
-    margin-bottom: .5em;
-  }
-
   .callout-text {
     display: flex;
     flex-direction: column;
+
+    .callout-title {
+      margin-bottom: .5em;
+    }
   }
+}
+
+// Flex item margins do not collapse, so remove browser spacing from callout content.
+// Keep the reset at zero specificity so caller styles can override it.
+:where(.callout .callout-text > *) {
+  margin: 0;
+}
+
+// Icinga Web declares paragraph margins later, so add type specificity without
+// changing the match; caller classes remain stronger than this reset.
+:where(.callout .callout-text) > p:not(html) {
+  margin: 0;
+}
+
+// Keep list markers with compact indentation instead of the browser default.
+:where(.callout .callout-text > ul),
+:where(.callout .callout-text > ol) {
+  padding-left: 1em;
 }
 
 // Style

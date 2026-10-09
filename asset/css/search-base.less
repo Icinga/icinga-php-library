@@ -54,8 +54,15 @@
   }
 }
 
-fieldset:disabled .term-input-area [data-drag-initiator] {
-  cursor: not-allowed;
+fieldset:disabled .term-input-area {
+  [data-drag-initiator] {
+    cursor: not-allowed;
+  }
+
+  > label,
+  [data-index] .remove-action {
+    display: none;
+  }
 }
 
 .term-input-area {

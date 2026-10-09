@@ -4,17 +4,17 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfe572464db032974ee4012ff021307b6
+class ComposerStaticInit34511411839eab5b2d493747547f6782
 {
     public static $files = array (
         'a2c78434f64e5f5ed402f42eee19c025' => __DIR__ . '/..' . '/ipl/stdlib/src/functions_include.php',
         '6076de347104821999fcfc82c8f19bc5' => __DIR__ . '/..' . '/ipl/i18n/src/functions_include.php',
+        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '9d2b9fc6db0f153a0a149fefb182415e' => __DIR__ . '/..' . '/symfony/polyfill-php84/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '20b38f856de532d80624e561e6db2dee' => __DIR__ . '/..' . '/ipl/sql/src/pdo-driver-consts-forward-compat.php',
-        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '8e4ccce73649a2b516ec3b4571432da5' => __DIR__ . '/..' . '/ipl/scheduler/src/register_cron_aliases.php',
@@ -231,10 +231,10 @@ class ComposerStaticInitfe572464db032974ee4012ff021307b6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfe572464db032974ee4012ff021307b6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfe572464db032974ee4012ff021307b6::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitfe572464db032974ee4012ff021307b6::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitfe572464db032974ee4012ff021307b6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit34511411839eab5b2d493747547f6782::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit34511411839eab5b2d493747547f6782::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit34511411839eab5b2d493747547f6782::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit34511411839eab5b2d493747547f6782::$classMap;
 
         }, null, ClassLoader::class);
     }

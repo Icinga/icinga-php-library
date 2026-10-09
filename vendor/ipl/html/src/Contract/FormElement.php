@@ -4,6 +4,7 @@ namespace ipl\Html\Contract;
 
 use ipl\Html\Attributes;
 use ipl\Html\Form;
+use ipl\Html\ValidHtml;
 
 /**
  * Representation of form elements
@@ -38,7 +39,7 @@ interface FormElement extends Wrappable
     /**
      * Get the label for the element, if any
      *
-     * @return string|null
+     * @return string|ValidHtml|null
      */
     public function getLabel();
 

@@ -7,8 +7,10 @@ use ipl\Html\Html;
 use ipl\Orm\Exception\InvalidRelationException;
 use ipl\Orm\Query;
 use ipl\Stdlib\Seq;
+use ipl\Web\Common\Controls;
 use ipl\Web\Control\SearchBar;
 use ipl\Web\Control\SearchEditor;
+use ipl\Web\Control\ViewModeSwitcher;
 use ipl\Web\Filter\QueryString;
 use ipl\Web\Url;
 use ipl\Stdlib\Filter;
@@ -63,6 +65,14 @@ trait SearchControls
             $redirectUrl->addParams($paramsToAdd);
         } else {
             $redirectUrl = $requestUrl->onlyWith($preserveParams);
+        }
+
+        /** If {@see Controls::createViewModeSwitcher()} was used, the view mode param must be removed form the url */
+        if (method_exists($this, 'getTrackedControl')) {
+            $viewModeSwitcher = $this->getTrackedControl(ViewModeSwitcher::class);
+            if ($viewModeSwitcher !== null) {
+                $this->params->shift($viewModeSwitcher->getViewModeParam());
+            }
         }
 
         $filter = QueryString::fromString((string) $this->params)

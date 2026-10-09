@@ -38,7 +38,7 @@ class SearchEditor extends Form
     ];
 
     /** @var string */
-    protected $queryString;
+    protected $queryString = '';
 
     /** @var Url */
     protected $suggestionUrl;
@@ -143,9 +143,15 @@ class SearchEditor extends Form
     {
         // applyChanges() is basically this form's own populate implementation, hence
         // why it changes $values and needs to run before actually populating the form
-        $filter = (new Parser(isset($values['filter']) ? $values['filter'] : $this->queryString))
-            ->setStrict()
-            ->parse();
+        try {
+            $filter = $this->getParser()
+                ->setQueryString(isset($values['filter']) ? $values['filter'] : $this->queryString)
+                ->setStrict()
+                ->parse();
+        } finally {
+            $this->getParser()->setStrict(false);
+        }
+
         if (! $filter instanceof Filter\Chain) {
             $filter = Filter::all($filter);
         }

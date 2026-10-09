@@ -2,16 +2,27 @@
 
 namespace ipl\Sql\Test;
 
-use ipl\Sql\Config;
 use ipl\Sql\Connection;
+use ipl\Sql\Select;
+use ipl\Sql\Test\SharedDatabases\SchemaGroup;
+use ipl\Sql\Test\SharedDatabases\State;
+use ipl\Sql\Test\SharedDatabases\TransactionIsolation;
+use ReflectionClass;
 use RuntimeException;
+use Throwable;
 
 /**
  * Data provider for database connections. Use this to provide real database connections for your tests.
  *
- * To use it, implement {@see Databases::setUpSchema()} and {@see Databases::tearDownSchema()}.
+ * In contrast to {@see Databases}, this trait will only initialize the schema once for each test case.
+ * When PHPUnit runs a test case, the schema will first be dropped and then re-created. This can be
+ * customized using the {@see SchemaGroup} attribute which allows to share the same schema across
+ * multiple test cases. Each individual test can be isolated in its own transaction by using the
+ * {@see TransactionIsolation} attribute.
+ *
+ * To use it, implement {@see self::setUpSchema()} and {@see self::tearDownSchema()}.
  * The environment also needs to provide the following variables: (Replace * with the name of a supported adapter)
- * {@see Databases::SUPPORTED_ADAPTERS}
+ * {@see State::SUPPORTED_ADAPTERS}
  *
  * Name              | Description
  * ----------------- | ------------------------
@@ -24,26 +35,17 @@ use RuntimeException;
  * Each test case will run multiple times, once for each database.
  * The connection is passed as the first argument to it.
  *
- * A schema will be initialized once the first test case using this provider is run. Schemas will first be dropped
- * and then recreated to ensure a clean state. During the entire test run, the same schema will be used for all
- * tests.
- *
- * If you need to implement your own setUp() and tearDown() methods, and need access to the database connection,
- * use {@see Databases::getConnection()}.
+ * If you need access to the database connection outside a test case, use {@see self::getConnection()}.
+ * If you need to implement your own setUp() method, make sure to call {@see self::rollbackChanges()}.
+ * If you need to implement your own setUpBeforeClass() method, make sure to call {@see self::processAnnotations()}.
  */
 trait SharedDatabases
 {
     /**
-     * All database connections
-     *
-     * @internal Only the trait itself should access this property
-     *
-     * @var array
+     * @var bool Whether transaction isolation is used
+     * @internal Only the trait {@see SharedDatabases} must access this property
      */
-    private static array $connections = [];
-
-    /** @var string[] */
-    private const SUPPORTED_ADAPTERS = ['mssql', 'mysql', 'oracle', 'pgsql', 'sqlite'];
+    private static bool $transactionIsolation = false;
 
     /**
      * Create the schema for the test database
@@ -72,18 +74,16 @@ trait SharedDatabases
      */
     final public static function sharedDatabases(): array
     {
-        self::initializeDatabases();
-
-        return self::$connections;
+        return State::databases();
     }
 
     /**
      * Get the current database connection
      *
-     * @return Connection
+     * @return ?Connection
      * @throws RuntimeException if the connection cannot be retrieved
      */
-    final protected function getConnection(): Connection
+    final protected function getConnection(): ?Connection
     {
         if (method_exists($this, 'getProvidedData')) {
             $connections = $this->getProvidedData();
@@ -91,6 +91,10 @@ trait SharedDatabases
             $connections = $this->providedData();
         } else {
             throw new RuntimeException('Cannot get connection: Unsupported PHPUnit version?');
+        }
+
+        if (empty($connections)) {
+            return null;
         }
 
         $connection = $connections[0];
@@ -102,74 +106,99 @@ trait SharedDatabases
     }
 
     /**
-     * Get the value of an environment variable
-     *
-     * @param string $name
-     *
-     * @return string
-     *
-     * @throws RuntimeException if the environment variable is not set
-     */
-    final protected static function getEnvironmentVariable(string $name): string
-    {
-        $value = getenv($name);
-        if ($value === false) {
-            throw new RuntimeException("Environment variable $name is not set");
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get the connection configuration for the test database
-     *
-     * @param string $driver
-     *
-     * @return Config
-     */
-    final protected static function getConnectionConfig(string $driver): Config
-    {
-        return new Config([
-            'db' => $driver,
-            'host' => self::getEnvironmentVariable(strtoupper($driver) . '_TESTDB_HOST'),
-            'port' => self::getEnvironmentVariable(strtoupper($driver) . '_TESTDB_PORT'),
-            'username' => self::getEnvironmentVariable(strtoupper($driver) . '_TESTDB_USER'),
-            'password' => self::getEnvironmentVariable(strtoupper($driver) . '_TESTDB_PASSWORD'),
-            'dbname' => self::getEnvironmentVariable(strtoupper($driver) . '_TESTDB')
-        ]);
-    }
-
-    /**
-     * Create a database connection
-     *
-     * @param string $driver
-     *
-     * @return Connection
-     *
-     * @internal Only the trait itself should call this method
-     */
-    final protected static function connectToDatabase(string $driver): Connection
-    {
-        return new Connection(self::getConnectionConfig($driver));
-    }
-
-    /**
-     * Set up the database connections
+     * Roll back all changes made by any previous test run
      *
      * @return void
-     *
-     * @internal Only the trait itself should call this method
      */
-    final protected static function initializeDatabases(): void
+    final protected function rollbackChanges(): void
     {
-        foreach (self::SUPPORTED_ADAPTERS as $driver) {
-            if (isset($_SERVER[strtoupper($driver) . '_TESTDB'])) {
-                if (! isset(self::$connections[$driver])) {
-                    self::$connections[$driver] = [self::connectToDatabase($driver)];
-                    static::tearDownSchema(self::$connections[$driver][0], $driver);
-                    static::setUpSchema(self::$connections[$driver][0], $driver);
-                }
+        if (! self::$transactionIsolation) {
+            return;
+        }
+
+        $connection = $this->getConnection();
+        if ($connection === null) {
+            return;
+        }
+
+        while ($connection->inTransaction()) {
+            $connection->rollBackTransaction();
+        }
+
+        $connection->beginTransaction();
+    }
+
+    /**
+     * Re-create the database schemas if required
+     *
+     * @param string $group
+     *
+     * @return void
+     */
+    final protected static function maintainSchema(string $group): void
+    {
+        foreach (self::sharedDatabases() as $driver => [$connection]) {
+            // Ensure to exit any active transaction a previous test case may have initiated
+            while ($connection->inTransaction()) {
+                $connection->rollBackTransaction();
+            }
+
+            try {
+                $currentGroup = $connection->select(
+                    (new Select())
+                        ->columns('__test_group.name')
+                        ->from('__test_group')
+                )->fetchColumn();
+            } catch (Throwable) {
+                $currentGroup = null;
+            }
+
+            if ($currentGroup !== $group) {
+                $connection->exec(sprintf(
+                    'DROP TABLE IF EXISTS %s',
+                    $connection->quoteIdentifier('__test_group')
+                ));
+                static::tearDownSchema($connection, $driver);
+                static::setUpSchema($connection, $driver);
+                $connection->exec(sprintf(
+                    'CREATE TABLE %1$s (name VARCHAR(255))',
+                    $connection->quoteIdentifier('__test_group')
+                ));
+                $connection->insert('__test_group', ['name' => $group]);
             }
         }
+    }
+
+    /**
+     * Process trait-specific class annotations
+     *
+     * @param string $class
+     *
+     * @return void
+     */
+    final protected static function processAnnotations(string $class): void
+    {
+        $refClass = new ReflectionClass($class);
+
+        $group = $class;
+        $attributes = $refClass->getAttributes(SchemaGroup::class);
+        if (! empty($attributes)) {
+            $group = $attributes[0]->newInstance()->name;
+        }
+
+        self::maintainSchema(State::uniqueGroup($group));
+
+        $attributes = $refClass->getAttributes(TransactionIsolation::class);
+        self::$transactionIsolation = ! empty($attributes);
+    }
+
+    public static function setUpBeforeClass(): void
+    {
+        self::processAnnotations(static::class);
+    }
+
+    public function setUp(): void
+    {
+        $this->rollbackChanges();
     }
 }

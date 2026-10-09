@@ -352,7 +352,7 @@ class PaginationControl extends BaseHtmlElement
             $prevItem = Html::tag(
                 'li',
                 [
-                    'aria-hidden' => true,
+                    'aria-hidden' => 'true',
                     'class'       => 'nav-item disabled'
                 ]
             );
@@ -390,7 +390,7 @@ class PaginationControl extends BaseHtmlElement
             $nextItem = Html::tag(
                 'li',
                 [
-                    'aria-hidden' => true,
+                    'aria-hidden' => 'true',
                     'class'       => 'nav-item disabled'
                 ]
             );
