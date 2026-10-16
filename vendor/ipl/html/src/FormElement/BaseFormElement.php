@@ -12,6 +12,7 @@ use ipl\Html\Contract\ValueCandidates;
 use ipl\Html\Form;
 use ipl\Html\FormDecoration\DecoratorChain;
 use ipl\Html\FormDecoration\FormElementDecorationResult;
+use ipl\Html\ValidHtml;
 use ipl\I18n\Translation;
 use ipl\Stdlib\Messages;
 use ipl\Validator\ValidatorChain;
@@ -30,7 +31,7 @@ abstract class BaseFormElement extends BaseHtmlElement implements FormElement, V
     /** @var string Description of the element */
     protected $description;
 
-    /** @var string Label of the element */
+    /** @var string|ValidHtml|null Label of the element */
     protected $label;
 
     /** @var string Name of the element */
@@ -100,7 +101,7 @@ abstract class BaseFormElement extends BaseHtmlElement implements FormElement, V
     /**
      * Set the label of the element
      *
-     * @param string $label
+     * @param string|ValidHtml $label
      *
      * @return $this
      */

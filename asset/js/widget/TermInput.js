@@ -118,11 +118,18 @@ define(["../notjQuery", "../vendor/Sortable", "BaseInput"], function ($, Sortabl
             // Once invalid, it stays invalid since it's readonly
             element.classList.add('invalid');
             if (element.dataset.invalidMsg) {
-                const reason = element.parentNode.querySelector(':scope > .invalid-reason');
+                const inputArea = this.input.closest('.term-input-area');
+                let reason = inputArea.parentNode.querySelector(':scope > .invalid-reason');
+                if (! reason) {
+                    reason = $.render('<span class="invalid-reason"></span>');
+                    inputArea.parentNode.appendChild(reason);
+                }
+
                 if (! reason.matches('.visible')) {
                     element.title = element.dataset.invalidMsg;
                     reason.textContent = element.dataset.invalidMsg;
                     reason.classList.add('visible');
+                    $(element).attach(reason, 5);
                     setTimeout(() => reason.classList.remove('visible'), 5000);
                 }
             }
@@ -197,7 +204,6 @@ define(["../notjQuery", "../vendor/Sortable", "BaseInput"], function ($, Sortabl
                         '</div>'
                     )
                 );
-                label.appendChild($.render('<span class="invalid-reason"></span>'));
             }
 
             return label;

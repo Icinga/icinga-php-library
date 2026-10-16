@@ -9,6 +9,7 @@ use ipl\Html\Contract\HtmlElementInterface;
 use ipl\Html\Contract\MutableHtml;
 use ipl\Html\HtmlElement;
 use ipl\Html\Text;
+use ipl\Html\ValidHtml;
 
 /**
  * Decorates the fieldset of the form element
@@ -30,7 +31,9 @@ class FieldsetDecorator implements FormElementDecoration
 
         $label = $formElement->getLabel();
         if ($label !== null) {
-            $formElement->prependHtml(new HtmlElement('legend', null, Text::create($label)));
+            $formElement->prependHtml(
+                new HtmlElement('legend', null, $label instanceof ValidHtml ? $label : new Text($label))
+            );
         }
     }
 }

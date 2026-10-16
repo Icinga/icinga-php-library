@@ -76,8 +76,7 @@ class TermContainer extends BaseHtmlElement
                             Attributes::create(['class' => 'remove-action-label']),
                             new Text($removeLabel)
                         )
-                    ),
-                    new HtmlElement('span', Attributes::create(['class' => 'invalid-reason']))
+                    )
                 );
             }
 

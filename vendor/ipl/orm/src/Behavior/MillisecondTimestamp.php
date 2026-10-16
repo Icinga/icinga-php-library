@@ -24,6 +24,10 @@ class MillisecondTimestamp extends PropertyBehavior
 
     public function toDb($value, $key, $context)
     {
+        if ($value === null) {
+            return null;
+        }
+
         if (is_numeric($value)) {
             return (int) ($value * 1000.0);
         }
