@@ -1,0 +1,40 @@
+form .uploaded-files {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  > li:not(:last-of-type) {
+    margin-bottom: .5em;
+  }
+
+  button[type="submit"].remove-uploaded-file {
+    .icon {
+      font-size: 1.2em;
+    }
+
+    &:focus, &:hover {
+      cursor: pointer;
+
+      .icon {
+        color: red;
+      }
+    }
+  }
+
+  // text-overflow: ellipsis layout rules, yes, exclusively
+  > li {
+    display: flex;
+
+    > button[type="submit"].remove-uploaded-file {
+      display: inline-flex;
+      flex: 1 1 auto;
+      width: 0;
+
+      > span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
