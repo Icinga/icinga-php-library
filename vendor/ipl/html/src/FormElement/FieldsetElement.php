@@ -108,6 +108,11 @@ class FieldsetElement extends BaseFormElement implements \ipl\Html\Contract\Form
         return parent::setWrapper($wrapper);
     }
 
+    public function isValidEvent($event)
+    {
+        return $event === static::ON_ELEMENT_REGISTERED || $event === static::ON_ASSEMBLED;
+    }
+
     protected function onElementRegistered(FormElement $element)
     {
         $element->getAttributes()->registerAttributeCallback('name', function () use ($element) {

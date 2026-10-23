@@ -11,6 +11,16 @@ class SubmitElement extends InputElement implements FormSubmitElement
 
     protected $buttonLabel;
 
+    /**
+     * Set the label of the element
+     *
+     * Unlike other elements, the label populates the element's `value` attribute
+     * and is compared against the submitted value, so it must be a plain string.
+     *
+     * @param string $label
+     *
+     * @return $this
+     */
     public function setLabel($label)
     {
         $this->buttonLabel = $label;

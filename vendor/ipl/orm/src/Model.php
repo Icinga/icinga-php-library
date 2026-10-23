@@ -5,6 +5,7 @@ namespace ipl\Orm;
 use ipl\Orm\Common\PropertiesWithDefaults;
 use ipl\Sql\Connection;
 use ipl\Sql\ExpressionInterface;
+use ipl\Stdlib\Filter;
 
 /**
  * Models represent single database tables or parts of it.
@@ -76,7 +77,7 @@ abstract class Model implements \ArrayAccess, \IteratorAggregate
      *
      * @param Connection $db
      *
-     * @return Query
+     * @return Query<static>
      */
     public static function on(Connection $db)
     {
@@ -129,6 +130,20 @@ abstract class Model implements \ArrayAccess, \IteratorAggregate
      * If your model should be associated to other models, override this method and create the model's relations.
      */
     public function createRelations(Relations $relations)
+    {
+    }
+
+    /**
+     * Create filter constraints to always limit results for this model
+     *
+     * Only actual columns of the model's table itself are allowed. Qualification happens at runtime.
+     * Comparison values are passed as-is to ipl-sql's query builder, thus any behaviors are not applied.
+     * Custom filter types other than those extending {@see Filter\Condition} are not allowed. Condition
+     * values of type {@see ExpressionInterface} are supported and must adhere to the same assumptions.
+     *
+     * @param Filter\Chain $filter
+     */
+    public function createVisibilityFilter(Filter\Chain $filter): void
     {
     }
 

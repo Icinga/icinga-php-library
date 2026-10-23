@@ -360,6 +360,19 @@ class Form extends BaseHtmlElement implements Contract\Form, Contract\FormElemen
         return $this;
     }
 
+    public function isValidEvent($event)
+    {
+        return in_array($event, [
+            Contract\Form::ON_SUBMIT,
+            Contract\Form::ON_SENT,
+            Contract\Form::ON_ERROR,
+            Contract\Form::ON_REQUEST,
+            Contract\Form::ON_VALIDATE,
+            static::ON_ELEMENT_REGISTERED,
+            static::ON_ASSEMBLED,
+        ]);
+    }
+
     /**
      * Apply the form decoration
      *

@@ -131,6 +131,38 @@ define(function () {
         }
 
         /**
+         * Attach another element, with an optional pixel offset, to the current element
+         *
+         * The attached element will be positioned relative to the current element,
+         * taking into account the offset and the available space in the viewport.
+         * It relies on existing CSS rules for positioning and sizing, and will only
+         * adjust the attached element's top-left edge and maximum height accordingly.
+         *
+         * @param {HTMLElement} node
+         * @param {number} offset = 0
+         */
+        attach(node, offset = 0) {
+            const containingBlock = node.offsetParent || document.body;
+            const containingBlockRect = containingBlock.getBoundingClientRect();
+            const elementRect = this.element.getBoundingClientRect();
+            const elementPosX = elementRect.left - containingBlockRect.left;
+            const elementPosY = elementRect.bottom - containingBlockRect.top;
+            const nodeWidth = node.offsetWidth;
+
+            const maxAvailableHeight = document.body.clientHeight - elementRect.bottom;
+            const localMarginBottom = window.getComputedStyle(node).marginBottom;
+
+            node.style.top = `${ elementPosY + offset }px`;
+            node.style.maxHeight = `calc(${maxAvailableHeight}px - ${localMarginBottom})`;
+            if (elementPosX + nodeWidth > containingBlockRect.right - containingBlockRect.left) {
+                node.style.left =
+                    `${ containingBlockRect.right - containingBlockRect.left - nodeWidth + offset }px`;
+            } else {
+                node.style.left = `${ elementPosX + offset }px`;
+            }
+        }
+
+        /**
          * Render the element string as DOM Element
          *
          * @param {string} html

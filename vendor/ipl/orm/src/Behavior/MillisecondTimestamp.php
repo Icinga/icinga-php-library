@@ -12,8 +12,8 @@ class MillisecondTimestamp extends PropertyBehavior
 {
     public function fromDb($value, $key, $context)
     {
-        if ($value === null) {
-            return null;
+        if ($value === null || $value instanceof DateTime) {
+            return $value;
         }
 
         $datetime = DateTime::createFromFormat('U.u', sprintf('%F', $value / 1000.0));
@@ -24,6 +24,10 @@ class MillisecondTimestamp extends PropertyBehavior
 
     public function toDb($value, $key, $context)
     {
+        if ($value === null) {
+            return null;
+        }
+
         if (is_numeric($value)) {
             return (int) ($value * 1000.0);
         }
