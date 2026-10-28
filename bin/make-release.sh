@@ -54,7 +54,7 @@ git checkout vendor
 composer validate --no-check-all --strict || fail "Composer validate failed"
 
 if [ -z "$NO_OPT" ]; then
-  git tag -a v$VERSION -m "Version v$VERSION"
+  git tag -s v$VERSION -m "Version v$VERSION"
   echo "Finished, tagged v$VERSION"
   echo "Now please run:"
 else
