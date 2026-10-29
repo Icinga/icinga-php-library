@@ -8,12 +8,12 @@
     "php": ">=8.2",
     "ipl/html": "^0.12.0",
     "ipl/i18n": "^1.0.0",
-    "ipl/orm": "^0.9.0",
+    "ipl/orm": "^0.10.0",
     "ipl/scheduler": "^1.0.1",
-    "ipl/sql": "^0.9.1",
+    "ipl/sql": "^0.10.0",
     "ipl/stdlib": "^0.16.0",
     "ipl/validator": "^1.0.0",
-    "ipl/web": "^0.14.0"
+    "ipl/web": "^0.15.0"
   },
   "repositories": [
     {
