@@ -701,6 +701,17 @@ class Query implements Filterable, LimitOffsetInterface, OrderByInterface, Pagin
             ->setDb($this->getDb())
             ->setModel($target);
 
+        if (! str_starts_with($targetPath, $this->getModel()->getTableAlias() . '.')) {
+            trigger_error(sprintf(
+                'Target path "%s" does not start with the source model\'s table alias "%s".'
+                . ' This is deprecated and will be removed in a future version. Use "%s" as target path instead.',
+                $targetPath,
+                $this->getModel()->getTableAlias(),
+                $this->getModel()->getTableAlias() . '.' . $targetPath
+            ), E_USER_DEPRECATED);
+            $targetPath = $this->getModel()->getTableAlias() . '.' . $targetPath;
+        }
+
         $subQueryResolver = $subQuery->getResolver();
 
         $forwardHops = array_slice(explode('.', $targetPath), 0, -1);

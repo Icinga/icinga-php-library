@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca4eeffd0aba45e98d3cee29fc1650a0",
+    "content-hash": "34511411839eab5b2d493747547f6782",
     "packages": [
         {
             "name": "brick/math",
@@ -64,7 +64,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-12T10:28:18+00:00"
+            "time": "2026-09-12T10:28:18+00:00",
+            "published-time": "2026-09-12T12:23:30+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -150,7 +151,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-15T10:01:58+00:00"
+            "time": "2026-01-15T10:01:58+00:00",
+            "published-time": "2026-01-15T18:29:37+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -198,7 +200,8 @@
                 "issues": "https://github.com/doctrine/deprecations/issues",
                 "source": "https://github.com/doctrine/deprecations/tree/1.1.6"
             },
-            "time": "2026-02-07T07:09:04+00:00"
+            "time": "2026-02-07T07:09:04+00:00",
+            "published-time": "2026-02-07T07:10:09+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -262,7 +265,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-19T17:53:57+00:00"
+            "time": "2026-10-19T17:53:57+00:00",
+            "published-time": "2026-10-19T17:54:31+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -309,7 +313,8 @@
                 "issues": "https://github.com/igorw/evenement/issues",
                 "source": "https://github.com/igorw/evenement/tree/v3.0.2"
             },
-            "time": "2023-08-08T05:53:35+00:00"
+            "time": "2023-08-08T05:53:35+00:00",
+            "published-time": "2023-08-08T08:34:49+00:00"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -354,7 +359,8 @@
                 "issues": "https://github.com/FortAwesome/Font-Awesome/issues",
                 "source": "https://github.com/FortAwesome/Font-Awesome"
             },
-            "time": "2024-12-16T21:31:56+00:00"
+            "time": "2024-12-16T21:31:56+00:00",
+            "published-time": "2024-12-16T21:33:01+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -473,7 +479,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-17T23:49:46+00:00"
+            "time": "2026-10-17T23:49:46+00:00",
+            "published-time": "2026-10-17T23:51:00+00:00"
         },
         {
             "name": "icinga/zf1",
@@ -523,7 +530,7 @@
         },
         {
             "name": "ipl/html",
-            "version": "v0.12.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-html.git",
@@ -548,6 +555,7 @@
                 "ipl/stdlib": "dev-main",
                 "ipl/validator": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -565,13 +573,14 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-html/issues",
-                "source": "https://github.com/Icinga/ipl-html/tree/v0.12.0"
+                "source": "https://github.com/Icinga/ipl-html/tree/main"
             },
-            "time": "2026-10-27T08:04:02+00:00"
+            "time": "2026-10-27T08:04:02+00:00",
+            "published-time": "2026-10-27T08:04:07+00:00"
         },
         {
             "name": "ipl/i18n",
-            "version": "v1.0.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-i18n.git",
@@ -592,6 +601,7 @@
             "require-dev": {
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -616,22 +626,23 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-i18n/issues",
-                "source": "https://github.com/Icinga/ipl-i18n/tree/v1.0.0"
+                "source": "https://github.com/Icinga/ipl-i18n/tree/main"
             },
-            "time": "2026-03-24T19:29:18+00:00"
+            "time": "2026-03-24T19:29:18+00:00",
+            "published-time": "2026-03-24T19:29:22+00:00"
         },
         {
             "name": "ipl/orm",
-            "version": "v0.10.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-orm.git",
-                "reference": "1e8913ee1a30a28a519c5fa434cff82e4a6c4ec5"
+                "reference": "9298119b9bd3fdf5be32d24e2296fbad905f45c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/1e8913ee1a30a28a519c5fa434cff82e4a6c4ec5",
-                "reference": "1e8913ee1a30a28a519c5fa434cff82e4a6c4ec5",
+                "url": "https://api.github.com/repos/Icinga/ipl-orm/zipball/9298119b9bd3fdf5be32d24e2296fbad905f45c0",
+                "reference": "9298119b9bd3fdf5be32d24e2296fbad905f45c0",
                 "shasum": ""
             },
             "require": {
@@ -646,6 +657,7 @@
                 "ipl/sql": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -665,13 +677,14 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-orm/issues",
-                "source": "https://github.com/Icinga/ipl-orm/tree/v0.10.0"
+                "source": "https://github.com/Icinga/ipl-orm/tree/main"
             },
-            "time": "2026-10-29T10:17:13+00:00"
+            "time": "2026-10-30T12:51:16+00:00",
+            "published-time": "2026-10-30T12:51:21+00:00"
         },
         {
             "name": "ipl/scheduler",
-            "version": "v1.0.1",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-scheduler.git",
@@ -699,6 +712,7 @@
             "suggest": {
                 "ext-ev": "Improves performance, efficiency and avoids system limitations. Highly recommended! (See https://www.php.net/manual/en/intro.ev.php for details)"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -722,13 +736,14 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-scheduler/issues",
-                "source": "https://github.com/Icinga/ipl-scheduler/tree/v1.0.1"
+                "source": "https://github.com/Icinga/ipl-scheduler/tree/main"
             },
-            "time": "2026-10-27T11:40:56+00:00"
+            "time": "2026-10-27T11:40:56+00:00",
+            "published-time": "2026-10-27T11:41:00+00:00"
         },
         {
             "name": "ipl/sql",
-            "version": "v0.10.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-sql.git",
@@ -748,6 +763,7 @@
             "require-dev": {
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -769,22 +785,23 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-sql/issues",
-                "source": "https://github.com/Icinga/ipl-sql/tree/v0.10.0"
+                "source": "https://github.com/Icinga/ipl-sql/tree/main"
             },
-            "time": "2026-09-23T13:03:39+00:00"
+            "time": "2026-09-23T13:03:39+00:00",
+            "published-time": "2026-09-23T13:03:44+00:00"
         },
         {
             "name": "ipl/stdlib",
-            "version": "v0.16.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-stdlib.git",
-                "reference": "96b0009ca0d78f6b09dae9618850dea5d3b2a04f"
+                "reference": "920f8ce695e7afdbe4a40da4e0a282309cc8413f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Icinga/ipl-stdlib/zipball/96b0009ca0d78f6b09dae9618850dea5d3b2a04f",
-                "reference": "96b0009ca0d78f6b09dae9618850dea5d3b2a04f",
+                "url": "https://api.github.com/repos/Icinga/ipl-stdlib/zipball/920f8ce695e7afdbe4a40da4e0a282309cc8413f",
+                "reference": "920f8ce695e7afdbe4a40da4e0a282309cc8413f",
                 "shasum": ""
             },
             "require": {
@@ -792,6 +809,7 @@
                 "ext-openssl": "*",
                 "php": ">=8.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -808,13 +826,14 @@
             "description": "ipl Standard Library",
             "support": {
                 "issues": "https://github.com/Icinga/ipl-stdlib/issues",
-                "source": "https://github.com/Icinga/ipl-stdlib/tree/v0.16.0"
+                "source": "https://github.com/Icinga/ipl-stdlib/tree/main"
             },
-            "time": "2026-07-02T12:42:46+00:00"
+            "time": "2026-07-30T13:51:00+00:00",
+            "published-time": "2026-07-30T13:51:05+00:00"
         },
         {
             "name": "ipl/validator",
-            "version": "v1.0.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-validator.git",
@@ -838,6 +857,7 @@
                 "ipl/i18n": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -852,13 +872,14 @@
             "homepage": "https://github.com/Icinga/ipl-validator",
             "support": {
                 "issues": "https://github.com/Icinga/ipl-validator/issues",
-                "source": "https://github.com/Icinga/ipl-validator/tree/v1.0.0"
+                "source": "https://github.com/Icinga/ipl-validator/tree/main"
             },
-            "time": "2026-03-24T20:02:58+00:00"
+            "time": "2026-03-24T20:02:58+00:00",
+            "published-time": "2026-03-24T20:03:03+00:00"
         },
         {
             "name": "ipl/web",
-            "version": "v0.15.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Icinga/ipl-web.git",
@@ -892,6 +913,7 @@
                 "ipl/scheduler": "dev-main",
                 "ipl/stdlib": "dev-main"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -909,9 +931,10 @@
             ],
             "support": {
                 "issues": "https://github.com/Icinga/ipl-web/issues",
-                "source": "https://github.com/Icinga/ipl-web/tree/v0.15.0"
+                "source": "https://github.com/Icinga/ipl-web/tree/main"
             },
-            "time": "2026-10-27T13:32:32+00:00"
+            "time": "2026-10-27T13:32:32+00:00",
+            "published-time": "2026-10-27T13:32:37+00:00"
         },
         {
             "name": "psr/http-factory",
@@ -966,7 +989,8 @@
             "support": {
                 "source": "https://github.com/php-fig/http-factory"
             },
-            "time": "2024-04-15T12:06:14+00:00"
+            "time": "2024-04-15T12:06:14+00:00",
+            "published-time": "2024-05-10T07:32:19+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1019,7 +1043,8 @@
             "support": {
                 "source": "https://github.com/php-fig/http-message/tree/1.1"
             },
-            "time": "2023-04-04T09:50:52+00:00"
+            "time": "2023-04-04T09:50:52+00:00",
+            "published-time": "2023-04-04T09:52:19+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -1063,7 +1088,8 @@
                 "issues": "https://github.com/ralouphie/getallheaders/issues",
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
-            "time": "2019-03-08T08:55:37+00:00"
+            "time": "2019-03-08T08:55:37+00:00",
+            "published-time": "2019-03-08T09:01:32+00:00"
         },
         {
             "name": "ramsey/collection",
@@ -1139,7 +1165,8 @@
                 "issues": "https://github.com/ramsey/collection/issues",
                 "source": "https://github.com/ramsey/collection/tree/2.1.1"
             },
-            "time": "2025-03-22T05:38:12+00:00"
+            "time": "2025-03-22T05:38:12+00:00",
+            "published-time": "2025-03-22T05:39:22+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -1217,7 +1244,8 @@
                 "issues": "https://github.com/ramsey/uuid/issues",
                 "source": "https://github.com/ramsey/uuid/tree/4.9.4"
             },
-            "time": "2026-09-16T11:39:30+00:00"
+            "time": "2026-09-16T11:39:30+00:00",
+            "published-time": "2026-09-16T11:41:15+00:00"
         },
         {
             "name": "react/event-loop",
@@ -1289,7 +1317,8 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-11-17T20:46:25+00:00"
+            "time": "2025-11-17T20:46:25+00:00",
+            "published-time": "2025-11-17T20:47:32+00:00"
         },
         {
             "name": "react/promise",
@@ -1362,7 +1391,8 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-08-19T18:57:03+00:00"
+            "time": "2025-08-19T18:57:03+00:00",
+            "published-time": "2025-08-19T19:13:36+00:00"
         },
         {
             "name": "simshaun/recurr",
@@ -1421,7 +1451,8 @@
                 "issues": "https://github.com/simshaun/recurr/issues",
                 "source": "https://github.com/simshaun/recurr/tree/v5.0.3"
             },
-            "time": "2024-12-12T15:39:24+00:00"
+            "time": "2024-12-12T15:39:24+00:00",
+            "published-time": "2024-12-12T15:41:12+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1492,7 +1523,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-06-05T06:23:12+00:00",
+            "published-time": "2026-06-27T21:46:34+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -1576,7 +1608,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:50:05+00:00"
+            "time": "2026-09-25T15:50:05+00:00",
+            "published-time": "2026-09-30T10:23:35+00:00"
         },
         {
             "name": "symfony/polyfill-php83",
@@ -1656,7 +1689,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:50:05+00:00"
+            "time": "2026-09-25T15:50:05+00:00",
+            "published-time": "2026-09-30T10:23:43+00:00"
         },
         {
             "name": "symfony/polyfill-php84",
@@ -1736,7 +1770,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-23T22:01:09+00:00"
+            "time": "2026-09-23T22:01:09+00:00",
+            "published-time": "2026-09-30T10:23:33+00:00"
         },
         {
             "name": "wikimedia/less.php",
@@ -1811,21 +1846,80 @@
                 "issues": "https://github.com/wikimedia/less.php/issues",
                 "source": "https://github.com/wikimedia/less.php/tree/v5.5.1"
             },
-            "time": "2026-02-14T00:12:28+00:00"
+            "time": "2026-02-14T00:12:28+00:00",
+            "published-time": "2026-02-14T00:15:20+00:00"
         }
     ],
     "packages-dev": [],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {},
-    "prefer-stable": false,
+    "aliases": [
+        {
+            "package": "ipl/html",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/i18n",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/orm",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/scheduler",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/sql",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/stdlib",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/validator",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        },
+        {
+            "package": "ipl/web",
+            "version": "dev-main",
+            "alias": "99.x-dev",
+            "alias_normalized": "99.9999999.9999999.9999999-dev"
+        }
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "ipl/html": 20,
+        "ipl/i18n": 20,
+        "ipl/orm": 20,
+        "ipl/scheduler": 20,
+        "ipl/sql": 20,
+        "ipl/stdlib": 20,
+        "ipl/validator": 20,
+        "ipl/web": 20
+    },
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.2"
+        "php": ">=7.2"
     },
     "platform-dev": {},
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
