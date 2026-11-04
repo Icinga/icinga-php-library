@@ -1,0 +1,13 @@
+name: Compliance
+
+on:
+  push:
+    branches: [ main ]
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  compliance:
+    uses: Icinga/github-actions/.github/workflows/sbom.yml@sbom-init # TODO
