@@ -1,0 +1,29 @@
+// Style
+
+.list-item {
+  &:not(:first-child) > .main {
+    border-top: 1px solid @list-item-separation-bg;
+  }
+
+  &:not(:first-child) .visual {
+    margin-top: 1px;
+  }
+}
+
+@media print {
+  .list-item.page-break-follows + .list-item {
+    .main {
+      border-top: 1px solid transparent;
+    }
+  }
+}
+
+// Layout
+
+.list-item.item-layout {
+  .main,
+  .visual {
+    padding-top: .5em;
+    padding-bottom: .5em;
+  }
+}
