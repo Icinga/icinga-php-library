@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
+class ComposerStaticInit34511411839eab5b2d493747547f6782
 {
     public static $files = array (
         'a2c78434f64e5f5ed402f42eee19c025' => __DIR__ . '/..' . '/ipl/stdlib/src/functions_include.php',
@@ -217,8 +217,6 @@ class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
         'Brick\\Math\\Internal\\Calculator\\NativeCalculator' => __DIR__ . '/..' . '/brick/math/src/Internal/Calculator/NativeCalculator.php',
         'Brick\\Math\\Internal\\DecimalHelper' => __DIR__ . '/..' . '/brick/math/src/Internal/DecimalHelper.php',
         'Brick\\Math\\Internal\\Safe' => __DIR__ . '/..' . '/brick/math/src/Internal/Safe.php',
-        'Brick\\Math\\NumberSyntax' => __DIR__ . '/..' . '/brick/math/src/NumberSyntax.php',
-        'Brick\\Math\\RoundingMode' => __DIR__ . '/..' . '/brick/math/src/RoundingMode.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
@@ -251,8 +249,6 @@ class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
         'Doctrine\\Common\\Collections\\Expr\\ExpressionVisitor' => __DIR__ . '/..' . '/doctrine/collections/src/Expr/ExpressionVisitor.php',
         'Doctrine\\Common\\Collections\\Expr\\Value' => __DIR__ . '/..' . '/doctrine/collections/src/Expr/Value.php',
         'Doctrine\\Common\\Collections\\ExpressionBuilder' => __DIR__ . '/..' . '/doctrine/collections/src/ExpressionBuilder.php',
-        'Doctrine\\Common\\Collections\\Order' => __DIR__ . '/..' . '/doctrine/collections/src/Order.php',
-        'Doctrine\\Common\\Collections\\Placeholder' => __DIR__ . '/..' . '/doctrine/collections/src/Placeholder.php',
         'Doctrine\\Common\\Collections\\ReadableCollection' => __DIR__ . '/..' . '/doctrine/collections/src/ReadableCollection.php',
         'Doctrine\\Common\\Collections\\Selectable' => __DIR__ . '/..' . '/doctrine/collections/src/Selectable.php',
         'Doctrine\\Deprecations\\Deprecation' => __DIR__ . '/..' . '/doctrine/deprecations/src/Deprecation.php',
@@ -403,7 +399,6 @@ class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
         'Ramsey\\Collection\\Queue' => __DIR__ . '/..' . '/ramsey/collection/src/Queue.php',
         'Ramsey\\Collection\\QueueInterface' => __DIR__ . '/..' . '/ramsey/collection/src/QueueInterface.php',
         'Ramsey\\Collection\\Set' => __DIR__ . '/..' . '/ramsey/collection/src/Set.php',
-        'Ramsey\\Collection\\Sort' => __DIR__ . '/..' . '/ramsey/collection/src/Sort.php',
         'Ramsey\\Collection\\Tool\\TypeTrait' => __DIR__ . '/..' . '/ramsey/collection/src/Tool/TypeTrait.php',
         'Ramsey\\Collection\\Tool\\ValueExtractorTrait' => __DIR__ . '/..' . '/ramsey/collection/src/Tool/ValueExtractorTrait.php',
         'Ramsey\\Collection\\Tool\\ValueToStringTrait' => __DIR__ . '/..' . '/ramsey/collection/src/Tool/ValueToStringTrait.php',
@@ -1115,7 +1110,6 @@ class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
         'ipl\\Html\\FormDecoration\\HtmlTagDecorator' => __DIR__ . '/..' . '/ipl/html/src/FormDecoration/HtmlTagDecorator.php',
         'ipl\\Html\\FormDecoration\\LabelDecorator' => __DIR__ . '/..' . '/ipl/html/src/FormDecoration/LabelDecorator.php',
         'ipl\\Html\\FormDecoration\\RenderElementDecorator' => __DIR__ . '/..' . '/ipl/html/src/FormDecoration/RenderElementDecorator.php',
-        'ipl\\Html\\FormDecoration\\Transformation' => __DIR__ . '/..' . '/ipl/html/src/FormDecoration/Transformation.php',
         'ipl\\Html\\FormDecorator\\CallbackDecorator' => __DIR__ . '/..' . '/ipl/html/src/FormDecorator/CallbackDecorator.php',
         'ipl\\Html\\FormDecorator\\DdDtDecorator' => __DIR__ . '/..' . '/ipl/html/src/FormDecorator/DdDtDecorator.php',
         'ipl\\Html\\FormDecorator\\DecoratorInterface' => __DIR__ . '/..' . '/ipl/html/src/FormDecorator/DecoratorInterface.php',
@@ -1310,7 +1304,6 @@ class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
         'ipl\\Web\\Common\\BaseOrderedListItem' => __DIR__ . '/..' . '/ipl/web/src/Common/BaseOrderedListItem.php',
         'ipl\\Web\\Common\\BaseTableRowItem' => __DIR__ . '/..' . '/ipl/web/src/Common/BaseTableRowItem.php',
         'ipl\\Web\\Common\\BaseTarget' => __DIR__ . '/..' . '/ipl/web/src/Common/BaseTarget.php',
-        'ipl\\Web\\Common\\CalloutType' => __DIR__ . '/..' . '/ipl/web/src/Common/CalloutType.php',
         'ipl\\Web\\Common\\Card' => __DIR__ . '/..' . '/ipl/web/src/Common/Card.php',
         'ipl\\Web\\Common\\Controls' => __DIR__ . '/..' . '/ipl/web/src/Common/Controls.php',
         'ipl\\Web\\Common\\Csp' => __DIR__ . '/..' . '/ipl/web/src/Common/Csp.php',
@@ -1418,10 +1411,10 @@ class ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitca4eeffd0aba45e98d3cee29fc1650a0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit34511411839eab5b2d493747547f6782::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit34511411839eab5b2d493747547f6782::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit34511411839eab5b2d493747547f6782::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit34511411839eab5b2d493747547f6782::$classMap;
 
         }, null, ClassLoader::class);
     }
