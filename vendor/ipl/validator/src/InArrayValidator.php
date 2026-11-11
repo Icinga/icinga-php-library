@@ -1,0 +1,131 @@
+<?php
+
+namespace ipl\Validator;
+
+/**
+ * Validate if specific single or multiple values exist in an array
+ */
+class InArrayValidator extends BaseValidator
+{
+    /** @var ?mixed[] The array */
+    protected ?array $haystack = null;
+
+    /** @var bool Whether the types of the needle in the haystack should also match */
+    protected bool $strict = false;
+
+    /**
+     * Create a new InArrayValidator
+     *
+     * **Optional options:**
+     *
+     * * `haystack`: (`array`) The array
+     * * `strict`: (`bool`) Whether the types of the needle in the haystack should also match, default `false`
+     *
+     * @param array{haystack?: mixed[], strict?: bool} $options
+     */
+    public function __construct(array $options = [])
+    {
+        if (isset($options['haystack'])) {
+            $this->setHaystack($options['haystack']);
+        }
+
+        $this->setStrict($options['strict'] ?? false);
+    }
+
+    /**
+     * Get the haystack
+     *
+     * @return mixed[]
+     */
+    public function getHaystack(): array
+    {
+        return $this->haystack ?? [];
+    }
+
+    /**
+     * Set the haystack
+     *
+     * @param mixed[] $haystack
+     *
+     * @return $this
+     */
+    public function setHaystack(array $haystack): static
+    {
+        $this->haystack = $haystack;
+
+        return $this;
+    }
+
+    /**
+     * Get whether the types of the needle in the haystack should also match
+     *
+     * @return bool
+     */
+    public function isStrict(): bool
+    {
+        return $this->strict;
+    }
+
+    /**
+     * Set whether the types of the needle in the haystack should also match
+     *
+     * @param bool $strict
+     *
+     * @return $this
+     */
+    public function setStrict(bool $strict = true): static
+    {
+        $this->strict = $strict;
+
+        return $this;
+    }
+
+    /**
+     * Check whether the value exists in the haystack
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isValid($value): bool
+    {
+        // Reset messages from a previous isValid() call.
+        $this->clearMessages();
+
+        $notInArray = $this->findInvalid((array) $value);
+
+        if (empty($notInArray)) {
+            return true;
+        }
+
+        $this->addMessage(sprintf(
+            $this->translatePlural(
+                "%s was not found in the haystack",
+                "%s were not found in the haystack",
+                count($notInArray)
+            ),
+            implode(', ', $notInArray)
+        ));
+
+        return false;
+    }
+
+    /**
+     * Get the values from the specified array that are not present in the haystack
+     *
+     * @param mixed[] $values
+     *
+     * @return mixed[] Values not found in the haystack
+     */
+    protected function findInvalid(array $values = []): array
+    {
+        $notInArray = [];
+        foreach ($values as $val) {
+            if (! in_array($val, $this->getHaystack(), $this->isStrict())) {
+                $notInArray[] = $val;
+            }
+        }
+
+        return $notInArray;
+    }
+}
