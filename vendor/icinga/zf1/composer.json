@@ -1,0 +1,32 @@
+{
+  "name": "icinga/zf1",
+  "type": "library",
+  "description": "Streamlined Zend Framework 1 fork reduced to the components used by Icinga Web and its ecosystem.",
+  "homepage": "https://github.com/Icinga/zf1",
+  "license": "BSD-3-Clause",
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    }
+  },
+  "require": {
+    "php": ">=8.2",
+    "symfony/polyfill-php83": "^1.30"
+  },
+  "autoload": {
+    "psr-0": {
+      "Zend_": "library/"
+    }
+  },
+  "autoload-dev": {
+    "files": ["tests/phar-compat-aliases.php"],
+    "psr-0": {
+      "Zend_": "tests/",
+      "resources_": "tests/"
+    }
+  },
+  "include-path": [
+    "library/"
+  ]
+}
