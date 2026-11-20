@@ -310,10 +310,6 @@ class RRule implements Frequency
             $this->transformer->setConfig($this->transformerConfig);
         };
 
-        if ($limit > self::DEFAULT_LIMIT) {
-            $resetTransformerConfig($limit);
-        }
-
         // For bounded rules, BetweenConstraint also caps at the end time.
         // AfterConstraint alone would let the transformer run past it.
         $constraint = new AfterConstraint($dateTime, $include);
@@ -321,19 +317,28 @@ class RRule implements Frequency
             $constraint = new BetweenConstraint($dateTime, $this->getEnd(), $include);
         }
 
-        // By default, non-matching candidates count toward the virtual limit too.
-        // With a past start date this exhausts it before any match is found.
-        // Pass false so only matches count.
-        $recurrences = $this->transformer->transform($this->rrule, $constraint, countConstraintFailures: false);
+        if ($limit > self::DEFAULT_LIMIT) {
+            $resetTransformerConfig($limit);
+        }
+
+        try {
+            // By default, non-matching candidates count toward the virtual limit too.
+            // With a past start date this exhausts it before any match is found.
+            // Pass false so only matches count.
+            $recurrences = $this->transformer->transform($this->rrule, $constraint, countConstraintFailures: false);
+        } finally {
+            // transform() is eager, so the config can be restored right away rather than after the
+            // generator has been exhausted, which would never happen if the caller stops iterating early.
+            if ($limit > self::DEFAULT_LIMIT) {
+                $resetTransformerConfig();
+            }
+        }
+
         foreach ($recurrences as $recurrence) {
             /** @var \Recurr\Recurrence $recurrence */
 
             // Return results in the caller's timezone, not the rrule's.
             yield DateTime::createFromInterface($recurrence->getStart())->setTimezone($dateTime->getTimezone());
-        }
-
-        if ($limit > self::DEFAULT_LIMIT) {
-            $resetTransformerConfig();
         }
     }
 
