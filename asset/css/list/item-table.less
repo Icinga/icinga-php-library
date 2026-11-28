@@ -1,0 +1,131 @@
+// Style
+
+ul.item-table {
+  list-style-type: none;
+}
+
+.content:has(> .item-table) > .item-table > .empty-state {
+  .empty-state-bar();
+}
+
+// Layout
+
+ul.item-table {
+  // Grid specific rules
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(var(--columns), auto);
+  &:has(> li > .visual) {
+    grid-template-columns: auto minmax(0, 1fr) repeat(var(--columns), auto);
+  }
+
+  > li {
+    display: contents;
+
+    &.item-layout .main {
+      // Usually, the parent is flex, but here it's contents. .main is still stretched though,
+      // because it's a grid item with a width of 1fr. But the default-item-layout sets a width
+      // which needs to be overridden.
+      width: auto;
+    }
+
+    .col, &::before, &::after {
+      // The li might get a background on hover. Though, this won't be visible
+      // as it has no box model since we apply display:contents to it.
+      background-color: inherit;
+    }
+  }
+}
+
+:not(.dashboard) > .container > .content:has(> .item-table), // compat only, for Icinga Web (See #286)
+.content:has(> .item-table) {
+  padding-left: 0;
+  padding-right: 0;
+
+  > .item-table > .empty-state {
+    margin: 0 1em;
+  }
+
+  > ul.item-table {
+    // Again, since the li has no box model, it cannot have padding. So the first
+    // and last child need to get the left and right padding respectively.
+    // But we don't want to have a border that spans to the very right or left,
+    // so pseudo elements are required. We could add empty cells instead, but
+    // that would require hard coding the width here, which I'd like to avoid.
+
+    grid-template-columns: ~"auto minmax(0, 1fr) repeat(var(--columns), auto) auto";
+    &:has(> li > .visual) {
+      grid-template-columns: ~"auto auto minmax(0, 1fr) repeat(var(--columns), auto) auto";
+    }
+
+    > li.table-row {
+      &::before, &::after {
+        display: inline-block;
+        content: '\00a0';
+        width: 0;
+        margin-bottom: 1px;
+      }
+
+      &::before {
+        padding-left: 1em;
+      }
+
+      &::after {
+        padding-right: 1em;
+      }
+    }
+  }
+}
+
+ul.item-table {
+  // General rules
+  padding: 0;
+  margin: 0;
+
+  .table-row {
+    .col {
+      margin-right: 0; // Otherwise background has gaps
+      padding: .5em 1em .5em 0;
+      &:last-child {
+        padding-right: 0;
+      }
+
+      .title {
+        margin-right: 0;
+      }
+    }
+
+    // This is for the legacy layout only
+    // TODO: Drop this together with BaseTableRowItem
+    .col.title:has(> .visual) {
+      display: flex;
+
+      > .visual {
+        padding-right: .5em;
+      }
+    }
+
+    &:not(:last-of-type) {
+      .col {
+        border-bottom: 1px solid @list-item-separation-bg;
+
+        &.visual {
+          border-color: @default-bg;
+        }
+      }
+    }
+  }
+}
+
+div.item-table {
+  > .empty-state-bar {
+    margin: 0 1em;
+  }
+}
+
+@media print {
+  .item-table li.page-break-follows:not(:last-of-type) {
+    .col {
+      border-bottom: none;
+    }
+  }
+}
