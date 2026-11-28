@@ -497,7 +497,7 @@ class Relation
      *
      * @return Relation The reversed relation
      *
-     * @throws LogicException In case the relation is not bound yet (has no source) or has already been reversed
+     * @throws LogicException In case the relation is not bound yet (has no source)
      * @throws RuntimeException In case the model of the forward relation is incompatible with the reversed relation's
      */
     public function reverse(Resolver $resolver): Relation
@@ -505,7 +505,7 @@ class Relation
         if ($this->getSource() === null) {
             throw new LogicException('Cannot reverse an unbound relation.');
         } elseif (isset($this->forwardRelationName)) {
-            throw new LogicException('Cannot undo a reverse.');
+            $this->setReverseName($this->forwardRelationName);
         }
 
         $reverseName = $this->getReverseName() ?? $this->getSource()->getTableAlias();
@@ -563,11 +563,10 @@ class Relation
 
         $relation->setTarget($this->getSource()); // Propagates the same instance
 
-        if (! $this->getFilter()->isEmpty()) {
-            // Do not override set filters with an empty set, however, if the set is not empty
-            // the forward relation is expected to carry the same semantics as the inverse.
-            $relation->setFilter(clone $this->getFilter());
-        }
+        // Always override the inverse relation filter with what the forward relation provides.
+        // This is especially important for re-used relations where the configured filter may
+        // have different semantics. Empty filters are not an oversight and must be propagated as well!
+        $relation->setFilter(clone $this->getFilter());
 
         return $relation;
     }

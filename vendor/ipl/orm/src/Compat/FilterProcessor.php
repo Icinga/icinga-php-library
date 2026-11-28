@@ -17,6 +17,7 @@ use ipl\Sql\Filter\NotIn;
 use ipl\Stdlib\Contract\Filterable;
 use ipl\Stdlib\Filter\MetaDataProvider;
 use ipl\Stdlib\Filter;
+use LogicException;
 
 class FilterProcessor extends \ipl\Sql\Compat\FilterProcessor
 {
@@ -228,10 +229,10 @@ class FilterProcessor extends \ipl\Sql\Compat\FilterProcessor
                 $generalRules = [];
                 foreach ($columns as $column => $comparisons) {
                     if (isset($comparisons[Filter\Unequal::class]) || isset($comparisons[Filter\Unlike::class])) {
-                        // If there's a unequal (!=) comparison for any column, all other comparisons (for the same
-                        // column) also need to be outsourced to their own sub query. Regardless of their amount of
-                        // occurrence. This is because `$generalRules` apply to all comparisons of such a column and
-                        // need to be applied to all sub queries.
+                        // If there's a negation for any column, all other comparisons (for the same column) also need
+                        // to be outsourced to their own sub query. Regardless of their amount of occurrence. This is
+                        // because `$generalRules` apply to all comparisons of such a column and need to be applied to
+                        // all sub queries.
                         continue;
                     }
 
@@ -253,12 +254,42 @@ class FilterProcessor extends \ipl\Sql\Compat\FilterProcessor
                 $subQueryFilters = [];
                 foreach ($columns as $column => $comparisons) {
                     foreach ($comparisons as $conditionClass => $rules) {
-                        if ($conditionClass === Filter\Unequal::class || $conditionClass === Filter\Unlike::class) {
+                        if ($conditionClass === Filter\Unequal::class) {
                             // Unequal comparisons are always put into their own sub query
                             $subQueryFilters[] = [$rules, count($rules), true];
-                        } elseif (count($rules) > $count) {
-                            // If there are multiple columns used multiple times in the same relation, we have to decide
-                            // which to use as the primary comparison. That is the column that is used most often.
+
+                            continue;
+                        } elseif ($conditionClass === Filter\Unlike::class) {
+                            // An unlike comparison with a value of '*' might be a special case. It is used to filter
+                            // for NULL values and so may be semantically equivalent to a positive comparison.
+                            $negative = [];
+                            $positive = [];
+                            foreach ($rules as $rule) {
+                                if ($rule->metaData()->get('treat-positively', false)) {
+                                    if ($rule->getValue() !== '*') {
+                                        throw new LogicException(
+                                            'An unlike with a value other than "*" cannot be treated positively'
+                                        );
+                                    }
+
+                                    $positive[] = $rule;
+                                } else {
+                                    $negative[] = $rule;
+                                }
+                            }
+
+                            if (! empty($negative)) {
+                                $subQueryFilters[] = [$negative, count($negative), true];
+                            }
+
+                            array_push($generalRules, ...$positive);
+
+                            continue;
+                        }
+
+                        if (count($rules) > $count) {
+                            // If there are multiple comparisons used many times in the same relation, we have to decide
+                            // which to use as the primary comparison. That is the comparison that is used most often.
                             if (! empty($baseFilters)) {
                                 array_push($generalRules, ...$baseFilters);
                             }
